@@ -1,0 +1,13 @@
+<form
+  #searchMediumForm="ngForm"
+  (ngSubmit)="searchMedium(searchMediumForm.value.search)"
+>
+  <input
+    type="search"
+    name="search"
+    [(ngModel)]="search"
+    placeholder="Look for a Movie"
+  />
+  <!-- TODO stf make this an icon from fontawesome -->
+  <button type="submit">Search</button>
+</form>

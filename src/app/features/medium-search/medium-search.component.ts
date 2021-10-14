@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   templateUrl: './medium-search.component.html',
-  styleUrls: ['./medium-search.component.scss']
+  styleUrls: ['./medium-search.component.scss'],
 })
 export class MediumSearchComponent implements OnInit {
+  search = '';
+  constructor() {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  searchMedium(searchMediumForm: string) {
+    console.log(searchMediumForm);
   }
-
 }
