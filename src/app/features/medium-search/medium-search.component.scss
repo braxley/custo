@@ -1,8 +1,13 @@
 .search-movie-form {
-  width: 100%;
+  width: 80%;
   height: 2.5rem;
   display: flex;
   gap: 1.5px;
+  margin: 0 auto;
+
+  @media (max-width: 24rem) {
+    width: 100%;
+  }
 
   .search-movie-form__input {
     border: 1px solid grey;
