@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { MediumSearchService } from './medium-search.service';
 
 @Component({
   templateUrl: './medium-search.component.html',
   styleUrls: ['./medium-search.component.scss'],
 })
-export class MediumSearchComponent implements OnInit {
+export class MediumSearchComponent {
   search = '';
-  constructor() {}
+  results$ = this.mediumSearchService.result$;
 
-  ngOnInit(): void {}
+  constructor(private mediumSearchService: MediumSearchService) {}
 
-  searchMedium(searchMediumForm: string) {
-    console.log(searchMediumForm);
+  searchMedium(searchQuery: string) {
+    this.mediumSearchService.getImdbResults(searchQuery);
   }
 }
