@@ -2,7 +2,6 @@ export interface ImdbResponse {
   searchType: string;
   expression: string;
   results: ImdbMovieResult[];
-  errorMessage: string;
 }
 
 export interface ImdbMovieResult {
@@ -13,13 +12,12 @@ export interface ImdbMovieResult {
   image: string;
 }
 
-interface Ratings {
+export interface Ratings {
   imDb: number;
   metacritic: number;
   theMovieDb: number;
   rottenTomatoes: number;
   tv_com: number;
-  errorMessage: string;
 }
 
 export interface ImdbPerson {
@@ -76,7 +74,7 @@ export interface ImdbMovieDetails {
   genres: string;
   genreList: ImdbPerson[];
   companies: string;
-  companyList: { id: string; name: string };
+  companyList: { imdbId: string; name: string };
   countries: string;
   countryList: ImdbCountry[];
   languages: string;
@@ -95,11 +93,10 @@ export interface ImdbMovieDetails {
   keywords: string;
   keywordList: string[];
   similars: ImdbSimilarTitles[];
-  errorMessage: string;
 }
 
 export interface ImdbRatings {
-  imDbId: string;
+  imdbId: string;
   title: string;
   fullTitle: string;
   type: string;
@@ -110,5 +107,4 @@ export interface ImdbRatings {
   rottenTomatoes: string;
   tV_com: string;
   filmAffinity: string;
-  errorMessage: string;
 }
