@@ -1,9 +1,10 @@
-<div class="result-item__wrapper">
+<div
+  class="result-item__wrapper"
+  [ngClass]="{ 'good-enough': result.ratings.imdb > 6.5 }"
+>
   <img class="poster" src="{{ result.image }}" />
   <div class="info">
     <div class="info__title">{{ result.fullTitle }}</div>
-    <div>Year:</div>
-    <div>{{ result.year }}</div>
     <div>Starring:</div>
     <div>{{ result.stars }}</div>
     <div>Director:</div>

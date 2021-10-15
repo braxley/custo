@@ -13,7 +13,7 @@ export interface ImdbMovieResult {
 }
 
 export interface Ratings {
-  imDb: number;
+  imdb: number;
   metacritic: number;
   theMovieDb: number;
   rottenTomatoes: number;

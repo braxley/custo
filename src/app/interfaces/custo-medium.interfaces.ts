@@ -1,4 +1,4 @@
-import { ImdbRatings, Ratings } from './imdb.interfaces';
+import { Ratings } from './imdb.interfaces';
 
 export interface CustoMedium {
   imdbId: string;

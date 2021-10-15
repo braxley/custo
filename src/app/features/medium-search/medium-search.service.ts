@@ -31,46 +31,29 @@ import { MediumSearchModule } from './medium-search.module';
 @Injectable()
 // TODO stf where dependency?
 export class MediumSearchService {
-  private imdbMovieResults$$ = new BehaviorSubject<ImdbMovieDetails[]>([]);
+  private custoMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
 
   get result$() {
-    return this.imdbMovieResults$$.asObservable();
+    return this.custoMovies$$.asObservable();
   }
 
   constructor(private httpClient: HttpClient) {}
 
-  testGetImdbResponse() {
-    this.httpClient.get<ImdbResponse>(
-      `https://imdb-api.com/en/API/SearchMovie/${environment.API_KEY}/Inception`
-    );
-  }
-
-  getImdbMovieDetails(movieId: string) {
+  getImdbMovieDetails(movieId: string): Observable<ImdbMovieDetails> {
     return this.httpClient.get<ImdbMovieDetails>(
       `https://imdb-api.com/en/API/Title/${environment.API_KEY}/${movieId}`
     );
   }
 
-  getRatingsFromImdb(movieId: string) {
+  getRatingsFromImdb(movieId: string): Observable<ImdbRatings> {
     return this.httpClient.get<ImdbRatings>(
       `https://imdb-api.com/API/Ratings/${environment.API_KEY}/${movieId}`
     );
   }
 
-  testGetDetails() {
-    return this.getImdbMovieDetails('tt1375666');
-  }
-  testGetRatings() {
-    return this.getRatingsFromImdb('tt1375666');
-  }
-
-  tryForking(): Observable<[ImdbMovieDetails, ImdbRatings]> {
-    return forkJoin([
-      this.getImdbMovieDetails('tt1375666'),
-      this.getRatingsFromImdb('tt1375666'),
-    ]);
-  }
-
+  /*
+   *
+   */
   getImdbResults(searchQuery: string): void {
     this.httpClient
       .get<ImdbResponse>(
@@ -79,6 +62,12 @@ export class MediumSearchService {
       .pipe(
         filter((response) => Boolean(response)),
         switchMap((response: ImdbResponse) =>
+          /*
+           * we extract the movie id from the response data
+           * and get for every found movie the full details
+           * as well as an array with different ratings
+           * @Output: [ImdbMovieDetails, ImdbRatings][]
+           */
           from(response.results).pipe(
             concatMap((result: ImdbMovieResult) =>
               forkJoin([
@@ -90,6 +79,12 @@ export class MediumSearchService {
           )
         ),
         mergeMap((moviesDetailsWithRatings) =>
+          /*
+           * @Input: [ImdbMovieDetails, ImdbRatings][]
+           * for every item in the array we create a new
+           * object that has only the values needed
+           */
+
           from(moviesDetailsWithRatings).pipe(
             map(
               ([movieDetails, movieRatings]) =>
@@ -99,7 +94,7 @@ export class MediumSearchService {
                   year: +movieDetails.year,
                   image: movieDetails.image,
                   ratings: {
-                    imDb: +movieRatings.imDb,
+                    imdb: +movieRatings.imDb,
                     metacritic: +movieRatings.metacritic,
                     rottenTomatoes: +movieRatings.rottenTomatoes,
                     theMovieDb: +movieRatings.theMovieDb,
@@ -113,7 +108,11 @@ export class MediumSearchService {
             ),
             toArray()
           )
-        )
-      );
+        ),
+        tap((custoMedia: CustoMedium[]) => {
+          this.custoMovies$$.next(custoMedia);
+        })
+      )
+      .subscribe();
   }
 }

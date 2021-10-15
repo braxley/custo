@@ -28,6 +28,8 @@
   grid-area: poster;
   border: 0.1px solid white;
   height: 10rem;
+  width: 7rem;
+  object-fit: cover;
   justify-self: center;
 }
 
@@ -42,4 +44,8 @@
     font-weight: bold;
     grid-area: title;
   }
+}
+
+.good-enough {
+  background-color: green;
 }

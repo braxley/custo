@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
+import { CustoMedium } from 'src/app/interfaces/custo-medium.interfaces';
 import { ImdbMovieDetails } from 'src/app/interfaces/imdb.interfaces';
 
 @Component({
@@ -13,7 +14,7 @@ import { ImdbMovieDetails } from 'src/app/interfaces/imdb.interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultItemComponent implements OnInit {
-  @Input() result!: ImdbMovieDetails;
+  @Input() result: CustoMedium = {} as CustoMedium;
   constructor() {}
 
   ngOnInit(): void {}
