@@ -6,7 +6,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MediumSearchModule } from './features/medium-search/medium-search.module';
 import { HeaderComponent } from './header/header.component';
-import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
