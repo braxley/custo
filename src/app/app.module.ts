@@ -6,9 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MediumSearchModule } from './features/medium-search/medium-search.module';
 import { HeaderComponent } from './header/header.component';
+import { LoadingSpinnerComponent } from './core/services/user-notification/loading-spinner/loading-spinner.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, LoadingSpinnerComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -18,7 +19,8 @@ import { HeaderComponent } from './header/header.component';
   providers: [],
   bootstrap: [AppComponent],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    LoadingSpinnerComponent
   ],
 })
 export class AppModule {}

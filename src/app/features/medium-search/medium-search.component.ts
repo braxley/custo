@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MediumSearchService } from './medium-search.service';
+import { MediumSearchService } from 'src/app/core/services/medium-search.service';
 
 @Component({
   templateUrl: './medium-search.component.html',

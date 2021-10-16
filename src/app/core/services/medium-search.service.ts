@@ -1,13 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  forkJoin,
-  from,
-  Observable,
-  of,
-} from 'rxjs';
+import { BehaviorSubject, forkJoin, from, Observable } from 'rxjs';
 import {
   concatMap,
   filter,
@@ -17,18 +10,17 @@ import {
   tap,
   toArray,
 } from 'rxjs/operators';
-import { CustoMedium } from 'src/app/interfaces/custo-medium.interfaces';
+import { CustoMedium } from 'src/app/core/interfaces/custo-medium.interfaces';
 import {
   ImdbMovieDetails,
   ImdbMovieResult,
   ImdbRatings,
   ImdbResponse,
   Ratings,
-} from 'src/app/interfaces/imdb.interfaces';
+} from 'src/app/core/interfaces/imdb.interfaces';
 import { environment } from 'src/environments/environment';
-import { MediumSearchModule } from './medium-search.module';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 // TODO stf where dependency?
 export class MediumSearchService {
   private custoMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
