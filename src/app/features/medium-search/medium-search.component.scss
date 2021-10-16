@@ -11,8 +11,10 @@
     display: flex;
     flex-grow: 2;
     flex-direction: column;
-    border-right: 1px solid rgba(10, 10, 10, 0.05);
     padding: 1em;
+    &:not(:first-child) {
+      border-left: 1px solid rgba(10, 10, 10, 0.05);
+    }
   }
 
   .search-movie-form__input-label {
@@ -32,11 +34,10 @@
     }
   }
   .search-movie-form__submit-btn {
-    padding: 1.2em;
-    text-align: center;
+    padding: 1rem;
+    margin-right: 0.7rem;
     font-size: 1.2em;
     font-weight: 100;
-    border: 0;
     cursor: pointer;
     border-radius: 50%;
     color: white;
@@ -44,7 +45,7 @@
     transition: background-color 0.8s ease;
 
     &:hover {
-      background-color: HSLA(345, 100%, 60%, 1);
+      background-color: #d600d6;
     }
   }
 }
