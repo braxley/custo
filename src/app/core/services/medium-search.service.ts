@@ -10,14 +10,15 @@ import {
   tap,
   toArray,
 } from 'rxjs/operators';
-import { CustoMedium } from 'src/app/core/interfaces/custo-medium.interfaces';
+import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
   ImdbMovieDetails,
-  ImdbMovieResult,
   ImdbRatings,
   ImdbResponse,
+  ImdbMovieResult,
   Ratings,
-} from 'src/app/core/interfaces/imdb.interfaces';
+} from 'src/app/shared/interfaces/imdb.interfaces';
+
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })

@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { CustoMedium } from 'src/app/core/interfaces/custo-medium.interfaces';
+import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
 @Component({
   selector: 'app-search-result-item',

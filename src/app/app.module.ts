@@ -6,10 +6,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MediumSearchModule } from './features/medium-search/medium-search.module';
 import { HeaderComponent } from './header/header.component';
-import { LoadingSpinnerComponent } from './core/services/user-notification/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, LoadingSpinnerComponent],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -18,9 +18,6 @@ import { LoadingSpinnerComponent } from './core/services/user-notification/loadi
   ],
   providers: [],
   bootstrap: [AppComponent],
-  exports: [
-    HeaderComponent,
-    LoadingSpinnerComponent
-  ],
+  exports: [HeaderComponent],
 })
 export class AppModule {}
