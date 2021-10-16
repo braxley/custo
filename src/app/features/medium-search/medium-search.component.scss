@@ -29,6 +29,17 @@
     line-height: 1.2em;
     margin-top: 5px;
 
+    // https://stackoverflow.com/questions/2338102/override-browser-form-filling-and-input-highlighting-with-html-css
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 50px white inset;
+      -webkit-text-fill-color: #333;
+    }
+
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 50px white inset;
+      -webkit-text-fill-color: #333;
+    }
+
     &:focus {
       box-shadow: 0px 2px 0px 0px purple;
     }

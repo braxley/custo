@@ -41,8 +41,10 @@
   grid-template-areas: "title title";
 
   .info__title {
-    font-weight: bold;
     grid-area: title;
+    font-family: Merriweather, serif;
+    justify-self: center;
+    font-size: 1.2rem;
   }
 }
 
