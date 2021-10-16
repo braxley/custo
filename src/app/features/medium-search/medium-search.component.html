@@ -1,8 +1,5 @@
-<form
-  #searchMediumForm="ngForm"
-  (ngSubmit)="searchMedium(searchMediumForm.value.search)"
-  class="search-movie-form"
->
+<!--
+
   <input
     type="search"
     name="search"
@@ -21,14 +18,52 @@
     max="9.9"
     placeholder="Min Rating"
   />
-  <!-- TODO stf make this an icon from fontawesome -->
   <button
-    type="submit"
-    class="search-movie-form__submit-button"
-    [disabled]="searchMediumForm.invalid"
+  type="submit"
+  class="search-movie-form__submit-button"
+  [disabled]="searchMediumForm.invalid"
   >
-    Search
-  </button>
+  Search
+</button>
+</form> -->
+<form
+  #searchMediumForm="ngForm"
+  (ngSubmit)="searchMedium(searchMediumForm.value.search)"
+>
+  <div class="search-movie-form__wrapper">
+    <div class="search-movie-form__input-wrapper">
+      <label class="search-movie-form__input-label">Movie Title</label>
+      <input
+        type="search"
+        name="search"
+        class="search-movie-form__input"
+        ngModel
+        required
+        placeholder="Look for a movie"
+      />
+    </div>
+    <div class="search-movie-form__input-wrapper">
+      <label class="search-movie-form__input-label">Min Rating</label>
+      <input
+        type="number"
+        name="min-rating"
+        class="search-movie-form__input"
+        [(ngModel)]="minRating"
+        step="0.1"
+        min="2"
+        max="9.9"
+        placeholder="Min Rating"
+      />
+    </div>
+    <!-- TODO stf make this an icon from fontawesome -->
+    <button
+      type="submit"
+      class="search-movie-form__submit-btn"
+      [disabled]="searchMediumForm.invalid"
+    >
+      S
+    </button>
+  </div>
 </form>
 <br />
 
