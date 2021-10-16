@@ -15,7 +15,9 @@
 </form>
 <br />
 
-<app-loading-indicator *ngIf="isSearching | async"></app-loading-indicator>
+<ng-container *ngIf="isSearching | async">
+  <app-loading-indicator></app-loading-indicator>
+</ng-container>
 
 <ng-container *ngFor="let result of (results$ | async) || []">
   <app-search-result-item [result]="result"></app-search-result-item>
