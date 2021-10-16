@@ -26,7 +26,7 @@ import { environment } from 'src/environments/environment';
 export class MediumSearchService {
   private custoMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
 
-  get result$() {
+  get custoMovies$() {
     return this.custoMovies$$.asObservable();
   }
 
