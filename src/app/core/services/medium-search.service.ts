@@ -22,12 +22,16 @@ import {
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
-// TODO stf where dependency?
 export class MediumSearchService {
   private custoMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
 
   get custoMovies$() {
     return this.custoMovies$$.asObservable();
+  }
+  private isSearching$$ = new BehaviorSubject<boolean>(false);
+
+  get isSearching$() {
+    return this.isSearching$$.asObservable();
   }
 
   constructor(private httpClient: HttpClient) {}
@@ -44,10 +48,8 @@ export class MediumSearchService {
     );
   }
 
-  /*
-   *
-   */
   getImdbResults(searchQuery: string): void {
+    this.isSearching$$.next(true);
     this.httpClient
       .get<ImdbResponse>(
         `https://imdb-api.com/en/API/SearchMovie/${environment.API_KEY}/${searchQuery}`
@@ -103,6 +105,7 @@ export class MediumSearchService {
           )
         ),
         tap((custoMedia: CustoMedium[]) => {
+          this.isSearching$$.next(false);
           this.custoMovies$$.next(custoMedia);
         })
       )
