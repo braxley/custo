@@ -13,8 +13,14 @@ import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultItemComponent implements OnInit {
-  @Input() result: CustoMedium = {} as CustoMedium;
+  @Input() movieResult!: CustoMedium;
+  @Input() minRating!: number;
+
+  isGoodMovie: boolean = false;
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isGoodMovie = this.movieResult.ratings.imdb >= this.minRating;
+  }
 }

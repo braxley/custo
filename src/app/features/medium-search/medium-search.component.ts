@@ -6,9 +6,9 @@ import { MediumSearchService } from 'src/app/core/services/medium-search.service
   styleUrls: ['./medium-search.component.scss'],
 })
 export class MediumSearchComponent {
-  search = '';
-  isSearching = this.mediumSearchService.isSearching$;
-  results$ = this.mediumSearchService.custoMovies$;
+  minRating: number = 6.5;
+  isSearching$ = this.mediumSearchService.isSearching$;
+  movieResults$ = this.mediumSearchService.custoMovies$;
 
   constructor(private mediumSearchService: MediumSearchService) {}
 

@@ -6,19 +6,40 @@
   <input
     type="search"
     name="search"
-    class="search-movie-form__input"
+    class="search-movie-form__input search-movie-form__input-title"
     ngModel
+    required
     placeholder="Look for a movie"
   />
+  <input
+    type="number"
+    name="min-rating"
+    class="search-movie-form__input search-movie-form__input-rating"
+    [(ngModel)]="minRating"
+    step="0.1"
+    min="2"
+    max="9.9"
+    placeholder="Min Rating"
+  />
   <!-- TODO stf make this an icon from fontawesome -->
-  <button type="submit" class="search-movie-form__submit-button">Search</button>
+  <button
+    type="submit"
+    class="search-movie-form__submit-button"
+    [disabled]="searchMediumForm.invalid"
+  >
+    Search
+  </button>
 </form>
 <br />
 
-<ng-container *ngIf="isSearching | async">
+<ng-container *ngIf="isSearching$ | async">
   <app-loading-indicator></app-loading-indicator>
 </ng-container>
 
-<ng-container *ngFor="let result of (results$ | async) || []">
-  <app-search-result-item [result]="result"></app-search-result-item>
+<!-- TODO stf remove movies that don't have a runtime -> probably not interested -->
+<ng-container *ngFor="let movieResult of (movieResults$ | async) || []">
+  <app-search-result-item
+    [movieResult]="movieResult"
+    [minRating]="minRating"
+  ></app-search-result-item>
 </ng-container>

@@ -1,9 +1,14 @@
+.search-movie-form * {
+  height: 2.5rem;
+}
+
 .search-movie-form {
   width: 80%;
-  height: 2.5rem;
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5px;
   margin: 0 auto;
+  justify-content: flex-end;
 
   @media (max-width: 24rem) {
     width: 100%;
@@ -23,6 +28,13 @@
       outline: 1px solid white;
       background-color: white;
     }
+  }
+  .search-movie-form__input-title {
+    flex: 1 0 18rem;
+  }
+  .search-movie-form__input-rating {
+    // TODO stf adapt size to other inputs
+    flex-basis: 5rem;
   }
   .search-movie-form__submit-button {
     border: 1px solid white;

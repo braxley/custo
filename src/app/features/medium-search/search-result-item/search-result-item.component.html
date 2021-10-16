@@ -1,15 +1,21 @@
-<div
-  class="result-item__wrapper"
-  [ngClass]="{ 'good-enough': result.ratings.imdb > 6.5 }"
->
-  <img class="poster" src="{{ result.image }}" />
+<div class="result-item__wrapper" [ngClass]="{ 'good-movie': isGoodMovie }">
+  <img class="poster" src="{{ movieResult.image }}" />
   <div class="info">
-    <div class="info__title">{{ result.fullTitle }}</div>
+    <div class="info__title">{{ movieResult.fullTitle }}</div>
     <div>Starring:</div>
-    <div>{{ result.stars }}</div>
+    <div>{{ movieResult.stars }}</div>
     <div>Director:</div>
-    <div>{{ result.directors }}</div>
+    <div>{{ movieResult.directors }}</div>
     <div>Genres:</div>
-    <div>{{ result.genres }}</div>
+    <div>{{ movieResult.genres }}</div>
+    <!-- TODO stf create / add pipe for conversion into hours -->
+    <div>Runtime:</div>
+    <div>
+      {{
+        movieResult.runtimeMins > 0
+          ? movieResult.runtimeMins + "Minutes"
+          : "Unknown"
+      }}
+    </div>
   </div>
 </div>
