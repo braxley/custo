@@ -1,50 +1,59 @@
-.result-item__wrapper {
+.result-item {
+  position: relative;
   padding: 1rem;
-  display: grid;
-  grid-template-rows: 10rem;
-  grid-template-columns: 1fr 5fr;
-  grid-template-areas: "poster description";
-  column-gap: 2rem;
   background-color: black;
   color: white;
   border-radius: 0.5rem;
   box-shadow: 2px 2px 8px grey;
   border: 0.5px solid white;
-  height: auto;
   overflow: hidden;
   max-width: 44rem;
   margin: 1rem auto;
 
-  @media (max-width: 24rem) {
-    grid-template-areas: "poster" "description";
-    justify-items: center;
-    grid-template-rows: auto;
-    grid-template-columns: auto;
-    grid-row-gap: 1rem;
+  .movie-details {
+    display: grid;
+    grid-template-rows: 10rem;
+    grid-template-columns: 1fr 5fr;
+    grid-template-areas: "poster description";
+    column-gap: 2rem;
+
+    @media (max-width: 24rem) {
+      grid-template-areas: "poster" "description";
+      justify-items: center;
+      grid-template-rows: auto;
+      grid-template-columns: auto;
+      grid-row-gap: 1rem;
+    }
+
+    .poster {
+      grid-area: poster;
+      border: 0.1px solid white;
+      height: 10rem;
+      width: 7rem;
+      object-fit: cover;
+      justify-self: center;
+    }
+
+    .info {
+      grid-area: description;
+      display: grid;
+      grid-auto-columns: minmax(4rem, 100px) 1fr;
+      grid-gap: 0.5rem;
+      grid-template-areas: "title title";
+
+      .info__title {
+        grid-area: title;
+        font-family: Merriweather, serif;
+        justify-self: center;
+        font-size: 1.2rem;
+      }
+    }
   }
-}
-
-.poster {
-  grid-area: poster;
-  border: 0.1px solid white;
-  height: 10rem;
-  width: 7rem;
-  object-fit: cover;
-  justify-self: center;
-}
-
-.info {
-  grid-area: description;
-  display: grid;
-  grid-auto-columns: minmax(4rem, 100px) 1fr;
-  grid-gap: 0.5rem;
-  grid-template-areas: "title title";
-
-  .info__title {
-    grid-area: title;
-    font-family: Merriweather, serif;
-    justify-self: center;
-    font-size: 1.2rem;
+  .medium-above-threshold {
+    position: absolute;
+    top: 1.2rem;
+    right: 1rem;
+    transform: scale(1.8);
   }
 }
 

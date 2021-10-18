@@ -1,17 +1,21 @@
-<div class="result-item__wrapper" [ngClass]="{ 'good-movie': isGoodMovie }">
-  <img class="poster" src="{{ movieResult.image }}" />
-  <div class="info">
-    <div class="info__title">{{ movieResult.fullTitle }}</div>
-    <div>Starring:</div>
-    <div>{{ movieResult.stars }}</div>
-    <div>Director:</div>
-    <div>{{ movieResult.directors }}</div>
-    <div>Genres:</div>
-    <div>{{ movieResult.genres }}</div>
-    <!-- TODO stf create / add pipe for conversion into hours -->
-    <div>Runtime:</div>
-    <div>
-      {{ movieResult.runtimeMins | timeConversion }}
+<div class="result-item" [ngClass]="{ 'good-movie': isGoodMovie }">
+  <div class="movie-details">
+    <img class="poster" src="{{ movieResult.image }}" />
+    <div class="info">
+      <div class="info__title">{{ movieResult.fullTitle }}</div>
+      <div>Starring:</div>
+      <div>{{ movieResult.stars }}</div>
+      <div>Director:</div>
+      <div>{{ movieResult.directors }}</div>
+      <div>Genres:</div>
+      <div>{{ movieResult.genres }}</div>
+      <div>Runtime:</div>
+      <div>
+        {{ movieResult.runtimeMins | timeConversion }}
+      </div>
     </div>
   </div>
+  <ng-container *ngIf="isGoodMovie">
+    <i class="fa fa-thumbs-up medium-above-threshold"></i>
+  </ng-container>
 </div>
