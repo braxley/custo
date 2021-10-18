@@ -11,11 +11,7 @@
     <!-- TODO stf create / add pipe for conversion into hours -->
     <div>Runtime:</div>
     <div>
-      {{
-        movieResult.runtimeMins > 0
-          ? movieResult.runtimeMins + " Minutes"
-          : "Unknown"
-      }}
+      {{ movieResult.runtimeMins | timeConversion }}
     </div>
   </div>
 </div>

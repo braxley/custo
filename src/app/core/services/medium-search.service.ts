@@ -61,7 +61,6 @@ export class MediumSearchService {
            * we extract the movie id from the response data
            * and get for every found movie the full details
            * as well as an array with different ratings
-           * @Output: [ImdbMovieDetails, ImdbRatings][]
            */
           from(response.results).pipe(
             concatMap((result: ImdbMovieResult) =>
@@ -73,36 +72,36 @@ export class MediumSearchService {
             toArray()
           )
         ),
-        mergeMap((moviesDetailsWithRatings) =>
-          /*
-           * @Input: [ImdbMovieDetails, ImdbRatings][]
-           * for every item in the array we create a new
-           * object that has only the values needed
-           */
+        mergeMap(
+          (moviesDetailsWithRatings: [ImdbMovieDetails, ImdbRatings][]) =>
+            /*
+             * for every item in the array we create a new
+             * object that has only the values needed
+             */
 
-          from(moviesDetailsWithRatings).pipe(
-            map(
-              ([movieDetails, movieRatings]) =>
-                ({
-                  imdbId: movieDetails.id,
-                  fullTitle: movieDetails.fullTitle,
-                  year: +movieDetails.year,
-                  image: movieDetails.image,
-                  ratings: {
-                    imdb: +movieRatings.imDb,
-                    metacritic: +movieRatings.metacritic,
-                    rottenTomatoes: +movieRatings.rottenTomatoes,
-                    theMovieDb: +movieRatings.theMovieDb,
-                    tv_com: +movieRatings.tV_com,
-                  } as Ratings,
-                  directors: movieDetails.directors,
-                  genres: movieDetails.genres,
-                  runtimeMins: +movieDetails.runtimeMins,
-                  stars: movieDetails.stars,
-                } as CustoMedium)
-            ),
-            toArray()
-          )
+            from(moviesDetailsWithRatings).pipe(
+              map(
+                ([movieDetails, movieRatings]) =>
+                  ({
+                    imdbId: movieDetails.id,
+                    fullTitle: movieDetails.fullTitle,
+                    year: +movieDetails.year,
+                    image: movieDetails.image,
+                    ratings: {
+                      imdb: +movieRatings.imDb,
+                      metacritic: +movieRatings.metacritic,
+                      rottenTomatoes: +movieRatings.rottenTomatoes,
+                      theMovieDb: +movieRatings.theMovieDb,
+                      tv_com: +movieRatings.tV_com,
+                    } as Ratings,
+                    directors: movieDetails.directors,
+                    genres: movieDetails.genres,
+                    runtimeMins: +movieDetails.runtimeMins,
+                    stars: movieDetails.stars,
+                  } as CustoMedium)
+              ),
+              toArray()
+            )
         ),
         tap((custoMedia: CustoMedium[]) => {
           this.isSearching$$.next(false);
