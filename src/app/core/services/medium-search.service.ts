@@ -80,6 +80,10 @@ export class MediumSearchService {
              */
 
             from(moviesDetailsWithRatings).pipe(
+              // We filter trailer, shorts and elements with unknown length
+              filter(
+                ([movieDetails, movieRatings]) => +movieDetails.runtimeMins > 7
+              ),
               map(
                 ([movieDetails, movieRatings]) =>
                   ({
