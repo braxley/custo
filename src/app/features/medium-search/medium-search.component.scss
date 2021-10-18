@@ -5,7 +5,6 @@
   border-radius: 3rem;
   width: 90vw;
   margin: 0 auto;
-  // box-shadow: rgba(0, 0, 0, 0.172549) 0 6px 12px 0;
 
   .search-movie-form__input-wrapper {
     display: flex;
@@ -28,6 +27,11 @@
     font-size: 1.2em;
     line-height: 1.2em;
     margin-top: 5px;
+
+    &:invalid,
+    &:touched {
+      box-shadow: 0px 2px 0px 0px red;
+    }
 
     // https://stackoverflow.com/questions/2338102/override-browser-form-filling-and-input-highlighting-with-html-css
     &:-webkit-autofill {
