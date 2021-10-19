@@ -1,31 +1,3 @@
-<!--
-
-  <input
-    type="search"
-    name="search"
-    class="search-movie-form__input search-movie-form__input-title"
-    ngModel
-    required
-    placeholder="Look for a movie"
-  />
-  <input
-    type="number"
-    name="min-rating"
-    class="search-movie-form__input search-movie-form__input-rating"
-    [(ngModel)]="minRating"
-    step="0.1"
-    min="2"
-    max="9.9"
-    placeholder="Min Rating"
-  />
-  <button
-  type="submit"
-  class="search-movie-form__submit-button"
-  [disabled]="searchMediumForm.invalid"
-  >
-  Search
-</button>
-</form> -->
 <form
   #searchMediumForm="ngForm"
   (ngSubmit)="searchMedium(searchMediumForm.value.search)"
@@ -55,13 +27,12 @@
         placeholder="Min Rating"
       />
     </div>
-    <!-- TODO stf make this an icon from fontawesome -->
     <button
       type="submit"
       class="search-movie-form__submit-btn"
       [disabled]="searchMediumForm.invalid"
     >
-      Find
+      <i class="fa fa-search"></i>
     </button>
   </div>
 </form>
