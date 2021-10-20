@@ -1,6 +1,6 @@
 <form
   #searchMediumForm="ngForm"
-  (ngSubmit)="searchMedium(searchMediumForm.value.search)"
+  (ngSubmit)="searchMovie(searchMediumForm.value.search)"
 >
   <div class="search-movie-form__wrapper">
     <div class="search-movie-form__input-wrapper">
@@ -38,12 +38,12 @@
 </form>
 <br />
 
-<ng-container *ngIf="isSearching$ | async">
+<ng-container *ngIf="isSearching">
   <app-loading-indicator></app-loading-indicator>
 </ng-container>
 
 <!-- TODO stf remove movies that don't have a runtime -> probably not interested -->
-<ng-container *ngFor="let movieResult of (movieResults$ | async) || []">
+<ng-container *ngFor="let movieResult of (custoMovieResults$ | async) || []">
   <app-search-result-item
     [movieResult]="movieResult"
     [minRating]="minRating"

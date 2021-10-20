@@ -32,7 +32,7 @@ fdescribe('MediumSearchComponent', () => {
   it('should use the mediumSearchService on search', () => {
     const searchQuery = 'some search query';
 
-    component.searchMedium(searchQuery);
+    component.searchMovie(searchQuery);
 
     expect(mediumSearchServiceSpy.getImdbResults).toHaveBeenCalledWith(
       searchQuery
