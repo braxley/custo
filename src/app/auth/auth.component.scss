@@ -1,0 +1,11 @@
+.login-form {
+  display: grid;
+  justify-content: center;
+  background: darkgreen;
+  color: white;
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

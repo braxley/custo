@@ -15,13 +15,13 @@ export class MediumSearchService {
 
   getImdbResults(searchQuery: string): Observable<ImdbResponse> {
     return this.httpClient.get<ImdbResponse>(
-      `https://imdb-api.com/en/API/SearchMovie/${environment.API_KEY}/${searchQuery}`
+      `https://imdb-api.com/en/API/SearchMovie/${environment.API_KEY_IMDB}/${searchQuery}`
     );
   }
 
   getImdbMovieDetails(movieId: string): Observable<ImdbMovieDetails> {
     return this.httpClient.get<ImdbMovieDetails>(
-      `https://imdb-api.com/en/API/Title/${environment.API_KEY}/${movieId}`
+      `https://imdb-api.com/en/API/Title/${environment.API_KEY_IMDB}/${movieId}`
     );
   }
 
@@ -31,7 +31,7 @@ export class MediumSearchService {
      * as it retrieves ratings of other platforms as well (e.g. rotten tomatoes)
      */
     return this.httpClient.get<ImdbRatings>(
-      `https://imdb-api.com/API/Ratings/${environment.API_KEY}/${movieId}`
+      `https://imdb-api.com/API/Ratings/${environment.API_KEY_IMDB}/${movieId}`
     );
   }
 }

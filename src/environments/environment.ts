@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_KEY: 'k_77dmsz10',
+  API_KEY_IMDB: 'k_77dmsz10',
+  API_KEY_FIREBASE: ' AIzaSyAMFo1OKdJUMalTV1fYEf3vxmgXGw7H-N8',
 };
 
 /*
