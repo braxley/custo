@@ -1,13 +1,20 @@
 @use "../abstracts" as *;
 
-.button {
-  background-color: $page-background--dark;
+.custo-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.3rem;
 }
-
-.main-nav__item--login-button {
-  border: 1px solid map-get($colors, font-light);
+.custo-button {
+  background-color: map-get($colors, primary);
+  border: 1px solid scale-color(map-get($colors, primary), $lightness: -50%);
   border-radius: 5px;
   padding: 10px;
-  background-color: map-get($colors, primary);
+  font-size: 1.5em;
   color: map-get($colors, font-light);
+  &:last-of-type {
+    background-color: map-get($colors, light-green);
+    border: 1px solid
+      scale-color(map-get($colors, light-green), $lightness: -50%);
+  }
 }
