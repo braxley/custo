@@ -1,26 +1,38 @@
-<form class="auth-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-  <h1 class="auth-title">{{ isLoginMode ? "Login" : "SignUp" }}</h1>
-  <label for="email">Email</label>
-  <input
-    type="email"
-    ngModel
-    name="email"
-    class="form-control"
-    required
-    email
-    #email="ngModel"
-  />
-  <label for="password">Password</label>
-  <input
-    type="password"
-    ngModel
-    name="password"
-    class="form-control"
-    required
-    password
-    min-length="6"
-    #password="ngModel"
-  />
+<h1 class="auth-title">{{ isLoginMode ? "Login" : "SignUp" }}</h1>
+<form
+  class="auth-form custo-form"
+  #loginForm="ngForm"
+  (ngSubmit)="onSubmit(loginForm)"
+>
+  <div class="custo-form__inputs-wrapper">
+    <div class="custo-form__input-wrapper">
+      <label for="email" class="custo-form__input-label">Email</label>
+      <input
+        class="custo-form__input"
+        type="email"
+        ngModel
+        name="email"
+        required
+        email
+        #email="ngModel"
+      />
+    </div>
+  </div>
+  <div class="custo-form__inputs-wrapper">
+    <div class="custo-form__input-wrapper">
+      <label for="password" class="custo-form__input-label">Password</label>
+      <input
+        class="custo-form__input"
+        type="password"
+        ngModel
+        name="password"
+        required
+        password
+        min-length="6"
+        #password="ngModel"
+      />
+    </div>
+  </div>
   <div class="buttons">
     <button type="button" class="button" (click)="switchMode()">
       Switch to {{ isLoginMode ? "SignUp" : "Login" }}
