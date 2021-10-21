@@ -1,22 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, from, Observable, Subject } from 'rxjs';
-import {
-  concatMap,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-  toArray,
-} from 'rxjs/operators';
-import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { Observable } from 'rxjs';
 import {
   ImdbMovieDetails,
   ImdbRatings,
   ImdbResponse,
-  ImdbMovieResult,
-  Ratings,
 } from 'src/app/shared/interfaces/imdb.interfaces';
 
 import { environment } from 'src/environments/environment';
@@ -38,6 +26,10 @@ export class MediumSearchService {
   }
 
   getRatingsFromImdb(movieId: string): Observable<ImdbRatings> {
+    /*
+     * this is an exception from the naming convention
+     * as it retrieves ratings of other platforms as well (e.g. rotten tomatoes)
+     */
     return this.httpClient.get<ImdbRatings>(
       `https://imdb-api.com/API/Ratings/${environment.API_KEY}/${movieId}`
     );

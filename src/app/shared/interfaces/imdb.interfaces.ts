@@ -17,15 +17,24 @@ export interface Ratings {
   metacritic: number;
   theMovieDb: number;
   rottenTomatoes: number;
-  tv_com: number;
+  tV_com: number;
+  filmAffinity: number;
 }
 
 export interface ImdbPerson {
   id: string;
   name: string;
 }
+export interface ImdbActor extends ImdbPerson {
+  image: string;
+  asCharacter: string;
+}
 
 export interface ImdbCountry {
+  key: string;
+  value: string;
+}
+export interface ImdbGenre {
   key: string;
   value: string;
 }
@@ -69,12 +78,12 @@ export interface ImdbMovieDetails {
   writerList: ImdbPerson[];
   stars: string;
   starList: ImdbPerson[];
-  actorList: ImdbPerson[];
+  actorList: ImdbActor[];
   fullCast: null;
   genres: string;
-  genreList: ImdbPerson[];
+  genreList: ImdbGenre[];
   companies: string;
-  companyList: { imdbId: string; name: string };
+  companyList: { id: string; name: string }[];
   countries: string;
   countryList: ImdbCountry[];
   languages: string;
@@ -96,7 +105,7 @@ export interface ImdbMovieDetails {
 }
 
 export interface ImdbRatings {
-  imdbId: string;
+  imDbId: string;
   title: string;
   fullTitle: string;
   type: string;

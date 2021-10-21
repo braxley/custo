@@ -1,14 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { from, forkJoin, Subject, Observable } from 'rxjs';
-import {
-  concatMap,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-  toArray,
-} from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
 import { MediumSearchService } from 'src/app/core/services/medium-search.service';
 import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
@@ -47,7 +39,7 @@ export class MediumSearchComponent {
              * as well as an array with different ratings
              */
             from(response.results).pipe(
-              concatMap((result: ImdbMovieResult) =>
+              mergeMap((result: ImdbMovieResult) =>
                 forkJoin([
                   this.mediumSearchService.getImdbMovieDetails(result.id),
                   this.mediumSearchService.getRatingsFromImdb(result.id),
@@ -81,10 +73,12 @@ export class MediumSearchComponent {
                         metacritic: +movieRatings.metacritic,
                         rottenTomatoes: +movieRatings.rottenTomatoes,
                         theMovieDb: +movieRatings.theMovieDb,
-                        tv_com: +movieRatings.tV_com,
+                        tV_com: +movieRatings.tV_com,
+                        filmAffinity: +movieRatings.filmAffinity,
                       } as Ratings,
                       directors: movieDetails.directors,
                       genres: movieDetails.genres,
+                      // TODO stf genreList?
                       runtimeMins: +movieDetails.runtimeMins,
                       stars: movieDetails.stars,
                     } as CustoMedium)

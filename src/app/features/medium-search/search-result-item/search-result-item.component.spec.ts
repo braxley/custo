@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockPipe } from 'ng-mocks';
 import { TimeConversionPipe } from 'src/app/shared/pipes/time-conversion.pipe';
-import { getCustoMovie } from 'src/app/shared/test/test-data';
+import { getMockCustoMovie } from 'src/app/shared/test/test-data';
 
 import { SearchResultItemComponent } from './search-result-item.component';
 
@@ -18,7 +18,7 @@ describe('SearchResultItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchResultItemComponent);
     component = fixture.componentInstance;
-    component.movieResult = getCustoMovie();
+    component.movieResult = getMockCustoMovie();
     component.minRating = 6.5;
     fixture.detectChanges();
   });
