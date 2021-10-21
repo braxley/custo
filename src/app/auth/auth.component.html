@@ -1,5 +1,5 @@
-<form class="login-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-  <h2>{{ isLoginMode ? "Login" : "SignUp" }}</h2>
+<form class="auth-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+  <h1 class="auth-title">{{ isLoginMode ? "Login" : "SignUp" }}</h1>
   <label for="email">Email</label>
   <input
     type="email"

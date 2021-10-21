@@ -1,8 +1,12 @@
-.login-form {
+.auth-form {
   display: grid;
-  justify-content: center;
+  padding: 1rem;
   background: darkgreen;
   color: white;
+
+  input {
+    margin-bottom: 1rem;
+  }
 
   .buttons {
     display: flex;
