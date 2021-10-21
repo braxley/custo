@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MediumSearchModule } from './features/medium-search/medium-search.module';
 import { HeaderComponent } from './header/header.component';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -14,6 +15,7 @@ import { HeaderComponent } from './header/header.component';
     AppRoutingModule,
     HttpClientModule,
     MediumSearchModule,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
