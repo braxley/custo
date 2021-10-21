@@ -1,25 +1,26 @@
 <form
   #searchMediumForm="ngForm"
   (ngSubmit)="searchMovie(searchMediumForm.value.search)"
+  class="custo-form"
 >
-  <div class="search-movie-form__wrapper">
-    <div class="search-movie-form__input-wrapper">
-      <label class="search-movie-form__input-label">Movie Title</label>
+  <div class="custo-form__inputs-wrapper">
+    <div class="custo-form__input-wrapper">
+      <label class="custo-form__input-label">Movie Title</label>
       <input
+        class="custo-form__input"
         type="search"
         name="search"
-        class="search-movie-form__input"
         ngModel
         required
         placeholder="Look for a movie"
       />
     </div>
-    <div class="search-movie-form__input-wrapper">
-      <label class="search-movie-form__input-label">Min Rating</label>
+    <div class="custo-form__input-wrapper">
+      <label class="custo-form__input-label">Min Rating</label>
       <input
+        class="custo-form__input"
         type="number"
         name="min-rating"
-        class="search-movie-form__input"
         [(ngModel)]="minRating"
         step="0.1"
         min="2"

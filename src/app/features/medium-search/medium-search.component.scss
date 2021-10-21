@@ -1,70 +1,19 @@
-.search-movie-form__wrapper {
-  display: flex;
-  align-items: center;
-  background: white;
-  border-radius: 3rem;
-  width: 90vw;
-  margin: 0 auto;
+.search-movie-form__submit-btn {
+  padding: 1rem;
+  margin-right: 0.7rem;
+  font-size: 1.2em;
+  font-weight: 100;
+  cursor: pointer;
+  border-radius: 50%;
+  color: white;
+  background-color: purple;
+  transition: background-color 0.8s ease;
 
-  .search-movie-form__input-wrapper {
-    display: flex;
-    flex-grow: 2;
-    flex-direction: column;
-    padding: 1em;
-    &:not(:first-child) {
-      border-left: 1px solid rgba(10, 10, 10, 0.05);
-    }
+  &:hover {
+    background-color: #d600d6;
   }
 
-  .search-movie-form__input-label {
-    font-weight: 700;
-  }
-  .search-movie-form__input {
-    border: none;
-    appearance: none;
-    outline: none;
-    width: 100%;
-    font-size: 1.2em;
-    line-height: 1.2em;
-    margin-top: 5px;
-
-    &:invalid,
-    &:touched {
-      box-shadow: 0px 2px 0px 0px red;
-    }
-
-    // https://stackoverflow.com/questions/2338102/override-browser-form-filling-and-input-highlighting-with-html-css
-    &:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0 50px white inset;
-      -webkit-text-fill-color: #333;
-    }
-
-    &:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 50px white inset;
-      -webkit-text-fill-color: #333;
-    }
-
-    &:focus {
-      box-shadow: 0px 2px 0px 0px purple;
-    }
-  }
-  .search-movie-form__submit-btn {
-    padding: 1rem;
-    margin-right: 0.7rem;
-    font-size: 1.2em;
-    font-weight: 100;
-    cursor: pointer;
-    border-radius: 50%;
-    color: white;
-    background-color: purple;
-    transition: background-color 0.8s ease;
-
-    &:hover {
-      background-color: #d600d6;
-    }
-
-    &[disabled] {
-      background-color: #4b4b4b;
-    }
+  &[disabled] {
+    background-color: #4b4b4b;
   }
 }
