@@ -1,0 +1,5 @@
+@use "../abstracts";
+
+.button {
+  background-color: abstracts.$page-background--dark;
+}

@@ -1,24 +1,12 @@
-@import "./styles/shared";
+@use "styles/abstracts";
+@use "styles/base";
+@use "styles/components";
+@use "styles/themes";
+@use "styles/vendors";
 
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
-
-* {
-  &::before,
-  &::after {
-    box-sizing: border-box;
-  }
-}
-
-html {
-  height: 100%;
-  scroll-behavior: smooth;
-}
-
-html {
-  background-color: $page-background--dark;
-}
-
-body {
-  margin: 0;
-}
+/*
+* SASS architecture, Kevin Powell:            https://www.youtube.com/watch?v=9Ld-aOKsEDk
+* SASS architecture, The 7-1 Pattern:         https://sass-guidelin.es/#the-7-1-pattern
+* SASS architecture, 7-1 Git Kitty Giraudel:  https://github.com/KittyGiraudel/sass-boilerplate
+* SASS @use and @forward, Kevin Powell:       https://www.youtube.com/watch?v=CR-a8upNjJ0
+*/
