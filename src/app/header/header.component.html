@@ -12,14 +12,24 @@
   <nav class="main-nav">
     <ul class="main-nav__items">
       <li class="main-nav__item">
-        <a href="#">Search</a>
+        <a href="/">Search</a>
       </li>
-      <li class="main-nav__item">
-        <a href="#">My Movies</a>
-      </li>
-      <li class="main-nav__item">
-        <a routerLink="/login">Login</a>
-      </li>
+      <div
+        class="main-nav__items--logged-in"
+        *ngIf="user$ | async as user; else login"
+      >
+        <li class="main-nav__item">
+          <a href="#">My Movies</a>
+        </li>
+        <li class="main-nav__item">
+          <a (click)="onLogout()">Logout</a>
+        </li>
+      </div>
+      <ng-template #login>
+        <li class="main-nav__item">
+          <a routerLink="/login">Login</a>
+        </li>
+      </ng-template>
       <!-- <li class="main-nav__item">
         <button class="main-nav__item--login-button" (click)="login()">
           Login

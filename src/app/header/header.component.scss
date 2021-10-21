@@ -20,6 +20,10 @@
     align-items: baseline;
     gap: 1rem;
 
+    &--logged-in {
+      @extend .main-nav__items;
+    }
+
     .main-nav__item a {
       color: white;
       text-decoration: none;

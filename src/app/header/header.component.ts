@@ -1,4 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { tap } from 'rxjs/operators';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +9,16 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  constructor() {}
+  isAuthenticated = false;
+  user$ = this.authService.user$.pipe(
+    tap((user) => {
+      this.isAuthenticated = Boolean(user);
+    })
+  );
 
-  login() {}
+  constructor(private authService: AuthService) {}
+
+  onLogout() {
+    this.authService.logout();
+  }
 }

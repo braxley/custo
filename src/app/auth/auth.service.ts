@@ -15,7 +15,11 @@ import { User } from './user.model';
   providedIn: 'root',
 })
 export class AuthService {
-  user$$ = new BehaviorSubject<User | null>(null);
+  get user$() {
+    return this.user$$.asObservable();
+  }
+
+  private user$$ = new BehaviorSubject<User | null>(null);
   private tokenExpirationTimer: any;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
