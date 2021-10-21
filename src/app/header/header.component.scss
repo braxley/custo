@@ -1,5 +1,7 @@
+@use "../../styles" as *;
+
 .main-header {
-  background-color: black;
+  background-color: $header-color;
   border-bottom: 2px solid grey;
   padding: 0 1rem;
   display: flex;
@@ -8,10 +10,9 @@
 
   .main-header__brand {
     color: white;
-    font-size: 2.5rem;
-    // TODO stf add scss fonts
-    font-family: Merriweather, serif;
     align-self: center;
+    font-size: 2.5rem;
+    font-family: $font-family--serif;
   }
 
   .main-nav__items {
@@ -25,24 +26,8 @@
     }
 
     .main-nav__item a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
+      font-weight: map-get($font-weight, bold);
       padding: 0.2rem 0;
-
-      &:active,
-      &:hover {
-        color: white;
-        border-bottom: 2px solid white;
-      }
-    }
-
-    .main-nav__item--login-button {
-      border: 1px solid white;
-      border-radius: 5px;
-      padding: 10px;
-      background-color: purple;
-      color: white;
     }
   }
 }

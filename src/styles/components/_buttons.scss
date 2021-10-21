@@ -1,5 +1,13 @@
-@use "../abstracts";
+@use "../abstracts" as *;
 
 .button {
-  background-color: abstracts.$page-background--dark;
+  background-color: $page-background--dark;
+}
+
+.main-nav__item--login-button {
+  border: 1px solid map-get($colors, font-light);
+  border-radius: 5px;
+  padding: 10px;
+  background-color: map-get($colors, primary);
+  color: map-get($colors, font-light);
 }

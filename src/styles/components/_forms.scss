@@ -1,3 +1,5 @@
+@use "../base" as *;
+
 .custo-form {
   &__inputs-wrapper {
     display: flex;
@@ -18,7 +20,7 @@
   }
 
   .custo-form__input-label {
-    font-weight: 700;
+    font-weight: map-get($font-weight, bold);
   }
   .custo-form__input {
     border: none;

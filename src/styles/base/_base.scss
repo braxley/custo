@@ -34,11 +34,11 @@ body {
  * Basic styles for links
  */
 a {
-  color: white;
+  color: map-get($colors, font-light);
   text-decoration: none;
 
   @include on-event {
-    color: white;
-    text-decoration: underline;
+    color: map-get($colors, font-light);
+    border-bottom: 2px solid map-get($colors, font-light);
   }
 }

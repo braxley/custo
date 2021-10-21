@@ -1,8 +1,8 @@
-@use "styles/abstracts";
-@use "styles/base";
-@use "styles/components";
-@use "styles/themes";
-@use "styles/vendors";
+@forward "./styles/abstracts";
+@forward "./styles/base";
+@forward "./styles/components";
+@forward "./styles/themes";
+@forward "./styles/vendors";
 
 /*
 * SASS architecture, Kevin Powell:            https://www.youtube.com/watch?v=9Ld-aOKsEDk

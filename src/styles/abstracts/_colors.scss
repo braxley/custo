@@ -1,2 +1,13 @@
-$page-background--dark: #4b4b4b;
-$border-color-primary: #4b4b4b;
+$colors: (
+  primary: #143642,
+  secondary: #310d20,
+  tertiary: #7d6b91,
+  light-green: #6baa75,
+  light-lavender: #eae8ff,
+  font-light: white,
+  btn-disabled: #4b4b4b,
+);
+
+$header-color: map-get($colors, primary);
+$page-background--dark: map-get($colors, secondary);
+$font-color--light: map-get($colors, font-light);
