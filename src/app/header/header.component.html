@@ -12,17 +12,17 @@
   <nav class="main-nav">
     <ul class="main-nav__items">
       <li class="main-nav__item">
-        <a href="/">Search</a>
+        <a href="/search">Search</a>
       </li>
       <div
         class="main-nav__items--logged-in"
         *ngIf="user$ | async as user; else login"
       >
         <li class="main-nav__item">
-          <a href="#">My Movies</a>
+          <a href="/my-movies">My Movies</a>
         </li>
         <li class="main-nav__item">
-          <a (click)="onLogout()">Logout</a>
+          <a href="#" (click)="onLogout()">Logout</a>
         </li>
       </div>
       <ng-template #login>
