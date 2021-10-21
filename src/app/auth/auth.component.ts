@@ -14,7 +14,7 @@ export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
   hasError = false;
-  errorMsg = 'CustoErrorAuth01';
+  errorMsg = 'CustoErrorAuth002';
 
   constructor(private authService: AuthService, private router: Router) {}
 
