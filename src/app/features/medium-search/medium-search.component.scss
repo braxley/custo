@@ -1,5 +1,9 @@
 @use "../../../styles" as *;
 
+.custo-form {
+  max-width: 100%;
+}
+
 .search-movie-form__submit-btn {
   padding: 1rem;
   margin-right: 0.7rem;

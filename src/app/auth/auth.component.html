@@ -1,4 +1,8 @@
-<form class="custo-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+<form
+  class="custo-form container"
+  #loginForm="ngForm"
+  (ngSubmit)="onSubmit(loginForm)"
+>
   <h1 class="auth-title">{{ isLoginMode ? "Login" : "SignUp" }}</h1>
   <div class="custo-form__inputs-wrapper">
     <div class="custo-form__input-wrapper">
@@ -29,11 +33,15 @@
       />
     </div>
   </div>
-  <div class="custo-buttons">
-    <button type="button" class="custo-button" (click)="switchMode()">
+  <div class="custo-buttons custo-buttons--full-width">
+    <button
+      type="button"
+      class="custo-button custo-button--full-width"
+      (click)="switchMode()"
+    >
       Switch to {{ isLoginMode ? "SignUp" : "Login" }}
     </button>
-    <button type="submit" class="custo-button">
+    <button type="submit" class="custo-button custo-button--full-width">
       {{ isLoginMode ? "Login" : "SignUp" }}
     </button>
   </div>

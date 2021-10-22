@@ -1,4 +1,5 @@
 @use "../abstracts" as *;
+
 @mixin btn-color-attributes($button-color) {
   background-color: $button-color;
   border: 1px solid scale-color($button-color, $lightness: -50%);
@@ -16,12 +17,21 @@
 .custo-button {
   @include btn-color-attributes(map-get($colors, primary));
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   padding: 10px;
   font-size: 1.5em;
   color: map-get($colors, font-light);
 
   &:last-of-type {
     @include btn-color-attributes(map-get($colors, light-green));
+  }
+}
+
+.custo-buttons--full-width {
+  display: block;
+  width: 100%;
+  .custo-button--full-width {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 }

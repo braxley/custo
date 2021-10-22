@@ -1,9 +1,15 @@
 @use "../base" as *;
 
 .custo-form {
-  width: 90vw;
-  margin: 0 auto;
+  @extend .container;
+  max-width: 30rem;
+  display: grid;
+  grid-template-areas:
+    "inputs"
+    "buttons";
+
   &__inputs-wrapper {
+    grid-area: "inputs";
     display: flex;
     align-items: center;
     background: white;
