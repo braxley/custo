@@ -5,7 +5,10 @@
 >
   <h1 class="auth-title">{{ isLoginMode ? "Login" : "SignUp" }}</h1>
   <div class="custo-form__inputs-wrapper">
-    <div class="custo-form__input-wrapper">
+    <div
+      class="custo-form__input-wrapper"
+      [ngClass]="{ invalid: wasSubmitted && email.status === 'INVALID' }"
+    >
       <label for="email" class="custo-form__input-label">Email</label>
       <input
         class="custo-form__input"
@@ -19,7 +22,10 @@
     </div>
   </div>
   <div class="custo-form__inputs-wrapper">
-    <div class="custo-form__input-wrapper">
+    <div
+      class="custo-form__input-wrapper"
+      [ngClass]="{ invalid: wasSubmitted && password.status === 'INVALID' }"
+    >
       <label for="password" class="custo-form__input-label">Password</label>
       <input
         class="custo-form__input"

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthService } from '../core/services/auth.service';
 import { AuthResponseData } from '../shared/interfaces/auth-response-interface';
-import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 export class AuthComponent {
   isLoginMode = true;
   isLoading = false;
+  wasSubmitted = false;
   hasError = false;
   errorMsg = 'CustoErrorAuth002';
 
@@ -23,6 +24,7 @@ export class AuthComponent {
   }
 
   onSubmit(form: NgForm) {
+    this.wasSubmitted = true;
     const email = form.value.email;
     const password = form.value.password;
 

@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { User } from 'src/app/auth/user.model';
 import {
-  FIREBASE_AUTH_LOGIN_URL,
   FIREBASE_AUTH_SIGNUP_URL,
-} from '../shared/constants';
-import { AuthResponseData } from '../shared/interfaces/auth-response-interface';
-import { User } from './user.model';
+  FIREBASE_AUTH_LOGIN_URL,
+} from 'src/app/shared/constants';
+import { AuthResponseData } from 'src/app/shared/interfaces/auth-response-interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
