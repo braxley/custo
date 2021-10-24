@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { AuthResponseData } from '../shared/interfaces/auth-response-interface';
 
@@ -15,7 +15,9 @@ export class AuthComponent {
   isLoading = false;
   wasSubmitted = false;
   hasError = false;
-  errorMsg = 'CustoErrorAuth002';
+  errorMsg: string | undefined;
+  emailError: string | undefined;
+  passwordError: string | undefined;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -25,6 +27,13 @@ export class AuthComponent {
 
   onSubmit(form: NgForm) {
     this.wasSubmitted = true;
+    this.hasError = false;
+
+    if (form.status === 'INVALID') {
+      this.handleInvalidForm(form);
+      return;
+    }
+
     const email = form.value.email;
     const password = form.value.password;
 
@@ -45,5 +54,24 @@ export class AuthComponent {
         this.errorMsg = errorResponse;
       }
     );
+  }
+
+  private handleInvalidForm(form: NgForm) {
+    this.errorMsg = undefined;
+    this.emailError = undefined;
+    this.passwordError = undefined;
+    this.hasError = true;
+    const emailForm = form.controls.email;
+    const passwordForm = form.controls.password;
+    if (emailForm.status === 'INVALID') {
+      if (emailForm.value.length === 0) {
+        this.emailError = 'The Email is required';
+      } else {
+        this.emailError = 'Please enter a valid Email address.';
+      }
+    }
+    if (passwordForm.status === 'INVALID') {
+      this.passwordError = 'The password must be at least 6 characters long.';
+    }
   }
 }

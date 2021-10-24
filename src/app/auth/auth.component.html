@@ -7,7 +7,7 @@
   <div class="custo-form__inputs-wrapper">
     <div
       class="custo-form__input-wrapper"
-      [ngClass]="{ invalid: wasSubmitted && email.status === 'INVALID' }"
+      [ngClass]="{ invalid__input: wasSubmitted && email.status === 'INVALID' }"
     >
       <label for="email" class="custo-form__input-label">Email</label>
       <input
@@ -21,10 +21,17 @@
       />
     </div>
   </div>
+  <ng-container *ngIf="emailError">
+    <div class="invalid__warning-box">
+      <i class="fa fa-exclamation-circle"></i> {{ emailError }}
+    </div>
+  </ng-container>
   <div class="custo-form__inputs-wrapper">
     <div
       class="custo-form__input-wrapper"
-      [ngClass]="{ invalid: wasSubmitted && password.status === 'INVALID' }"
+      [ngClass]="{
+        invalid__input: wasSubmitted && password.status === 'INVALID'
+      }"
     >
       <label for="password" class="custo-form__input-label">Password</label>
       <input
@@ -39,6 +46,16 @@
       />
     </div>
   </div>
+  <ng-container *ngIf="passwordError">
+    <div class="invalid__warning-box">
+      <i class="fa fa-exclamation-circle"></i> {{ passwordError }}
+    </div>
+  </ng-container>
+  <ng-container *ngIf="errorMsg">
+    <div class="invalid__warning-box">
+      <i class="fa fa-exclamation-circle"></i> {{ errorMsg }}
+    </div>
+  </ng-container>
   <div class="custo-buttons custo-buttons--full-width">
     <button
       type="button"

@@ -15,11 +15,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
+  private user$$ = new BehaviorSubject<User | null>(null);
   get user$() {
     return this.user$$.asObservable();
   }
 
-  private user$$ = new BehaviorSubject<User | null>(null);
   private tokenExpirationTimer: any;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
@@ -123,21 +123,23 @@ export class AuthService {
   }
 
   private handleError(errorResponse: HttpErrorResponse): Observable<never> {
+    console.dir(errorResponse.error.error.message);
     let errorMsg = 'CustoErrorAuth001';
 
     if (errorResponse.error?.error?.message) {
       switch (errorResponse.error.error.message) {
         case 'EMAIL_EXISTS':
           errorMsg =
-            'The email address you used is already registered with us. If you want to log in, please use the "Switch to Login" button';
+            'The email address you used is already registered with us. If you want to log in, please use the "Switch to Login" button.';
           break;
         case 'EMAIL_NOT_FOUND':
           errorMsg =
-            'The provided email is not in our database. If you want to sign up, please use the "Switch to SignUp" button';
+            'The provided email is not in our database. If you want to sign up, please use the "Switch to SignUp" button.';
+          console.log(errorMsg);
           break;
         case 'INVALID_PASSWORD':
           errorMsg =
-            'The password you have entered is wrong, please try again.';
+            'The password you have entered is not correct, please try again.';
           break;
       }
     }

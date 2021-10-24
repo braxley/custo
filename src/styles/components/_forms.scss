@@ -55,12 +55,20 @@
       }
     }
   }
-}
-.invalid {
-  .custo-form__input-label {
-    color: map-get($colors, warning);
+
+  .invalid__input {
+    .custo-form__input-label {
+      color: map-get($colors, warning);
+    }
+    .custo-form__input {
+      box-shadow: 0px 2px 0px 0px map-get($colors, warning);
+    }
   }
-  .custo-form__input {
-    box-shadow: 0px 2px 0px 0px map-get($colors, warning);
+  .invalid__warning-box {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    color: map-get($colors, warning);
+    margin-bottom: 1rem;
   }
 }
