@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { User } from 'src/app/auth/user.model';
+import { User } from 'src/app/shared/models/user.model';
 import {
   FIREBASE_AUTH_SIGNUP_URL,
   FIREBASE_AUTH_LOGIN_URL,
@@ -118,7 +118,6 @@ export class AuthService {
 
     localStorage.setItem('userData', JSON.stringify(user));
     this.autoLogout(timeUntilTokenExpires);
-
     this.user$$.next(user);
   }
 
