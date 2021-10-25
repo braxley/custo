@@ -1,7 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_URL } from 'src/app/shared/constants';
 import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import { User } from 'src/app/shared/models/user.model';
@@ -11,8 +11,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class UserMoviesService {
-  user: User = this.authService.user$$.getValue()!;
-  userMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
+  user$$ = this.authService.user$$;
 
   private userMovies: CustoMedium[] = [];
 
@@ -32,25 +31,30 @@ export class UserMoviesService {
     this.userMovies.splice(index, 1);
   }
 
-  fetchUserMovies() {
-    this.httpClient
-      .get<CustoMedium[]>(`${FIREBASE_DB_URL}/${this.user.id}.json`)
-      .pipe(
-        take(1),
-        tap((movieArray) => {
-          this.userMovies$$.next(movieArray);
-          console.log(movieArray);
-        })
+  fetchUserMovies(): Observable<CustoMedium[]> {
+    return this.user$$.pipe(
+      take(1),
+      filter((user) => Boolean(user)),
+      switchMap((user) =>
+        this.httpClient.get<CustoMedium[]>(
+          `${FIREBASE_DB_URL}/${user!.id}.json`
+        )
       )
-      .subscribe();
+    );
   }
 
   addMovieToUser(movieToAdd: CustoMedium): void {
     this.addMovieToArray(movieToAdd);
-    this.httpClient
-      .put<CustoMedium>(
-        `${FIREBASE_DB_URL}/${this.user.id}.json`,
-        JSON.stringify(this.getMovies())
+    this.user$$
+      .pipe(
+        take(1),
+        filter((user) => Boolean(user)),
+        switchMap((user) =>
+          this.httpClient.put<CustoMedium>(
+            `${FIREBASE_DB_URL}/${user!.id}.json`,
+            JSON.stringify(this.getMovies())
+          )
+        )
       )
       .subscribe();
   }

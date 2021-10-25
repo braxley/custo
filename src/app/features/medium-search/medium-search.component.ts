@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { from, forkJoin, Subject, Observable } from 'rxjs';
+import { from, forkJoin, Subject, Observable, EMPTY } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
 import { MediumSearchService } from 'src/app/core/services/medium-search.service';
 import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
@@ -56,10 +56,10 @@ export class MediumSearchComponent {
                */
 
               from(moviesDetailsWithRatings).pipe(
-                // We filter trailer, shorts and elements with unknown length
+                // we filter media under 55 minutes, including trailer and elements with unknown length
                 filter(
                   ([movieDetails, movieRatings]) =>
-                    +movieDetails.runtimeMins > 7
+                    +movieDetails.runtimeMins > 55
                 ),
                 map(
                   ([movieDetails, movieRatings]) =>
@@ -86,6 +86,7 @@ export class MediumSearchComponent {
                 toArray()
               )
           ),
+
           tap(() => {
             this.isSearching = false;
           })
