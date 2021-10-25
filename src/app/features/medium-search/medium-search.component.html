@@ -43,7 +43,6 @@
   <app-loading-indicator></app-loading-indicator>
 </ng-container>
 
-<!-- TODO stf remove movies that don't have a runtime -> probably not interested -->
 <ng-container *ngFor="let movieResult of (custoMovieResults$ | async) || []">
   <app-search-result-item
     [movieResult]="movieResult"

@@ -22,8 +22,6 @@ export class AuthInterceptor implements HttpInterceptor {
     return this.authService.user$.pipe(
       take(1),
       exhaustMap((user: User | null) => {
-        console.log('inside interceptor');
-        console.dir(user);
         if (user) {
           const modifiedRequest = request.clone({
             params: new HttpParams().set('auth', user.idToken!),

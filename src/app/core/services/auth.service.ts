@@ -15,11 +15,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private user$$ = new BehaviorSubject<User | null>(null);
+  user$$ = new BehaviorSubject<User | null>(null);
+
   get user$() {
     return this.user$$.asObservable();
   }
-
   private tokenExpirationTimer: any;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
@@ -134,7 +134,6 @@ export class AuthService {
         case 'EMAIL_NOT_FOUND':
           errorMsg =
             'The provided email is not in our database. If you want to sign up, please use the "Switch to SignUp" button.';
-          console.log(errorMsg);
           break;
         case 'INVALID_PASSWORD':
           errorMsg =
