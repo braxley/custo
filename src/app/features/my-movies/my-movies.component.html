@@ -9,10 +9,14 @@
   <h2 class="genre__heading">{{ genre }}</h2>
   <div class="movies__wrapper">
     <div class="movie" *ngFor="let movie of filterGenre(genre)">
-      <img class="movie__poster" src="{{ movie.image }}" />
+      <div class="movie__poster__wrapper">
+        <img class="movie__poster" src="{{ movie.image }}" />
+      </div>
 
-      <!-- <h4 class="movie__title">{{ movie.fullTitle }}</h4>
-      <p class="movie__duration">{{ movie.runtimeMins | timeConversion }}</p> -->
+      <h5 class="movie__description movie__title">{{ movie.fullTitle }}</h5>
+      <div class="movie__description movie__duration">
+        {{ movie.runtimeMins | timeConversion }}
+      </div>
     </div>
   </div>
 </div>

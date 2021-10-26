@@ -26,7 +26,6 @@
 
 // https://ishadeed.com/article/custom-scrollbars-css/
 @mixin custo-scrollbar() {
-  overflow: auto;
   scroll-behavior: smooth;
 
   &::-webkit-scrollbar {

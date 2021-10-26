@@ -1,22 +1,90 @@
 @use "../../../styles" as *;
 
-.genre__wrapper {
-  padding-left: 1rem;
-}
-.movies__wrapper {
-  display: grid;
-  gap: 1rem;
-  grid-auto-flow: column;
-  grid-auto-columns: 9rem;
+$movie-poster-height: 16rem;
+$scale-ratio: 1.2;
 
-  @include custo-scrollbar();
-}
-h2 {
-  color: white;
-}
-img {
-  height: 16rem;
-  width: 9rem;
-  object-fit: cover;
-  border-radius: 0.3rem;
+.genre__wrapper {
+  padding: 0 1rem;
+  margin-bottom: 2rem;
+  .genre__heading {
+    color: white;
+    margin-bottom: 0;
+  }
+  .movies__wrapper {
+    display: grid;
+    gap: 1rem;
+    grid-auto-flow: column;
+    grid-auto-columns: 9rem;
+    grid-template-rows: $movie-poster-height * $scale-ratio + 0.3rem;
+    align-items: center;
+
+    @include custo-scrollbar();
+    overflow-x: auto;
+    overflow-y: visible;
+
+    .movie {
+      position: relative;
+      transition: 250ms all;
+      &:hover {
+        z-index: 1;
+        .movie__description {
+          display: block !important;
+        }
+      }
+      &:hover:not(:first-of-type):not(:last-of-type) {
+        transform: scale(1.2);
+      }
+      &:first-of-type:hover {
+        transform: scale(1.2) translateX(0.9rem);
+      }
+      &:last-of-type:hover {
+        transform: scale(1.2) translateX(-0.9rem);
+      }
+
+      .movie__poster__wrapper {
+        position: relative;
+        height: $movie-poster-height;
+        width: $movie-poster-height / 16 * 9;
+
+        &:after {
+          content: "\A";
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background: rgba(0, 0, 0, 0.6);
+          opacity: 0;
+          border-radius: 0.3rem;
+          transition: 250ms all;
+          -webkit-transition: 250ms all;
+        }
+        &:hover:after {
+          opacity: 1;
+        }
+      }
+
+      .movie__poster {
+        position: relative;
+        height: $movie-poster-height;
+        width: $movie-poster-height / 16 * 9;
+        object-fit: cover;
+        border-radius: 0.3rem;
+      }
+      .movie__description {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        color: $font-color--light;
+        left: 0.4rem;
+
+        &.movie__title {
+          bottom: 2rem;
+        }
+        &.movie__duration {
+          bottom: 0.5rem;
+        }
+      }
+    }
+  }
 }
