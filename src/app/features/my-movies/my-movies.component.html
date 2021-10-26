@@ -2,7 +2,17 @@
   <app-loading-indicator></app-loading-indicator>
 </ng-container>
 
-<ng-container *ngFor="let movie of userMovies$ | async">
-  <app-medium-card [mediumData]="movie"></app-medium-card>
-</ng-container>
+<ng-container *ngFor="let movie of userMovies$ | async"> </ng-container>
 <button class="custo-button" (click)="log()">Log</button>
+
+<div *ngFor="let genre of genres" class="genre__wrapper">
+  <h2 class="genre__heading">{{ genre }}</h2>
+  <div class="movies__wrapper">
+    <div class="movie" *ngFor="let movie of filterGenre(genre)">
+      <img class="movie__poster" src="{{ movie.image }}" />
+
+      <!-- <h4 class="movie__title">{{ movie.fullTitle }}</h4>
+      <p class="movie__duration">{{ movie.runtimeMins | timeConversion }}</p> -->
+    </div>
+  </div>
+</div>

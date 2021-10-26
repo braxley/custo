@@ -20,17 +20,26 @@ export class MyMoviesComponent implements OnInit {
         movieArray.forEach((movie: CustoMedium) => {
           console.log(movie.genreList);
           const genresOfMovie = movie.genreList;
-          genresOfMovie.filter((genre: string) => !this.genres.includes(genre));
+          const uniqueGenres = genresOfMovie.filter(
+            (genre: string) => !this.genres.includes(genre)
+          );
           console.log(genresOfMovie);
-          this.genres.push(...genresOfMovie);
+          this.genres.push(...uniqueGenres);
         });
-        console.log(this.genres);
       })
     );
   }
 
   ngOnInit() {
     this.userMoviesService.fetchUserMovies();
+  }
+
+  filterGenre(genre: string): CustoMedium[] {
+    return this.userMoviesService
+      .getMovies()
+      .filter((movie: CustoMedium) =>
+        movie.genreList.find((movieGenre: string) => movieGenre === genre)
+      );
   }
 
   log() {

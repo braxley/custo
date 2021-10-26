@@ -22,3 +22,18 @@
     }
   }
 }
+
+// https://ishadeed.com/article/custom-scrollbars-css/
+@mixin scrollbar() {
+  &::-webkit-scrollbar {
+    width: 1rem;
+
+    &-track {
+      background-color: map-get($colors, tertiary);
+    }
+
+    &-thumb {
+      background-color: map-get($colors, primary);
+    }
+  }
+}
