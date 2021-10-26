@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoadingIndicatorComponent } from './components/loading-spinner/loading-indicator.component';
 import { TimeConversionPipe } from './pipes/time-conversion.pipe';
+import { MediumCardComponent } from './components/medium-card/medium-card.component';
+import { LoadingIndicatorComponent } from './components/loading-indicator/loading-indicator.component';
 
 @NgModule({
-  declarations: [LoadingIndicatorComponent, TimeConversionPipe],
+  declarations: [
+    MediumCardComponent,
+    LoadingIndicatorComponent,
+    TimeConversionPipe,
+  ],
   imports: [CommonModule],
-  exports: [LoadingIndicatorComponent, TimeConversionPipe],
+  exports: [
+    CommonModule,
+    MediumCardComponent,
+    LoadingIndicatorComponent,
+    TimeConversionPipe,
+  ],
 })
 export class SharedModule {}

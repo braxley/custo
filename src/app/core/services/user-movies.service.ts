@@ -11,8 +11,9 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class UserMoviesService {
-  user$$ = this.authService.user$$;
+  isLoading$$ = new BehaviorSubject<boolean>(false);
 
+  private user$$ = this.authService.user$$;
   private userMovies: CustoMedium[] = [];
   private userMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
 
@@ -24,6 +25,10 @@ export class UserMoviesService {
     private httpClient: HttpClient,
     private authService: AuthService
   ) {}
+
+  ngOnInit() {
+    this.fetchUserMovies();
+  }
 
   getMovies(): CustoMedium[] {
     return this.userMovies.slice();
@@ -38,6 +43,7 @@ export class UserMoviesService {
   }
 
   fetchUserMovies() {
+    this.isLoading$$.next(true);
     this.user$$
       .pipe(
         take(1),
@@ -48,6 +54,7 @@ export class UserMoviesService {
           )
         ),
         tap((movieArray) => {
+          this.isLoading$$.next(false);
           this.userMovies = movieArray;
           this.userMovies$$.next(this.userMovies);
         })

@@ -7,17 +7,19 @@ import { AppComponent } from './app.component';
 import { MediumSearchModule } from './features/medium-search/medium-search.module';
 import { HeaderComponent } from './header/header.component';
 import { AuthModule } from './auth/auth.module';
-import { MyMoviesComponent } from './features/my-movies/my-movies.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { SharedModule } from './shared/shared.module';
+import { MyMoviesModule } from './features/my-movies/my-movies.module';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, MyMoviesComponent],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     HttpClientModule,
-    MediumSearchModule,
     AuthModule,
+    MediumSearchModule,
+    MyMoviesModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

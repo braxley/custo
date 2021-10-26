@@ -6,8 +6,4 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./loading-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadingIndicatorComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class LoadingIndicatorComponent {}

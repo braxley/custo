@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
-import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
-import { getMockCustoMovie } from 'src/app/shared/test/test-data';
 
 @Component({
   templateUrl: './my-movies.component.html',
@@ -9,6 +7,7 @@ import { getMockCustoMovie } from 'src/app/shared/test/test-data';
 })
 export class MyMoviesComponent implements OnInit {
   userMovies$ = this.userMoviesService.userMovies$;
+  isLoading = this.userMoviesService.isLoading$$;
 
   constructor(private userMoviesService: UserMoviesService) {}
 
