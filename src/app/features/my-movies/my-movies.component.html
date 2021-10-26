@@ -1,3 +1,3 @@
 <ng-container *ngFor="let movie of userMovies$ | async">
-  <p>{{ movie.imdbId }}</p>
+  <app-medium-card [mediumData]="movie"></app-medium-card>
 </ng-container>

@@ -14,6 +14,11 @@ export class UserMoviesService {
   user$$ = this.authService.user$$;
 
   private userMovies: CustoMedium[] = [];
+  private userMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
+
+  get userMovies$(): Observable<CustoMedium[]> {
+    return this.userMovies$$.asObservable();
+  }
 
   constructor(
     private httpClient: HttpClient,
@@ -29,22 +34,30 @@ export class UserMoviesService {
       (movie) => movie.imdbId === movieToRemove.imdbId
     );
     this.userMovies.splice(index, 1);
+    this.userMovies$$.next(this.userMovies);
   }
 
-  fetchUserMovies(): Observable<CustoMedium[]> {
-    return this.user$$.pipe(
-      take(1),
-      filter((user) => Boolean(user)),
-      switchMap((user) =>
-        this.httpClient.get<CustoMedium[]>(
-          `${FIREBASE_DB_URL}/${user!.id}.json`
-        )
+  fetchUserMovies() {
+    this.user$$
+      .pipe(
+        take(1),
+        filter((user) => Boolean(user)),
+        switchMap((user) =>
+          this.httpClient.get<CustoMedium[]>(
+            `${FIREBASE_DB_URL}/${user!.id}.json`
+          )
+        ),
+        tap((movieArray) => {
+          this.userMovies = movieArray;
+          this.userMovies$$.next(this.userMovies);
+        })
       )
-    );
+      .subscribe();
   }
 
   addMovieToUser(movieToAdd: CustoMedium): void {
-    this.addMovieToArray(movieToAdd);
+    this.userMovies.push(movieToAdd);
+    this.userMovies$$.next(this.userMovies);
     this.user$$
       .pipe(
         take(1),
@@ -57,9 +70,5 @@ export class UserMoviesService {
         )
       )
       .subscribe();
-  }
-
-  private addMovieToArray(movieToAdd: CustoMedium) {
-    this.userMovies.push(movieToAdd);
   }
 }

@@ -1,22 +1,9 @@
-<div class="result-item" [ngClass]="{ 'good-movie': isGoodMovie }">
-  <div class="movie-details">
-    <img class="poster" src="{{ movieResult.image }}" />
-    <div class="info">
-      <div class="info__title">{{ movieResult.fullTitle }}</div>
-      <div>Starring:</div>
-      <div>{{ movieResult.stars }}</div>
-      <div>Director:</div>
-      <div>{{ movieResult.directors }}</div>
-      <div>Genres:</div>
-      <div>{{ movieResult.genres }}</div>
-      <div>Runtime:</div>
-      <div>
-        {{ movieResult.runtimeMins | timeConversion }}
-      </div>
-    </div>
-  </div>
+<app-medium-card
+  [mediumData]="movieResult"
+  [ngClass]="{ 'medium-above-threshold--background': isGoodMovie }"
+>
   <ng-container *ngIf="isGoodMovie">
-    <i class="fa fa-thumbs-up medium-above-threshold"></i>
+    <i class="fa fa-thumbs-up medium-above-threshold--thumb-icon"></i>
     <button (click)="addMovieToUser()">Add Movie</button>
   </ng-container>
-</div>
+</app-medium-card>

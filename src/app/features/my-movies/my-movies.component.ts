@@ -8,14 +8,11 @@ import { getMockCustoMovie } from 'src/app/shared/test/test-data';
   styleUrls: ['./my-movies.component.scss'],
 })
 export class MyMoviesComponent implements OnInit {
-  userMovies$ = this.userMoviesService.fetchUserMovies();
+  userMovies$ = this.userMoviesService.userMovies$;
+
   constructor(private userMoviesService: UserMoviesService) {}
 
   ngOnInit() {
-    this.fetchUserMovies();
-  }
-
-  fetchUserMovies() {
     this.userMoviesService.fetchUserMovies();
   }
 }
