@@ -26,10 +26,6 @@ export class UserMoviesService {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
-    this.fetchUserMovies();
-  }
-
   getMovies(): CustoMedium[] {
     return this.userMovies.slice();
   }
@@ -63,6 +59,10 @@ export class UserMoviesService {
   }
 
   addMovieToUser(movieToAdd: CustoMedium): void {
+    if (this.userMovies.includes(movieToAdd)) {
+      return;
+    }
+    console.log(this.userMovies);
     this.userMovies.push(movieToAdd);
     this.userMovies$$.next(this.userMovies);
     this.user$$

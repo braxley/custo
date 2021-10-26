@@ -23,6 +23,7 @@ export class SearchResultItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.isGoodMovie = this.movieResult.ratings.imdb >= this.minRating;
+    this.userMoviesService.fetchUserMovies();
   }
 
   addMovieToUser() {

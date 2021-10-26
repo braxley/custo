@@ -22,6 +22,7 @@ export function getMockCustoMovie(): CustoMedium {
     },
     directors: 'Christopher Nolan',
     genres: 'Action, Adventure, Sci-Fi',
+    genreList: ['Action', 'Adventure', 'Sci-Fi'],
     runtimeMins: 148,
     stars: 'Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page',
   };

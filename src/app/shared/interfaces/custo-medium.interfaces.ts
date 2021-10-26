@@ -10,4 +10,5 @@ export interface CustoMedium {
   directors: string;
   stars: string;
   genres: string;
+  genreList: string[];
 }

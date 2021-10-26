@@ -9,6 +9,7 @@ import {
   ImdbMovieDetails,
   ImdbRatings,
   Ratings,
+  ImdbGenre,
 } from 'src/app/shared/interfaces/imdb.interfaces';
 
 @Component({
@@ -78,7 +79,9 @@ export class MediumSearchComponent {
                       } as Ratings,
                       directors: movieDetails.directors,
                       genres: movieDetails.genres,
-                      // TODO stf genreList?
+                      genreList: movieDetails.genreList.map(
+                        (genre: ImdbGenre) => genre.key
+                      ),
                       runtimeMins: +movieDetails.runtimeMins,
                       stars: movieDetails.stars,
                     } as CustoMedium)
