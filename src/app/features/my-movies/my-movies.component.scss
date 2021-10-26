@@ -8,21 +8,8 @@
   gap: 1rem;
   grid-auto-flow: column;
   grid-auto-columns: 9rem;
-  overflow: auto;
-  scroll-behavior: smooth;
 
-  &::-webkit-scrollbar {
-    width: 1rem;
-
-    &-track {
-      background-color: map-get($colors, tertiary);
-    }
-
-    &-thumb {
-      background-color: map-get($colors, primary);
-      // box-shadow: inset 0 0 6px red;
-    }
-  }
+  @include custo-scrollbar();
 }
 h2 {
   color: white;

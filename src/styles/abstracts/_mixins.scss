@@ -1,3 +1,4 @@
+@use "./colors" as *;
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass mixins.
 // -----------------------------------------------------------------------------
@@ -24,7 +25,10 @@
 }
 
 // https://ishadeed.com/article/custom-scrollbars-css/
-@mixin scrollbar() {
+@mixin custo-scrollbar() {
+  overflow: auto;
+  scroll-behavior: smooth;
+
   &::-webkit-scrollbar {
     width: 1rem;
 
