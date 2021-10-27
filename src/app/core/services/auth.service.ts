@@ -3,23 +3,23 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { User } from 'src/app/shared/models/user.model';
 import {
-  FIREBASE_AUTH_LOGIN_URL,
   FIREBASE_AUTH_SIGNUP_URL,
-} from '../shared/constants';
-import { AuthResponseData } from '../shared/interfaces/auth-response-interface';
-import { User } from './user.model';
+  FIREBASE_AUTH_LOGIN_URL,
+} from 'src/app/shared/constants';
+import { AuthResponseData } from 'src/app/shared/interfaces/auth-response-interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private user$$ = new BehaviorSubject<User | null>(null);
   get user$() {
     return this.user$$.asObservable();
   }
 
-  private user$$ = new BehaviorSubject<User | null>(null);
   private tokenExpirationTimer: any;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
@@ -118,26 +118,27 @@ export class AuthService {
 
     localStorage.setItem('userData', JSON.stringify(user));
     this.autoLogout(timeUntilTokenExpires);
-
     this.user$$.next(user);
   }
 
   private handleError(errorResponse: HttpErrorResponse): Observable<never> {
+    console.dir(errorResponse.error.error.message);
     let errorMsg = 'CustoErrorAuth001';
 
     if (errorResponse.error?.error?.message) {
       switch (errorResponse.error.error.message) {
         case 'EMAIL_EXISTS':
           errorMsg =
-            'The email address you used is already registered with us. If you want to log in, please use the "Switch to Login" button';
+            'The email address you used is already registered with us. If you want to log in, please use the "Switch to Login" button.';
           break;
         case 'EMAIL_NOT_FOUND':
           errorMsg =
-            'The provided email is not in our database. If you want to sign up, please use the "Switch to SignUp" button';
+            'The provided email is not in our database. If you want to sign up, please use the "Switch to SignUp" button.';
+          console.log(errorMsg);
           break;
         case 'INVALID_PASSWORD':
           errorMsg =
-            'The password you have entered is wrong, please try again.';
+            'The password you have entered is not correct, please try again.';
           break;
       }
     }

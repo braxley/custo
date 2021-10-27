@@ -5,8 +5,8 @@ $colors: (
   light-green: #6baa75,
   light-lavender: #eae8ff,
   font-light: white,
-  font-dark: black,
   btn-disabled: #4b4b4b,
+  warning: #bb3e03,
 );
 
 $header-color: map-get($colors, primary);

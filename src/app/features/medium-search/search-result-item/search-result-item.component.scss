@@ -3,7 +3,7 @@
 .result-item {
   position: relative;
   padding: 1rem;
-  background-color: map-get($colors, tertiary);
+  background-color: scale-color(map-get($colors, primary), $lightness: -100%);
   color: white;
   border-radius: 0.5rem;
   box-shadow: 0.25em 0.25em 0.75em rgba(0, 0, 0, 0.25),

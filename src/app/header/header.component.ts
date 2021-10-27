@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-header',

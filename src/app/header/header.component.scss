@@ -28,6 +28,7 @@
     .main-nav__item a {
       font-weight: map-get($font-weight, bold);
       padding: 0.2rem 0;
+      white-space: nowrap;
     }
   }
 }

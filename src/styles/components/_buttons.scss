@@ -1,20 +1,37 @@
 @use "../abstracts" as *;
 
+@mixin btn-color-attributes($button-color) {
+  background-color: $button-color;
+  border: 1px solid scale-color($button-color, $lightness: -50%);
+  transition: background-color 150ms ease-in;
+  &:hover {
+    background-color: scale-color($button-color, $lightness: 20%);
+  }
+}
+
 .custo-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 0.3rem;
 }
 .custo-button {
-  background-color: map-get($colors, primary);
-  border: 1px solid scale-color(map-get($colors, primary), $lightness: -50%);
-  border-radius: 5px;
+  @include btn-color-attributes(map-get($colors, primary));
+  cursor: pointer;
+  border-radius: 0.5rem;
   padding: 10px;
   font-size: 1.5em;
   color: map-get($colors, font-light);
+
   &:last-of-type {
-    background-color: map-get($colors, light-green);
-    border: 1px solid
-      scale-color(map-get($colors, light-green), $lightness: -50%);
+    @include btn-color-attributes(map-get($colors, light-green));
+  }
+}
+
+.custo-buttons--full-width {
+  display: block;
+  width: 100%;
+  .custo-button--full-width {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 }
