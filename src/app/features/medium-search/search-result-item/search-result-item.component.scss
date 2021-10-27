@@ -14,3 +14,13 @@ app-medium-card.medium-above-threshold--background {
   right: 1rem;
   transform: scale(1.8);
 }
+
+.custo-buttons {
+  @include small-screen() {
+    padding-top: 0.5rem;
+    justify-content: center;
+  }
+  .custo-button {
+    font-size: 0.7rem;
+  }
+}

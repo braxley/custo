@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
 import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
@@ -14,8 +15,9 @@ import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultItemComponent implements OnInit {
-  @Input() movieResult!: CustoMedium;
-  @Input() minRating!: number;
+  @Input() movieResult: CustoMedium = {} as CustoMedium;
+  @Input() minRating: number = 6.5;
+  @Input() isAuthenticated? = false;
 
   isGoodMovie: boolean = false;
 

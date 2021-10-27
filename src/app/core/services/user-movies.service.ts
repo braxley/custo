@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_URL } from 'src/app/shared/constants';
 import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
-import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from './auth.service';
 
 @Injectable({

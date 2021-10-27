@@ -1,4 +1,5 @@
 @use "./colors" as *;
+@use "./breakpoints" as *;
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass mixins.
 // -----------------------------------------------------------------------------
@@ -21,6 +22,12 @@
     &:focus {
       @content;
     }
+  }
+}
+
+@mixin small-screen {
+  @media (max-width: map-get($breakpoints, small)) {
+    @content;
   }
 }
 

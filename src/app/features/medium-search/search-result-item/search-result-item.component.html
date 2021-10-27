@@ -3,7 +3,22 @@
   [ngClass]="{ 'medium-above-threshold--background': isGoodMovie }"
 >
   <ng-container *ngIf="isGoodMovie">
-    <i class="fa fa-thumbs-up medium-above-threshold--thumb-icon"></i>
-    <button (click)="addMovieToUser()">Add Movie</button>
+    <i
+      class="fa fa-thumbs-up medium-above-threshold--thumb-icon"
+      title="{{ movieResult.fullTitle }} has at least the rating of {{
+        minRating
+      }} on IMDb."
+    ></i>
+    <div class="custo-buttons">
+      <button
+        class="custo-button"
+        type="button"
+        *ngIf="isAuthenticated"
+        (click)="addMovieToUser()"
+        title="Add {{ movieResult.fullTitle }} to your list of movies."
+      >
+        Add Movie
+      </button>
+    </div>
   </ng-container>
 </app-medium-card>

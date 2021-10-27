@@ -17,10 +17,12 @@
     display: grid;
     grid-template-rows: fit-content(10rem);
     grid-template-columns: 1fr 5fr;
-    grid-template-areas: "poster description";
+    grid-template-areas:
+      "poster description"
+      "poster buttons";
     column-gap: 2rem;
 
-    @media (max-width: 24rem) {
+    @include small-screen {
       grid-template-areas: "poster" "description";
       justify-items: center;
       grid-template-rows: auto;

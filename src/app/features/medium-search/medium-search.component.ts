@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { from, forkJoin, Subject, Observable, EMPTY } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { MediumSearchService } from 'src/app/core/services/medium-search.service';
 import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
@@ -19,12 +20,16 @@ import {
 export class MediumSearchComponent {
   minRating: number = 6.5;
   isSearching = false;
+  isAuthenticated = Boolean(this.authService.user$$.getValue());
 
   custoMovieResults$: Observable<CustoMedium[]>;
 
   private startSearchAction$$ = new Subject<string>();
 
-  constructor(private mediumSearchService: MediumSearchService) {
+  constructor(
+    private authService: AuthService,
+    private mediumSearchService: MediumSearchService
+  ) {
     this.custoMovieResults$ = this.startSearchAction$$.pipe(
       filter((searchQuery) => Boolean(searchQuery)),
       tap(() => {
