@@ -1,0 +1,34 @@
+<form
+  class="custo-form container"
+  #findMoviesOfOtherUserForm="ngForm"
+  (ngSubmit)="onSubmit(findMoviesOfOtherUserForm)"
+>
+  <h1 class="our-movies-title">Find Common Movies</h1>
+  <div class="custo-form__inputs-wrapper">
+    <div class="custo-form__input-wrapper">
+      <label for="findUserMovies" class="custo-form__input-label"
+        >Enter User ID</label
+      >
+      <input
+        class="custo-form__input"
+        type="text"
+        ngModel
+        name="findUserMovies"
+        required
+        email
+        #findUserMovies="ngModel"
+      />
+    </div>
+  </div>
+  <!-- <ng-container *ngIf="searchError">
+    <div class="invalid__warning-box">
+      <i class="fa fa-exclamation-circle"></i> {{ searchError }}
+    </div>
+  </ng-container> -->
+
+  <div class="custo-buttons custo-buttons--full-width">
+    <button type="submit" class="custo-button custo-button--full-width">
+      Find Movies to Watch Together!
+    </button>
+  </div>
+</form>

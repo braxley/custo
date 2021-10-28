@@ -8,7 +8,6 @@ $border-radius: 0.5rem;
   padding: 0 1rem;
   margin-bottom: 2rem;
   .genre__heading {
-    color: white;
     margin-bottom: 0;
   }
   .movies__wrapper {
@@ -68,9 +67,9 @@ $border-radius: 0.5rem;
           margin: 0.4rem;
           top: 0;
           right: 0;
-          color: white;
+          color: $font-color--light;
           border-radius: 50%;
-          border: 1px white solid;
+          border: 1px $font-color--light solid;
           background: rgba(0, 0, 0, 0.6);
         }
 
