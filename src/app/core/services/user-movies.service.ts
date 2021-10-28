@@ -36,6 +36,7 @@ export class UserMoviesService {
     );
     this.userMovies.splice(index, 1);
     this.userMovies$$.next(this.userMovies);
+    this.updateMoviesInBackend();
   }
 
   fetchUserMovies() {
@@ -62,9 +63,12 @@ export class UserMoviesService {
     if (this.userMovies.includes(movieToAdd)) {
       return;
     }
-    console.log(this.userMovies);
     this.userMovies.push(movieToAdd);
     this.userMovies$$.next(this.userMovies);
+    this.updateMoviesInBackend();
+  }
+
+  private updateMoviesInBackend() {
     this.user$$
       .pipe(
         take(1),
