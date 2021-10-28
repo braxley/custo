@@ -52,8 +52,10 @@ export class UserMoviesService {
         ),
         tap((movieArray) => {
           this.isLoading$$.next(false);
-          this.userMovies = movieArray;
-          this.userMovies$$.next(this.userMovies);
+          if (movieArray) {
+            this.userMovies = movieArray;
+            this.userMovies$$.next(this.userMovies);
+          }
         })
       )
       .subscribe();

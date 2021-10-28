@@ -52,7 +52,7 @@ export class AuthComponent {
         this.userMoviesService.fetchUserMovies();
         this.isLoading = false;
         this.hasError = false;
-        this.router.navigate(['/my-movies']);
+        this.router.navigate(['/search']);
       },
       (errorResponse) => {
         this.isLoading = false;
