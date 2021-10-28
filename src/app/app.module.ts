@@ -8,8 +8,8 @@ import { MediumSearchModule } from './features/medium-search/medium-search.modul
 import { HeaderComponent } from './header/header.component';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { SharedModule } from './shared/shared.module';
 import { MyMoviesModule } from './features/my-movies/my-movies.module';
+import { OurMoviesModule } from './features/our-movies/our-movies.module';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -20,6 +20,7 @@ import { MyMoviesModule } from './features/my-movies/my-movies.module';
     AuthModule,
     MediumSearchModule,
     MyMoviesModule,
+    OurMoviesModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

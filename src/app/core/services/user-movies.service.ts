@@ -30,7 +30,7 @@ export class UserMoviesService {
   }
 
   removeMovie(movieToRemove: CustoMovie) {
-    // this is faster than filtering
+    // this is faster than filtering as it stops when it found the entry
     const index = this.userMovies.findIndex(
       (movie) => movie.imdbId === movieToRemove.imdbId
     );
