@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
+import { UserMoviesService } from '../core/services/user-movies.service';
 import { AuthResponseData } from '../shared/interfaces/auth-response-interface';
 
 @Component({
@@ -19,7 +20,11 @@ export class AuthComponent {
   emailError: string | undefined;
   passwordError: string | undefined;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private userMoviesService: UserMoviesService
+  ) {}
 
   switchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -44,6 +49,7 @@ export class AuthComponent {
 
     auth$.subscribe(
       () => {
+        this.userMoviesService.fetchUserMovies();
         this.isLoading = false;
         this.hasError = false;
         this.router.navigate(['/my-movies']);

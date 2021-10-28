@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
-import { CustoMovie as CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
 @Component({
   templateUrl: './my-movies.component.html',
