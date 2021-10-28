@@ -7,7 +7,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
 import { MediumSearchService } from 'src/app/core/services/medium-search.service';
-import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
   getMockCustoMovie,
   getMockImdbMovieDetails,
@@ -85,7 +85,7 @@ xdescribe('MediumSearchComponent', () => {
       movieId
     );
   });
-  xit('should create the correct CustoMedium', fakeAsync(() => {
+  xit('should create the correct CustoMovie', fakeAsync(() => {
     // TODO stf Spec ...has no expectations.'
 
     const custoMovie = getMockCustoMovie();
@@ -134,7 +134,7 @@ xdescribe('MediumSearchComponent', () => {
     mediumSearchServiceSpy.getImdbMovieDetails.and.nextWith(movieDetails);
     mediumSearchServiceSpy.getRatingsFromImdb.and.nextWith(movieRatings);
 
-    component.custoMovieResults$.subscribe((results: CustoMedium[]) => {
+    component.custoMovieResults$.subscribe((results: CustoMovie[]) => {
       expect(results[0]).toEqual(custoMovie);
     });
     component.searchMovie('some query');

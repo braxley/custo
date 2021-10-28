@@ -3,7 +3,7 @@ import { from, forkJoin, Subject, Observable, EMPTY } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MediumSearchService } from 'src/app/core/services/medium-search.service';
-import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
   ImdbResponse,
   ImdbMovieResult,
@@ -22,7 +22,7 @@ export class MediumSearchComponent {
   isSearching = false;
   isAuthenticated = Boolean(this.authService.user$$.getValue());
 
-  custoMovieResults$: Observable<CustoMedium[]>;
+  custoMovieResults$: Observable<CustoMovie[]>;
 
   private startSearchAction$$ = new Subject<string>();
 
@@ -89,7 +89,7 @@ export class MediumSearchComponent {
                       ),
                       runtimeMins: +movieDetails.runtimeMins,
                       stars: movieDetails.stars,
-                    } as CustoMedium)
+                    } as CustoMovie)
                 ),
                 toArray()
               )

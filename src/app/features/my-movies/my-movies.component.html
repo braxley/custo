@@ -3,7 +3,6 @@
 </ng-container>
 
 <ng-container *ngFor="let movie of userMovies$ | async"> </ng-container>
-<button class="custo-button" (click)="log()">Log</button>
 
 <div *ngFor="let genre of genres" class="genre__wrapper">
   <h2 class="genre__heading">{{ genre }}</h2>
@@ -11,9 +10,15 @@
     <div class="movie" *ngFor="let movie of filterGenre(genre)">
       <img class="movie__poster" src="{{ movie.image }}" />
 
-      <div class="movie__description">
-        <h5 class="movie__title">{{ movie.fullTitle }}</h5>
-        <div class="movie__duration">
+      <div class="movie__hover-overlay">
+        <button
+          class="hover-overlay__remove-movie-btn"
+          (click)="removeMovie(movie)"
+        >
+          x
+        </button>
+        <h5 class="hover-overlay__title">{{ movie.fullTitle }}</h5>
+        <div class="hover-overlay__duration">
           {{ movie.runtimeMins | timeConversion }}
         </div>
       </div>

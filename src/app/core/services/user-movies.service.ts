@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_URL } from 'src/app/shared/constants';
-import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -13,10 +13,10 @@ export class UserMoviesService {
   isLoading$$ = new BehaviorSubject<boolean>(false);
 
   private user$$ = this.authService.user$$;
-  private userMovies: CustoMedium[] = [];
-  private userMovies$$ = new BehaviorSubject<CustoMedium[]>([]);
+  private userMovies: CustoMovie[] = [];
+  private userMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
 
-  get userMovies$(): Observable<CustoMedium[]> {
+  get userMovies$(): Observable<CustoMovie[]> {
     return this.userMovies$$.asObservable();
   }
 
@@ -25,11 +25,12 @@ export class UserMoviesService {
     private authService: AuthService
   ) {}
 
-  getMovies(): CustoMedium[] {
+  getMovies(): CustoMovie[] {
     return this.userMovies.slice();
   }
 
-  removeMovie(movieToRemove: CustoMedium) {
+  removeMovie(movieToRemove: CustoMovie) {
+    // this is faster than filtering
     const index = this.userMovies.findIndex(
       (movie) => movie.imdbId === movieToRemove.imdbId
     );
@@ -44,7 +45,7 @@ export class UserMoviesService {
         take(1),
         filter((user) => Boolean(user)),
         switchMap((user) =>
-          this.httpClient.get<CustoMedium[]>(
+          this.httpClient.get<CustoMovie[]>(
             `${FIREBASE_DB_URL}/${user!.id}.json`
           )
         ),
@@ -57,7 +58,7 @@ export class UserMoviesService {
       .subscribe();
   }
 
-  addMovieToUser(movieToAdd: CustoMedium): void {
+  addMovieToUser(movieToAdd: CustoMovie): void {
     if (this.userMovies.includes(movieToAdd)) {
       return;
     }
@@ -69,7 +70,7 @@ export class UserMoviesService {
         take(1),
         filter((user) => Boolean(user)),
         switchMap((user) =>
-          this.httpClient.put<CustoMedium>(
+          this.httpClient.put<CustoMovie>(
             `${FIREBASE_DB_URL}/${user!.id}.json`,
             JSON.stringify(this.getMovies())
           )

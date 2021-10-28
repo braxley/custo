@@ -4,7 +4,7 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
 @Component({
   selector: 'app-medium-card',
@@ -13,5 +13,5 @@ import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediumCardComponent {
-  @Input() mediumData!: CustoMedium;
+  @Input() mediumData!: CustoMovie;
 }

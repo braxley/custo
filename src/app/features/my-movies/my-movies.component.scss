@@ -25,10 +25,11 @@ $border-radius: 0.5rem;
 
     .movie {
       position: relative;
-      transition: 250ms all;
+      transition: 400ms all;
+
       &:hover {
         z-index: 1;
-        .movie__description {
+        .movie__hover-overlay {
           display: block;
         }
       }
@@ -39,6 +40,7 @@ $border-radius: 0.5rem;
         transform: scale(1.2) translateX(0.9rem);
       }
       &:last-of-type:not(:nth-of-type(1)):not(:nth-of-type(2)):not(:nth-of-type(3)):not(:nth-of-type(4)):hover {
+        // TODO stf make this responsive
         transform: scale(1.2) translateX(-0.9rem);
       }
 
@@ -49,7 +51,7 @@ $border-radius: 0.5rem;
         object-fit: cover;
         border-radius: $border-radius;
       }
-      .movie__description {
+      .movie__hover-overlay {
         display: none;
         border-radius: $border-radius;
         background: rgba(0, 0, 0, 0.6);
@@ -61,13 +63,24 @@ $border-radius: 0.5rem;
         top: 0;
         left: 0;
 
-        .movie__title {
+        .hover-overlay__remove-movie-btn {
+          position: absolute;
+          margin: 0.4rem;
+          top: 0;
+          right: 0;
+          color: white;
+          border-radius: 50%;
+          border: 1px white solid;
+          background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hover-overlay__title {
           position: absolute;
           padding: 0.4rem;
           bottom: 3rem;
           text-align: bottom;
         }
-        .movie__duration {
+        .hover-overlay__duration {
           position: absolute;
           padding: 0.4rem;
           bottom: 0;

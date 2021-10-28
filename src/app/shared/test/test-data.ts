@@ -1,11 +1,11 @@
-import { CustoMedium } from '../interfaces/custo-medium.interfaces';
+import { CustoMovie } from '../interfaces/custo-medium.interfaces';
 import {
   ImdbMovieDetails,
   ImdbRatings,
   ImdbResponse,
 } from '../interfaces/imdb.interfaces';
 
-export function getMockCustoMovie(): CustoMedium {
+export function getMockCustoMovie(): CustoMovie {
   return {
     imdbId: 'tt1375666',
     fullTitle: 'Inception (2010)',

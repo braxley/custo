@@ -1,6 +1,6 @@
 import { ImdbGenre, Ratings } from './imdb.interfaces';
 
-export interface CustoMedium {
+export interface CustoMovie {
   imdbId: string;
   fullTitle: string;
   year: number;

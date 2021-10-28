@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
-import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
 @Component({
   selector: 'app-search-result-item',
@@ -15,7 +15,7 @@ import { CustoMedium } from 'src/app/shared/interfaces/custo-medium.interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultItemComponent implements OnInit {
-  @Input() movieResult: CustoMedium = {} as CustoMedium;
+  @Input() movieResult: CustoMovie = {} as CustoMovie;
   @Input() minRating: number = 6.5;
   @Input() isAuthenticated? = false;
 
