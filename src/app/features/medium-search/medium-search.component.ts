@@ -20,6 +20,7 @@ import {
 export class MediumSearchComponent {
   minRating: number = 6.5;
   isSearching = false;
+  // TODO stf make private in authservice
   isAuthenticated = Boolean(this.authService.user$$.getValue());
 
   custoMovieResults$: Observable<CustoMovie[]>;
@@ -35,6 +36,7 @@ export class MediumSearchComponent {
       tap(() => {
         this.isSearching = true;
       }),
+
       switchMap((searchQuery: string) => {
         return this.mediumSearchService.getImdbResults(searchQuery).pipe(
           filter((response) => Boolean(response)),
@@ -54,6 +56,7 @@ export class MediumSearchComponent {
               toArray()
             )
           ),
+
           mergeMap(
             (moviesDetailsWithRatings: [ImdbMovieDetails, ImdbRatings][]) =>
               /*
@@ -67,6 +70,7 @@ export class MediumSearchComponent {
                   ([movieDetails, movieRatings]) =>
                     +movieDetails.runtimeMins > 55
                 ),
+
                 map(
                   ([movieDetails, movieRatings]) =>
                     ({

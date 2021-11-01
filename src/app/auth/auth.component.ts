@@ -20,11 +20,7 @@ export class AuthComponent {
   emailError: string | undefined;
   passwordError: string | undefined;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private userMoviesService: UserMoviesService
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   switchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -49,7 +45,6 @@ export class AuthComponent {
 
     auth$.subscribe(
       () => {
-        this.userMoviesService.fetchUserMovies();
         this.isLoading = false;
         this.hasError = false;
         this.router.navigate(['/search']);

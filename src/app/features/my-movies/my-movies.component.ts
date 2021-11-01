@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { DataStorageService } from 'src/app/core/services/data-storage.service';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
@@ -13,12 +14,14 @@ export class MyMoviesComponent implements OnInit {
   userMovies$: Observable<CustoMovie[]>;
   isLoading = this.userMoviesService.isLoading$$;
 
-  constructor(private userMoviesService: UserMoviesService) {
-    this.userMovies$ = this.userMoviesService.userMovies$.pipe(
+  constructor(
+    private userMoviesService: UserMoviesService,
+    private dataStorageService: DataStorageService
+  ) {
+    this.userMovies$ = this.dataStorageService.userMovies$.pipe(
       tap((movieArray: CustoMovie[]) => {
         this.genres = [];
         movieArray.forEach((movie: CustoMovie) => {
-          console.log(movie.genreList);
           const genresOfMovie = movie.genreList;
           const uniqueGenres = genresOfMovie.filter(
             (genre: string) => !this.genres.includes(genre)
@@ -30,7 +33,7 @@ export class MyMoviesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userMoviesService.fetchUserMovies();
+    this.dataStorageService.ngOnInit();
   }
 
   removeMovie(movie: CustoMovie) {
