@@ -1,5 +1,5 @@
 <header class="main-header">
-  <div class="main-header__brand">
+  <div routerLink="/search">
     <!-- <button class="toggle-button">
       <span class="toggle-button__bar"></span>
       <span class="toggle-button__bar"></span>
@@ -7,25 +7,25 @@
     </button> -->
 
     <!-- <img src="" alt="Custo - Decide what for a movie" /> -->
-    Custo
+    <a class="main-header__brand" routerLink="/"> Custo </a>
   </div>
   <nav class="main-nav">
     <ul class="main-nav__items">
       <li class="main-nav__item">
-        <a href="/search">Search</a>
+        <a routerLink="/search">Search</a>
       </li>
       <div
         class="main-nav__items--logged-in"
         *ngIf="user$ | async as user; else login"
       >
         <li class="main-nav__item">
-          <a href="/my-movies">My Movies</a>
+          <a routerLink="user/my-movies">My Movies</a>
         </li>
         <li class="main-nav__item">
-          <a href="/our-movies">Our Movies</a>
+          <a routerLink="user/our-movies">Our Movies</a>
         </li>
         <li class="main-nav__item">
-          <a href="#" (click)="onLogout()">Logout</a>
+          <a routerLink="/search" (click)="onLogout()">Logout</a>
         </li>
       </div>
       <ng-template #login>

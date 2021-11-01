@@ -13,7 +13,6 @@ export class OurMoviesComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     const userId = form.value.findUserMovies;
-    console.dir(userId);
     this.userMoviesService.fetchFriendsMovies(userId);
   }
 }

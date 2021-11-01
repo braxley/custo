@@ -23,7 +23,6 @@ export class MyMoviesComponent implements OnInit {
           const uniqueGenres = genresOfMovie.filter(
             (genre: string) => !this.genres.includes(genre)
           );
-          console.log(genresOfMovie);
           this.genres.push(...uniqueGenres);
         });
       })

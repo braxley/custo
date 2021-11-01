@@ -10,11 +10,16 @@ const routes: Routes = [
   { path: '', component: MediumSearchComponent },
   { path: 'search', redirectTo: '' },
   { path: 'login', component: AuthComponent },
-  { path: 'my-movies', component: MyMoviesComponent, canActivate: [AuthGuard] },
   {
-    path: 'our-movies',
-    component: OurMoviesComponent,
+    path: 'user',
     canActivate: [AuthGuard],
+    children: [
+      { path: 'my-movies', component: MyMoviesComponent },
+      {
+        path: 'our-movies',
+        component: OurMoviesComponent,
+      },
+    ],
   },
 ];
 

@@ -81,16 +81,13 @@ export class UserMoviesService {
         switchMap((movieArray) => {
           this.isLoading$$.next(false);
           return of(this.findCommonMovies(this.getMovies(), movieArray));
-        }),
-        tap(console.dir)
+        })
       )
       .subscribe();
   }
 
   findCommonMovies(moviesOfUser: CustoMovie[], moviesOfFriend: CustoMovie[]) {
     let commonMovies: CustoMovie[];
-    console.log(moviesOfUser);
-    console.log(moviesOfFriend);
     if (moviesOfUser.length < moviesOfFriend.length) {
       commonMovies = moviesOfUser.filter((movieOfUser) =>
         moviesOfFriend.find(

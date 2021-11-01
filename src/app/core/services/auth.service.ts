@@ -122,7 +122,6 @@ export class AuthService {
   }
 
   private handleError(errorResponse: HttpErrorResponse): Observable<never> {
-    console.dir(errorResponse.error.error.message);
     let errorMsg = 'CustoErrorAuth001';
 
     if (errorResponse.error?.error?.message) {
