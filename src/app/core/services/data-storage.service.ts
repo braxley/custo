@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { take, filter, switchMap, tap } from 'rxjs/operators';
 import { FIREBASE_DB_URL } from 'src/app/shared/constants';
@@ -9,12 +9,14 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class DataStorageService implements OnInit {
+export class DataStorageService {
   private currentUser$ = this.authService.user$;
-  private userMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
-
-  get userMovies$() {
-    return this.userMovies$$.asObservable();
+  private myMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
+  get myMovies$() {
+    return this.myMovies$$.asObservable();
+  }
+  get myMovies(): CustoMovie[] {
+    return this.myMovies$$.getValue();
   }
 
   constructor(
@@ -22,18 +24,27 @@ export class DataStorageService implements OnInit {
     private httpClient: HttpClient
   ) {}
 
-  ngOnInit() {
-    this.fetchCurrentUserMovies();
-  }
-
   fetchMoviesByUserId(userId: string): Observable<CustoMovie[]> {
     return this.httpClient.get<CustoMovie[]>(
       `${FIREBASE_DB_URL}/${userId}.json`
     );
   }
 
-  updateMovies(userMovies: CustoMovie[]) {
-    this.userMovies$$.next(userMovies);
+  fetchCurrentUserMovies(): Observable<CustoMovie[]> {
+    return this.currentUser$.pipe(
+      take(1),
+      filter((user) => Boolean(user)),
+      switchMap((user) =>
+        this.httpClient.get<CustoMovie[]>(`${FIREBASE_DB_URL}/${user!.id}.json`)
+      ),
+      tap((movieArray: CustoMovie[]) => {
+        this.myMovies$$.next(movieArray);
+      })
+    );
+  }
+
+  updateMovies(userMovies: CustoMovie[]): void {
+    this.myMovies$$.next(userMovies);
     this.currentUser$
       .pipe(
         take(1),
@@ -44,23 +55,6 @@ export class DataStorageService implements OnInit {
             JSON.stringify(userMovies)
           )
         )
-      )
-      .subscribe();
-  }
-
-  private fetchCurrentUserMovies() {
-    this.currentUser$
-      .pipe(
-        take(1),
-        filter((user) => Boolean(user)),
-        switchMap((user) =>
-          this.httpClient.get<CustoMovie[]>(
-            `${FIREBASE_DB_URL}/${user!.id}.json`
-          )
-        ),
-        tap((movieArray: CustoMovie[]) => {
-          this.userMovies$$.next(movieArray);
-        })
       )
       .subscribe();
   }

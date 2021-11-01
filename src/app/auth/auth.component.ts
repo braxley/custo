@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
-import { UserMoviesService } from '../core/services/user-movies.service';
 import { AuthResponseData } from '../shared/interfaces/auth-response-interface';
 
 @Component({
