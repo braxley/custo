@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_URL } from 'src/app/shared/constants';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 })
 export class UserMoviesService {
   isLoading$$ = new BehaviorSubject<boolean>(false);
+  friendsMovies: CustoMovie[] = [];
 
   private user$$ = this.authService.user$$;
   private userMovies: CustoMovie[] = [];
@@ -27,6 +28,15 @@ export class UserMoviesService {
 
   getMovies(): CustoMovie[] {
     return this.userMovies.slice();
+  }
+
+  addMovieToUser(movieToAdd: CustoMovie): void {
+    if (this.userMovies.includes(movieToAdd)) {
+      return;
+    }
+    this.userMovies.push(movieToAdd);
+    this.userMovies$$.next(this.userMovies);
+    this.updateMoviesInBackend();
   }
 
   removeMovie(movieToRemove: CustoMovie) {
@@ -61,13 +71,42 @@ export class UserMoviesService {
       .subscribe();
   }
 
-  addMovieToUser(movieToAdd: CustoMovie): void {
-    if (this.userMovies.includes(movieToAdd)) {
-      return;
+  fetchFriendsMovies(friendId: string) {
+    this.isLoading$$.next(true);
+
+    return this.httpClient
+      .get<CustoMovie[]>(`${FIREBASE_DB_URL}/${friendId}.json`)
+      .pipe(
+        filter((movieArray) => Boolean(movieArray)),
+        switchMap((movieArray) => {
+          this.isLoading$$.next(false);
+          return of(this.findCommonMovies(this.getMovies(), movieArray));
+        }),
+        tap(console.dir)
+      )
+      .subscribe();
+  }
+
+  findCommonMovies(moviesOfUser: CustoMovie[], moviesOfFriend: CustoMovie[]) {
+    let commonMovies: CustoMovie[];
+    console.log(moviesOfUser);
+    console.log(moviesOfFriend);
+    if (moviesOfUser.length < moviesOfFriend.length) {
+      commonMovies = moviesOfUser.filter((movieOfUser) =>
+        moviesOfFriend.find(
+          (movieOfFriend: CustoMovie) =>
+            movieOfFriend.imdbId === movieOfUser.imdbId
+        )
+      );
+    } else {
+      commonMovies = moviesOfFriend.filter((movieOfFriend) =>
+        moviesOfUser.find(
+          (movieOfUser: CustoMovie) =>
+            movieOfUser.imdbId === movieOfFriend.imdbId
+        )
+      );
     }
-    this.userMovies.push(movieToAdd);
-    this.userMovies$$.next(this.userMovies);
-    this.updateMoviesInBackend();
+    return commonMovies;
   }
 
   private updateMoviesInBackend() {
