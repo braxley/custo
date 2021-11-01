@@ -15,7 +15,6 @@ import { UserMoviesService } from '../services/user-movies.service';
 })
 export class MyMoviesResolver implements Resolve<CustoMovie[]> {
   constructor(
-    private userMoviesService: UserMoviesService,
     private dataStorageService: DataStorageService,
     private authService: AuthService
   ) {}
