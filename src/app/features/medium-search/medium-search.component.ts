@@ -21,7 +21,7 @@ export class MediumSearchComponent {
   minRating: number = 6.5;
   isSearching = false;
   // TODO stf make private in authservice
-  isAuthenticated = Boolean(this.authService.user$$.getValue());
+  isAuthenticated = Boolean(this.authService.user);
 
   custoMovieResults$: Observable<CustoMovie[]>;
 

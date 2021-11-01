@@ -38,6 +38,7 @@ export class DataStorageService {
         this.httpClient.get<CustoMovie[]>(`${FIREBASE_DB_URL}/${user!.id}.json`)
       ),
       tap((movieArray: CustoMovie[]) => {
+        console.log(movieArray);
         this.myMovies$$.next(movieArray);
       })
     );

@@ -8,22 +8,21 @@ import { MyMoviesComponent } from './features/my-movies/my-movies.component';
 import { OurMoviesComponent } from './features/our-movies/our-movies.component';
 
 const routes: Routes = [
-  { path: '', component: MediumSearchComponent },
+  { path: '', component: MediumSearchComponent, resolve: [MyMoviesResolver] },
   { path: 'search', redirectTo: '' },
   { path: 'login', component: AuthComponent },
   {
     path: 'user',
     canActivate: [AuthGuard],
+    resolve: [MyMoviesResolver],
     children: [
       {
         path: 'my-movies',
         component: MyMoviesComponent,
-        resolve: [MyMoviesResolver],
       },
       {
         path: 'our-movies',
         component: OurMoviesComponent,
-        resolve: [MyMoviesResolver],
       },
     ],
   },

@@ -15,10 +15,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  user$$ = new BehaviorSubject<User | null>(null);
+  private user$$ = new BehaviorSubject<User | null>(null);
 
   get user$() {
     return this.user$$.asObservable();
+  }
+
+  get user() {
+    return this.user$$.getValue();
   }
   private tokenExpirationTimer: any;
 
