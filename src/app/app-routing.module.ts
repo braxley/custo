@@ -14,11 +14,11 @@ const routes: Routes = [
   {
     path: 'user',
     canActivate: [AuthGuard],
-    resolve: [MyMoviesResolver],
     children: [
       {
         path: 'my-movies',
         component: MyMoviesComponent,
+        resolve: [MyMoviesResolver],
       },
       {
         path: 'our-movies',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -9,11 +9,14 @@ import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
   templateUrl: './our-movies.component.html',
   styleUrls: ['./our-movies.component.scss'],
 })
-export class OurMoviesComponent implements OnInit {
+export class OurMoviesComponent implements AfterViewInit {
   commonMovies$ = new Subject<CustoMovie[]>();
+  hasNoCommonMovies = new Subject<boolean>();
   constructor(private userMoviesService: UserMoviesService) {}
 
-  ngOnInit(): void {}
+  ngAfterViewInit() {
+    this.userMoviesService.initFetchCurrentUserMovies();
+  }
 
   onSubmit(form: NgForm) {
     const userId = form.value.findUserMovies;
@@ -21,6 +24,9 @@ export class OurMoviesComponent implements OnInit {
       .findCommonMovies(userId)
       .pipe(
         tap((commonMovies: CustoMovie[]) => {
+          if (commonMovies.length === 0) {
+            this.hasNoCommonMovies.next(true);
+          }
           this.commonMovies$.next(commonMovies);
         })
       )

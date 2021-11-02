@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_URL } from 'src/app/shared/constants';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
@@ -83,7 +83,7 @@ export class UserMoviesService {
     }
   }
 
-  removeEntryFromMyMovies(movieToRemove: CustoMovie) {
+  removeEntryFromMyMovies(movieToRemove: CustoMovie): void {
     // this is faster than filtering as it stops when it found the entry
     const movieArray = this.myMovies;
     const index = movieArray.findIndex(
@@ -93,7 +93,10 @@ export class UserMoviesService {
     this.updateMovies(movieArray);
   }
 
-  findCommonMovies(userIdOfFriend: string) {
+  findCommonMovies(userIdOfFriend: string): Observable<CustoMovie[]> {
+    if (!Boolean(this.myMovies) || this.myMovies.length === 0) {
+      return of([]);
+    }
     this.isLoading$$.next(true);
     return this.fetchMoviesByUserId(userIdOfFriend).pipe(
       map((moviesOfFriend: CustoMovie[]) => {

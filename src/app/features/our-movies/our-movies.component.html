@@ -32,6 +32,9 @@
     </button>
   </div>
 </form>
+<ng-container *ngIf="hasNoCommonMovies | async">
+  <div>No common movies together</div>
+</ng-container>
 <ng-container *ngIf="commonMovies$ | async as movies">
   <app-movie-genre-list [movies]="movies"></app-movie-genre-list>
 </ng-container>
