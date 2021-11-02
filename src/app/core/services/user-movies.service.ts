@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { FIREBASE_DB_URL } from 'src/app/shared/constants';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
-import { DataStorageService } from './data-storage.service';
+import { User } from 'src/app/shared/models/user.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,50 +15,87 @@ export class UserMoviesService {
   get isLoading$() {
     return this.isLoading$$.asObservable();
   }
-  myMovies$ = this.dataStorageService.myMovies$;
-  // TODO stf
-  // this needs to be updated
-
-  constructor(private dataStorageService: DataStorageService) {}
-
-  addMovieToUser(movieToAdd: CustoMovie): void {
-    if (this.dataStorageService.myMovies.includes(movieToAdd)) {
-      return;
-    }
-    console.log(this.dataStorageService.myMovies);
-    this.dataStorageService.updateMovies([
-      ...this.dataStorageService.myMovies,
-      movieToAdd,
-    ]);
+  private currentUser$ = this.authService.user$;
+  private myMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
+  private user: User | null = null;
+  get myMovies$() {
+    return this.myMovies$$.asObservable();
+  }
+  get myMovies(): CustoMovie[] {
+    return this.myMovies$$.value;
   }
 
-  removeMovie(movieToRemove: CustoMovie) {
+  constructor(
+    private authService: AuthService,
+    private httpClient: HttpClient
+  ) {}
+
+  fetchMoviesByUserId(userId: string): Observable<CustoMovie[]> {
+    return this.httpClient.get<CustoMovie[]>(
+      `${FIREBASE_DB_URL}/${userId}.json`
+    );
+  }
+
+  initFetchCurrentUserMovies() {
+    this.user = this.authService.user;
+    if (Boolean(this.user)) {
+      this.fetchCurrentUserMovies().subscribe();
+    }
+  }
+
+  fetchCurrentUserMovies(): Observable<CustoMovie[]> {
+    return this.httpClient
+      .get<CustoMovie[]>(`${FIREBASE_DB_URL}/${this.user?.id}.json`)
+      .pipe(
+        tap((movieArray: CustoMovie[]) => {
+          this.myMovies$$.next(movieArray);
+        })
+      );
+  }
+
+  addMovieToUser(movieToAdd: CustoMovie) {
+    if (this.myMovies?.includes(movieToAdd)) {
+      return;
+    }
+    if (this.myMovies) {
+      this.updateMovies([...this.myMovies, movieToAdd]);
+    } else {
+      this.fetchCurrentUserMovies().subscribe(() => {
+        if (this.myMovies) {
+          this.updateMovies([...this.myMovies, movieToAdd]);
+        } else {
+          this.updateMovies([movieToAdd]);
+        }
+      });
+    }
+  }
+
+  removeEntryFromMyMovies(movieToRemove: CustoMovie) {
     // this is faster than filtering as it stops when it found the entry
-    const index = this.dataStorageService.myMovies.findIndex(
+    const movieArray = this.myMovies;
+    const index = movieArray.findIndex(
       (movie) => movie.imdbId === movieToRemove.imdbId
     );
-    this.dataStorageService.updateMovies(
-      this.dataStorageService.myMovies.splice(index, 1)
-    );
+    movieArray.splice(index, 1);
+    this.updateMovies(movieArray);
   }
 
   findCommonMovies(userIdOfFriend: string) {
     this.isLoading$$.next(true);
-    return this.dataStorageService.fetchMoviesByUserId(userIdOfFriend).pipe(
+    return this.fetchMoviesByUserId(userIdOfFriend).pipe(
       map((moviesOfFriend: CustoMovie[]) => {
         let commonMovies: CustoMovie[];
         // using the shorter array to minimize calculations
-        if (this.dataStorageService.myMovies.length < moviesOfFriend.length) {
-          commonMovies = this.dataStorageService.myMovies.filter(
-            (movieOfUser) =>
-              moviesOfFriend.find(
-                (movieOfFriend: CustoMovie) =>
-                  movieOfFriend.imdbId === movieOfUser.imdbId
-              )
+        if (this.myMovies.length < moviesOfFriend.length) {
+          commonMovies = this.myMovies.filter((movieOfUser) =>
+            moviesOfFriend.find(
+              (movieOfFriend: CustoMovie) =>
+                movieOfFriend.imdbId === movieOfUser.imdbId
+            )
           );
         } else {
           commonMovies = moviesOfFriend.filter((movieOfFriend) =>
-            this.dataStorageService.myMovies.find(
+            this.myMovies.find(
               (movieOfUser: CustoMovie) =>
                 movieOfUser.imdbId === movieOfFriend.imdbId
             )
@@ -65,5 +105,21 @@ export class UserMoviesService {
         return commonMovies;
       })
     );
+  }
+
+  private updateMovies(userMovies: CustoMovie[]): void {
+    this.myMovies$$.next(userMovies);
+    this.currentUser$
+      .pipe(
+        take(1),
+        filter((user) => Boolean(user)),
+        switchMap((user) =>
+          this.httpClient.put<CustoMovie>(
+            `${FIREBASE_DB_URL}/${user!.id}.json`,
+            JSON.stringify(userMovies)
+          )
+        )
+      )
+      .subscribe();
   }
 }

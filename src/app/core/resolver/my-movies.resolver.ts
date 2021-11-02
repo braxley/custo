@@ -4,10 +4,9 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import { AuthService } from '../services/auth.service';
-import { DataStorageService } from '../services/data-storage.service';
 import { UserMoviesService } from '../services/user-movies.service';
 
 @Injectable({
@@ -15,7 +14,7 @@ import { UserMoviesService } from '../services/user-movies.service';
 })
 export class MyMoviesResolver implements Resolve<CustoMovie[]> {
   constructor(
-    private dataStorageService: DataStorageService,
+    private userMoviesService: UserMoviesService,
     private authService: AuthService
   ) {}
   resolve(
@@ -23,13 +22,13 @@ export class MyMoviesResolver implements Resolve<CustoMovie[]> {
     state: RouterStateSnapshot
   ): Observable<CustoMovie[]> {
     if (this.authService.user) {
-      const myMovies = this.dataStorageService.myMovies;
+      const myMovies = this.userMoviesService.myMovies;
 
       if (myMovies.length > 0) {
         return of(myMovies);
       }
-      return this.dataStorageService.fetchCurrentUserMovies();
+      return this.userMoviesService.fetchCurrentUserMovies();
     }
-    return EMPTY;
+    return of([]);
   }
 }

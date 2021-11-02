@@ -37,7 +37,7 @@ export class MovieGenreListComponent {
   constructor(private userMoviesService: UserMoviesService) {}
 
   removeMovie(movie: CustoMovie) {
-    this.userMoviesService.removeMovie(movie);
+    this.userMoviesService.removeEntryFromMyMovies(movie);
   }
 
   filterGenre(genre: string): CustoMovie[] {

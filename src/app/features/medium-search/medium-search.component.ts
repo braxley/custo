@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { from, forkJoin, Subject, Observable, EMPTY } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MediumSearchService } from 'src/app/core/services/medium-search.service';
+import { UserMoviesService } from 'src/app/core/services/user-movies.service';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
   ImdbResponse,
@@ -17,10 +18,9 @@ import {
   templateUrl: './medium-search.component.html',
   styleUrls: ['./medium-search.component.scss'],
 })
-export class MediumSearchComponent {
+export class MediumSearchComponent implements AfterViewInit {
   minRating: number = 6.5;
   isSearching = false;
-  // TODO stf make private in authservice
   isAuthenticated = Boolean(this.authService.user);
 
   custoMovieResults$: Observable<CustoMovie[]>;
@@ -29,7 +29,8 @@ export class MediumSearchComponent {
 
   constructor(
     private authService: AuthService,
-    private mediumSearchService: MediumSearchService
+    private mediumSearchService: MediumSearchService,
+    private userMoviesService: UserMoviesService
   ) {
     this.custoMovieResults$ = this.startSearchAction$$.pipe(
       filter((searchQuery) => Boolean(searchQuery)),
@@ -105,6 +106,10 @@ export class MediumSearchComponent {
         );
       })
     );
+  }
+
+  ngAfterViewInit() {
+    this.userMoviesService.initFetchCurrentUserMovies();
   }
 
   searchMovie(searchQuery: string) {
