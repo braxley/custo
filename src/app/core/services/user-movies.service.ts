@@ -47,7 +47,7 @@ export class UserMoviesService {
 
   initFetchCurrentUserMovies() {
     this.user = this.authService.user;
-    if (Boolean(this.user)) {
+    if (Boolean(this.user) && this.myMovies?.length === 0) {
       this.fetchCurrentUserMovies().subscribe();
     }
   }

@@ -18,7 +18,7 @@ import {
   templateUrl: './medium-search.component.html',
   styleUrls: ['./medium-search.component.scss'],
 })
-export class MediumSearchComponent implements AfterViewInit {
+export class MediumSearchComponent {
   minRating: number = 6.5;
   isSearching = false;
   isAuthenticated = Boolean(this.authService.user);
@@ -106,10 +106,6 @@ export class MediumSearchComponent implements AfterViewInit {
         );
       })
     );
-  }
-
-  ngAfterViewInit() {
-    this.userMoviesService.initFetchCurrentUserMovies();
   }
 
   searchMovie(searchQuery: string) {

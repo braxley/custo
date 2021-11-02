@@ -9,14 +9,10 @@ import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
   templateUrl: './our-movies.component.html',
   styleUrls: ['./our-movies.component.scss'],
 })
-export class OurMoviesComponent implements AfterViewInit {
+export class OurMoviesComponent {
   commonMovies$ = new Subject<CustoMovie[]>();
   hasNoCommonMovies = new Subject<boolean>();
   constructor(private userMoviesService: UserMoviesService) {}
-
-  ngAfterViewInit() {
-    this.userMoviesService.initFetchCurrentUserMovies();
-  }
 
   onSubmit(form: NgForm) {
     const userId = form.value.findUserMovies;
