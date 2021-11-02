@@ -1,3 +1,7 @@
+<ng-container *ngIf="areMyMoviesEmpty$ | async">
+  <div>My Movies are Empty. Add some!</div>
+</ng-container>
+
 <ng-container *ngIf="myMovies$ | async as movies">
   <app-movie-genre-list [movies]="movies"></app-movie-genre-list>
 </ng-container>

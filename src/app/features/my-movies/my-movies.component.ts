@@ -7,6 +7,7 @@ import { UserMoviesService } from 'src/app/core/services/user-movies.service';
 })
 export class MyMoviesComponent {
   myMovies$ = this.userMoviesService.myMovies$;
+  areMyMoviesEmpty$ = this.userMoviesService.areMyMoviesEmpty$;
 
   constructor(private userMoviesService: UserMoviesService) {}
 }

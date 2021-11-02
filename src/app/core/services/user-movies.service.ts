@@ -15,6 +15,10 @@ export class UserMoviesService {
   get isLoading$() {
     return this.isLoading$$.asObservable();
   }
+  private areMyMoviesEmpty$$ = new BehaviorSubject<boolean>(false);
+  get areMyMoviesEmpty$() {
+    return this.areMyMoviesEmpty$$.asObservable();
+  }
   private currentUser$ = this.authService.user$;
   private myMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
   private user: User | null = null;
@@ -31,9 +35,14 @@ export class UserMoviesService {
   ) {}
 
   fetchMoviesByUserId(userId: string): Observable<CustoMovie[]> {
-    return this.httpClient.get<CustoMovie[]>(
-      `${FIREBASE_DB_URL}/${userId}.json`
-    );
+    this.isLoading$$.next(true);
+    return this.httpClient
+      .get<CustoMovie[]>(`${FIREBASE_DB_URL}/${userId}.json`)
+      .pipe(
+        tap(() => {
+          this.isLoading$$.next(false);
+        })
+      );
   }
 
   initFetchCurrentUserMovies() {
@@ -48,7 +57,11 @@ export class UserMoviesService {
       .get<CustoMovie[]>(`${FIREBASE_DB_URL}/${this.user?.id}.json`)
       .pipe(
         tap((movieArray: CustoMovie[]) => {
-          this.myMovies$$.next(movieArray);
+          if (movieArray) {
+            this.myMovies$$.next(movieArray);
+          } else {
+            this.areMyMoviesEmpty$$.next(true);
+          }
         })
       );
   }
