@@ -2,11 +2,12 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { User } from 'src/app/shared/models/user.model';
 import {
   FIREBASE_AUTH_SIGNUP_URL,
   FIREBASE_AUTH_LOGIN_URL,
+  FIREBASE_DB_URL,
 } from 'src/app/shared/constants';
 import { AuthResponseData } from 'src/app/shared/interfaces/auth-response-interface';
 import { environment } from 'src/environments/environment';
@@ -41,7 +42,8 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         // we have to ".bind(this)" as we omit the es6 arrow function
-        tap(this.handleAuthentication.bind(this))
+        tap(this.handleAuthentication.bind(this)),
+        switchMap(this.createUserInDb.bind(this))
       );
   }
 
@@ -101,7 +103,7 @@ export class AuthService {
     this.router.navigate(['']);
   }
 
-  autoLogout(tokenExpirationDuration: number) {
+  private autoLogout(tokenExpirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, tokenExpirationDuration);
@@ -145,5 +147,11 @@ export class AuthService {
       }
     }
     return throwError(errorMsg);
+  }
+
+  private createUserInDb(response: AuthResponseData) {
+    return this.httpClient.put(`${FIREBASE_DB_URL}/${response.localId}.json`, {
+      email: response.email,
+    });
   }
 }
