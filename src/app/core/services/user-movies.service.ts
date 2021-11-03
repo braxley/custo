@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { FIREBASE_DB_URL } from 'src/app/shared/constants';
+import { FIREBASE_DB_USERS_URL } from 'src/app/shared/constants';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from './auth.service';
@@ -37,7 +37,7 @@ export class UserMoviesService {
   fetchMoviesByUserId(userId: string): Observable<CustoMovie[]> {
     this.isLoading$$.next(true);
     return this.httpClient
-      .get<CustoMovie[]>(`${FIREBASE_DB_URL}/${userId}.json`)
+      .get<CustoMovie[]>(`${FIREBASE_DB_USERS_URL}/${userId}/my_movies.json`)
       .pipe(
         tap(() => {
           this.isLoading$$.next(false);
@@ -54,7 +54,9 @@ export class UserMoviesService {
 
   fetchCurrentUserMovies(): Observable<CustoMovie[]> {
     return this.httpClient
-      .get<CustoMovie[]>(`${FIREBASE_DB_URL}/${this.user?.id}.json`)
+      .get<CustoMovie[]>(
+        `${FIREBASE_DB_USERS_URL}/${this.user?.id}/my_movies.json`
+      )
       .pipe(
         tap((movieArray: CustoMovie[]) => {
           if (movieArray) {
@@ -131,7 +133,7 @@ export class UserMoviesService {
         filter((user) => Boolean(user)),
         switchMap((user) =>
           this.httpClient.put<CustoMovie>(
-            `${FIREBASE_DB_URL}/${user!.id}.json`,
+            `${FIREBASE_DB_USERS_URL}/${user!.id}/my_movies.json`,
             JSON.stringify(userMovies)
           )
         )

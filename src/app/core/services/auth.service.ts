@@ -150,8 +150,11 @@ export class AuthService {
   }
 
   private createUserInDb(response: AuthResponseData) {
-    return this.httpClient.put(`${FIREBASE_DB_URL}/${response.localId}.json`, {
-      email: response.email,
-    });
+    return this.httpClient.put(
+      `${FIREBASE_DB_URL}/users/${response.localId}.json`,
+      {
+        email: response.email,
+      }
+    );
   }
 }
