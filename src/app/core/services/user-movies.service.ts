@@ -59,6 +59,7 @@ export class UserMoviesService {
       )
       .pipe(
         tap((movieArray: CustoMovie[]) => {
+          // making sure that null is not nexted into myMovies$$
           if (movieArray) {
             this.myMovies$$.next(movieArray);
           } else {
@@ -69,20 +70,11 @@ export class UserMoviesService {
   }
 
   addMovieToUser(movieToAdd: CustoMovie) {
-    if (this.myMovies?.includes(movieToAdd)) {
+    if (this.myMovies.includes(movieToAdd)) {
       return;
     }
-    if (this.myMovies) {
-      this.updateMovies([...this.myMovies, movieToAdd]);
-    } else {
-      this.fetchCurrentUserMovies().subscribe(() => {
-        if (this.myMovies) {
-          this.updateMovies([...this.myMovies, movieToAdd]);
-        } else {
-          this.updateMovies([movieToAdd]);
-        }
-      });
-    }
+    this.updateMovies([...this.myMovies, movieToAdd]);
+    this.areMyMoviesEmpty$$.next(false);
   }
 
   removeEntryFromMyMovies(movieToRemove: CustoMovie): void {
@@ -126,6 +118,7 @@ export class UserMoviesService {
   }
 
   private updateMovies(userMovies: CustoMovie[]): void {
+    this.areMyMoviesEmpty$$.next(Boolean(userMovies));
     this.myMovies$$.next(userMovies);
     this.currentUser$
       .pipe(
