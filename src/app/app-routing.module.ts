@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { MyMoviesResolver } from './core/resolver/my-movies.resolver';
+import { FriendsComponent } from './features/friends/friends.component';
 import { MediumSearchComponent } from './features/medium-search/medium-search.component';
 import { MyMoviesComponent } from './features/my-movies/my-movies.component';
 import { OurMoviesComponent } from './features/our-movies/our-movies.component';
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'our-movies',
         component: OurMoviesComponent,
+      },
+      {
+        path: 'friends',
+        component: FriendsComponent,
       },
     ],
   },

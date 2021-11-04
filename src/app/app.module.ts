@@ -10,9 +10,10 @@ import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { MyMoviesModule } from './features/my-movies/my-movies.module';
 import { OurMoviesModule } from './features/our-movies/our-movies.module';
+import { FriendsComponent } from './features/friends/friends.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, FriendsComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
