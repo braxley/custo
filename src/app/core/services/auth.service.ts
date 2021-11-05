@@ -18,18 +18,18 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
   private user$$ = new BehaviorSubject<User | null>(null);
 
-  get user$() {
+  get user$(): Observable<User | null> {
     return this.user$$.asObservable();
   }
 
-  get user() {
+  get user(): User | null {
     return this.user$$.getValue();
   }
   private tokenExpirationTimer: any;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  signUp(email: string, password: string): Observable<any> {
+  signUp(email: string, password: string): Observable<AuthResponseData> {
     return this.httpClient
       .post<AuthResponseData>(
         FIREBASE_AUTH_SIGNUP_URL + environment.API_KEY_FIREBASE,
@@ -64,7 +64,7 @@ export class AuthService {
       );
   }
 
-  autoLogin() {
+  autoLogin(): void {
     const userInStorage = localStorage.getItem('userData');
     if (!userInStorage) {
       return;
@@ -93,7 +93,7 @@ export class AuthService {
     this.autoLogout(tokenExpirationDuration);
   }
 
-  logout() {
+  logout(): void {
     this.user$$.next(null);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
@@ -103,13 +103,13 @@ export class AuthService {
     this.router.navigate(['']);
   }
 
-  private autoLogout(tokenExpirationDuration: number) {
+  private autoLogout(tokenExpirationDuration: number): void {
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
     }, tokenExpirationDuration);
   }
 
-  private handleAuthentication(authResponseData: AuthResponseData) {
+  private handleAuthentication(authResponseData: AuthResponseData): void {
     const timeUntilTokenExpires = +authResponseData.expiresIn * 1000;
     const dateOfTokenExpiration = new Date(
       new Date().getTime() + timeUntilTokenExpires
@@ -149,8 +149,10 @@ export class AuthService {
     return throwError(errorMsg);
   }
 
-  private createUserInDb(response: AuthResponseData) {
-    return this.httpClient.put(
+  private createUserInDb(
+    response: AuthResponseData
+  ): Observable<AuthResponseData> {
+    return this.httpClient.put<AuthResponseData>(
       `${FIREBASE_DB_URL}/users/${response.localId}/user_data.json`,
       {
         email: response.email,

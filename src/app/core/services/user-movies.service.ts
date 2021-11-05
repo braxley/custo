@@ -45,7 +45,7 @@ export class UserMoviesService {
       );
   }
 
-  initFetchCurrentUserMovies() {
+  initFetchCurrentUserMovies(): void {
     this.user = this.authService.user;
     if (Boolean(this.user) && this.myMovies?.length === 0) {
       this.fetchCurrentUserMovies().subscribe();
@@ -69,7 +69,7 @@ export class UserMoviesService {
       );
   }
 
-  addMovieToUser(movieToAdd: CustoMovie) {
+  addMovieToUser(movieToAdd: CustoMovie): void {
     if (this.myMovies.includes(movieToAdd)) {
       return;
     }
