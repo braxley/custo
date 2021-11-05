@@ -10,10 +10,10 @@ import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { MyMoviesModule } from './features/my-movies/my-movies.module';
 import { OurMoviesModule } from './features/our-movies/our-movies.module';
-import { FriendsComponent } from './features/friends/friends.component';
+import { WatchWithFriendsModule } from './features/friends/find-friends/watch-with-friends.module';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FriendsComponent],
+  declarations: [AppComponent, HeaderComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -22,6 +22,7 @@ import { FriendsComponent } from './features/friends/friends.component';
     MediumSearchModule,
     MyMoviesModule,
     OurMoviesModule,
+    WatchWithFriendsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

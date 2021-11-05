@@ -1,3 +1,8 @@
+<ng-container *ngIf="isFindFriendsModalOpen">
+  <app-find-friends-modal
+    (close)="closeFindFriendsModal()"
+  ></app-find-friends-modal>
+</ng-container>
 <div class="my-friends__container">
   <h2 class="my-friends__header">My Friends</h2>
   <div class="my-friends__friends">
@@ -11,5 +16,10 @@
       <i class="my-friends__add-to-comparison-icon fa fa-plus"></i>
     </div>
   </div>
-  <button class="custo-button my-friends__add-friend-btn">Find a Friend</button>
+  <button
+    class="custo-button my-friends__add-friend-btn"
+    (click)="openFindFriendsModal()"
+  >
+    Find a Friend
+  </button>
 </div>

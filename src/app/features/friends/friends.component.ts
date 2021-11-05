@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   templateUrl: './friends.component.html',
-  styleUrls: ['./friends.component.scss']
+  styleUrls: ['./friends.component.scss'],
 })
-export class FriendsComponent implements OnInit {
+export class FriendsComponent {
+  isFindFriendsModalOpen = false;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  openFindFriendsModal() {
+    this.isFindFriendsModalOpen = true;
   }
 
+  closeFindFriendsModal() {
+    this.isFindFriendsModalOpen = false;
+  }
 }
