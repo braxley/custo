@@ -17,13 +17,17 @@ import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 })
 export class FindFriendsModalComponent {
   @Output() close = new EventEmitter<void>();
+  error$ = this.friendsService.error$;
 
   commonMovies$ = new Subject<CustoMovie[]>();
   hasNoCommonMovies = new Subject<boolean>();
   constructor(private friendsService: FriendsService) {}
 
   onSubmit(form: NgForm) {
-    this.friendsService.addFriendInDb(form.value.findUser);
+    this.friendsService.addFriendInDb(form.value.findUser).subscribe(() => {
+      this.close.emit();
+    });
+
     // const userId = form.value.findUserMovies;
     // this.userMoviesService
     //   .findCommonMovies(userId)

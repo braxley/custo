@@ -41,7 +41,6 @@ export class AuthService {
       )
       .pipe(
         catchError(this.handleError),
-        // we have to ".bind(this)" as we omit the es6 arrow function
         tap(this.handleAuthentication.bind(this)),
         switchMap(this.createUserInDb.bind(this))
       );
@@ -59,7 +58,6 @@ export class AuthService {
       )
       .pipe(
         catchError(this.handleError),
-        // we have to ".bind(this)" as we omit the es6 arrow function
         tap(this.handleAuthentication.bind(this))
       );
   }

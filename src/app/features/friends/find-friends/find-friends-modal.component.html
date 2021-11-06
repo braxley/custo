@@ -34,4 +34,5 @@
       </button>
     </div>
   </form>
+  <ng-container *ngIf="error$ | async as error">{{ error }}</ng-container>
 </div>

@@ -8,7 +8,7 @@ import {
   Subject,
   throwError,
 } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import {
   FIREBASE_DB_URL,
   FIREBASE_DB_USERS_URL,
@@ -23,16 +23,16 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class FriendsService {
-  private friends$$ = new BehaviorSubject<BackendFriendData>({});
-  get friends$(): Observable<any> {
-    return this.friends$$.asObservable();
+  private friendsOfUser$$ = new BehaviorSubject<BackendFriendData>({});
+  get friendsOfUser$(): Observable<BackendFriendData | null> {
+    return this.friendsOfUser$$.asObservable();
   }
-  get friends() {
-    return this.friends$$.value;
+  get friendsOfUser(): BackendFriendData | null {
+    return this.friendsOfUser$$.value;
   }
 
-  private error$$ = new Subject<string>();
-  get error$(): Observable<string> {
+  private error$$ = new BehaviorSubject<string | null>(null);
+  get error$(): Observable<string | null> {
     return this.error$$.asObservable();
   }
 
@@ -43,26 +43,32 @@ export class FriendsService {
     this.loadFriends();
   }
 
-  loadFriends() {
+  loadFriends(): void {
     this.httpClient
       .get<BackendFriendData>(
         `${FIREBASE_DB_URL}users/${this.authService.user?.id}/friends.json`
       )
       .pipe(
         tap((friendData) => {
-          this.friends$$.next(friendData);
+          console.log(friendData);
+          this.friendsOfUser$$.next(friendData);
         })
       )
       .subscribe();
   }
 
-  addFriendInDb(email: string) {
-    this.getFriendsIdFromEmail(email)
-      .pipe(switchMap(this.addIdToFriends.bind(this)))
-      .subscribe();
+  addFriendInDb(email: string): Observable<BackendFriendData> {
+    return this.getFriendsIdFromEmail(email).pipe(
+      switchMap(this.addUserIdToFriends.bind(this)),
+      switchMap((backendFriendData: BackendFriendData) => {
+        let friendId = Object.keys(backendFriendData)[0];
+        return this.addUserAlsoToFriendsFriends(friendId);
+      })
+    );
   }
 
   private getFriendsIdFromEmail(email: string): Observable<string> {
+    this.error$$.next(null);
     return this.httpClient
       .get<BackendUserData>(FIREBASE_DB_URL + 'users.json')
       .pipe(
@@ -73,24 +79,40 @@ export class FriendsService {
               friendId = key;
             }
           }
+          switch (friendId) {
+            case '': {
+              return this.handleError('No User with that email was found');
+            }
+            case this.authService.user?.id: {
+              return this.handleError('You cannot add yourself');
+            }
+          }
           return of(friendId);
         })
       );
   }
 
-  private addIdToFriends(userId: string): Observable<BackendFriendData> {
-    if (userId === '') {
-      return throwError('No UserId Found');
+  private addUserIdToFriends(userId: string): Observable<BackendFriendData> {
+    const friendsEntryInDb: BackendFriendData = {};
+    friendsEntryInDb[`${userId}`] = true;
+
+    if (!Boolean(this.friendsOfUser)) {
+      return this.httpClient.patch<BackendFriendData>(
+        `${FIREBASE_DB_USERS_URL}${this.authService.user?.id}/friends.json`,
+        friendsEntryInDb
+      );
     }
 
     let isAlreadyInFriendList = false;
-    for (const [key, value] of Object.entries(this.friends)) {
+    for (const [key, value] of Object.entries(this.friendsOfUser!)) {
       if (key === userId) {
         isAlreadyInFriendList = true;
         if (value) {
-          this.error$$.next('Already your friend');
+          return this.handleError('The user is already your friend');
         } else {
-          this.error$$.next('Friend request pending');
+          return this.handleError(
+            'Friend request is pending. The user can accept your friendship when they come online'
+          );
         }
       }
     }
@@ -98,12 +120,41 @@ export class FriendsService {
       return EMPTY;
     }
 
-    const friendsEntryInDb: BackendFriendData = {};
-    friendsEntryInDb[`${userId}`] = true;
-
-    return this.httpClient.patch<BackendFriendData>(
+    return this.httpClient.put<BackendFriendData>(
       `${FIREBASE_DB_USERS_URL}${this.authService.user?.id}/friends.json`,
       friendsEntryInDb
     );
+  }
+
+  private addUserAlsoToFriendsFriends(
+    friendsId: string
+  ): Observable<BackendFriendData> {
+    const userEntryInDb: BackendFriendData = {};
+    userEntryInDb[`${this.authService.user?.id}`] = true;
+
+    return this.httpClient
+      .get<BackendFriendData | null>(
+        `${FIREBASE_DB_USERS_URL}/users/${friendsId}/friends.json`
+      )
+      .pipe(
+        switchMap((friendsObject: BackendFriendData | null) => {
+          if (Boolean(friendsObject)) {
+            return this.httpClient.put<BackendFriendData>(
+              `${FIREBASE_DB_USERS_URL}${friendsId}/friends.json`,
+              userEntryInDb
+            );
+          } else {
+            return this.httpClient.patch<BackendFriendData>(
+              `${FIREBASE_DB_USERS_URL}${friendsId}/friends.json`,
+              userEntryInDb
+            );
+          }
+        })
+      );
+  }
+
+  private handleError(errorMsg: string): Observable<never> {
+    this.error$$.next(errorMsg);
+    return throwError(errorMsg);
   }
 }
