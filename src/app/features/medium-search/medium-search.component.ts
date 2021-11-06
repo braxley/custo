@@ -29,8 +29,7 @@ export class MediumSearchComponent {
 
   constructor(
     private authService: AuthService,
-    private mediumSearchService: MediumSearchService,
-    private userMoviesService: UserMoviesService
+    private mediumSearchService: MediumSearchService
   ) {
     this.custoMovieResults$ = this.startSearchAction$$.pipe(
       filter((searchQuery) => Boolean(searchQuery)),

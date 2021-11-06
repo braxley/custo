@@ -2,8 +2,8 @@
 <div class="custo-modal-container">
   <form
     class="custo-form container"
-    #findMoviesOfOtherUserForm="ngForm"
-    (ngSubmit)="onSubmit(findMoviesOfOtherUserForm)"
+    #findFriendsForm="ngForm"
+    (ngSubmit)="onSubmit(findFriendsForm)"
   >
     <h1>Find Your Friends</h1>
     <div class="custo-form__inputs-wrapper">
@@ -15,7 +15,7 @@
           class="custo-form__input"
           type="text"
           ngModel
-          name="findUserMovies"
+          name="findUser"
           required
           email
           #findUserMovies="ngModel"

@@ -1,14 +1,12 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { UserMoviesService } from 'src/app/core/services/user-movies.service';
+import { FriendsService } from 'src/app/core/services/friends.service';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
 @Component({
@@ -22,21 +20,22 @@ export class FindFriendsModalComponent {
 
   commonMovies$ = new Subject<CustoMovie[]>();
   hasNoCommonMovies = new Subject<boolean>();
-  constructor(private userMoviesService: UserMoviesService) {}
+  constructor(private friendsService: FriendsService) {}
 
   onSubmit(form: NgForm) {
-    const userId = form.value.findUserMovies;
-    this.userMoviesService
-      .findCommonMovies(userId)
-      .pipe(
-        tap((commonMovies: CustoMovie[]) => {
-          if (commonMovies.length === 0) {
-            this.hasNoCommonMovies.next(true);
-          }
-          this.commonMovies$.next(commonMovies);
-        })
-      )
-      .subscribe();
+    this.friendsService.addFriendInDb(form.value.findUser);
+    // const userId = form.value.findUserMovies;
+    // this.userMoviesService
+    //   .findCommonMovies(userId)
+    //   .pipe(
+    //     tap((commonMovies: CustoMovie[]) => {
+    //       if (commonMovies.length === 0) {
+    //         this.hasNoCommonMovies.next(true);
+    //       }
+    //       this.commonMovies$.next(commonMovies);
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   onClose() {
