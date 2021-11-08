@@ -1,4 +1,4 @@
-import { ImdbGenre, Ratings } from './imdb.interfaces';
+import { Ratings } from './imdb.interfaces';
 
 export interface CustoMovie {
   imdbId: string;
@@ -11,4 +11,9 @@ export interface CustoMovie {
   stars: string;
   genres: string;
   genreList: string[];
+}
+
+export interface UserIdWithMovies {
+  userId: string;
+  movies: CustoMovie[];
 }

@@ -6,7 +6,6 @@ import { MyMoviesResolver } from './core/resolver/my-movies.resolver';
 import { FriendsComponent } from './features/friends/friends.component';
 import { MediumSearchComponent } from './features/medium-search/medium-search.component';
 import { MyMoviesComponent } from './features/my-movies/my-movies.component';
-import { OurMoviesComponent } from './features/our-movies/our-movies.component';
 
 const routes: Routes = [
   { path: '', component: MediumSearchComponent },
@@ -20,10 +19,6 @@ const routes: Routes = [
         path: 'my-movies',
         component: MyMoviesComponent,
         resolve: [MyMoviesResolver],
-      },
-      {
-        path: 'our-movies',
-        component: OurMoviesComponent,
       },
       {
         path: 'friends',

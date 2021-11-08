@@ -9,8 +9,8 @@ import {
   FIREBASE_AUTH_LOGIN_URL,
   FIREBASE_DB_URL,
 } from 'src/app/shared/constants';
-import { AuthResponseData } from 'src/app/shared/interfaces/auth-response-interface';
 import { environment } from 'src/environments/environment';
+import { AuthResponseData } from 'src/app/shared/interfaces/firebase-backend.interface';
 
 @Injectable({
   providedIn: 'root',

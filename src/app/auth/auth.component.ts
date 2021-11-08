@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
-import { AuthResponseData } from '../shared/interfaces/auth-response-interface';
+import { AuthResponseData } from '../shared/interfaces/firebase-backend.interface';
 
 @Component({
   selector: 'app-auth',

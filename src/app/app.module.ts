@@ -9,7 +9,6 @@ import { HeaderComponent } from './header/header.component';
 import { AuthModule } from './auth/auth.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { MyMoviesModule } from './features/my-movies/my-movies.module';
-import { OurMoviesModule } from './features/our-movies/our-movies.module';
 import { WatchWithFriendsModule } from './features/friends/find-friends/watch-with-friends.module';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { WatchWithFriendsModule } from './features/friends/find-friends/watch-wi
     AuthModule,
     MediumSearchModule,
     MyMoviesModule,
-    OurMoviesModule,
     WatchWithFriendsModule,
   ],
   providers: [

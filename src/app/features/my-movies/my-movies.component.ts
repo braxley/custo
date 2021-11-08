@@ -6,6 +6,7 @@ import { UserMoviesService } from 'src/app/core/services/user-movies.service';
   styleUrls: ['./my-movies.component.scss'],
 })
 export class MyMoviesComponent {
+  isLoading$ = this.userMoviesService.isLoading$;
   myMovies$ = this.userMoviesService.myMovies$;
   areMyMoviesEmpty$ = this.userMoviesService.areMyMoviesEmpty$;
 

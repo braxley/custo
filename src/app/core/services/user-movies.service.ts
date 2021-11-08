@@ -32,7 +32,9 @@ export class UserMoviesService {
   constructor(
     private authService: AuthService,
     private httpClient: HttpClient
-  ) {}
+  ) {
+    this.initFetchCurrentUserMovies();
+  }
 
   fetchMoviesByUserId(userId: string): Observable<CustoMovie[]> {
     this.isLoading$$.next(true);
@@ -45,26 +47,21 @@ export class UserMoviesService {
       );
   }
 
-  initFetchCurrentUserMovies(): void {
-    this.user = this.authService.user;
-    if (Boolean(this.user) && this.myMovies?.length === 0) {
-      this.fetchCurrentUserMovies().subscribe();
-    }
-  }
-
   fetchCurrentUserMovies(): Observable<CustoMovie[]> {
+    this.user = this.authService.user;
+    this.isLoading$$.next(true);
     return this.httpClient
       .get<CustoMovie[]>(
         `${FIREBASE_DB_USERS_URL}/${this.user?.id}/my_movies.json`
       )
       .pipe(
         tap((movieArray: CustoMovie[]) => {
-          // making sure that null is not nexted into myMovies$$
           if (movieArray) {
             this.myMovies$$.next(movieArray);
           } else {
             this.areMyMoviesEmpty$$.next(true);
           }
+          this.isLoading$$.next(false);
         })
       );
   }
@@ -78,7 +75,6 @@ export class UserMoviesService {
   }
 
   removeEntryFromMyMovies(movieToRemove: CustoMovie): void {
-    // this is faster than filtering as it stops when it found the entry
     const movieArray = this.myMovies;
     const index = movieArray.findIndex(
       (movie) => movie.imdbId === movieToRemove.imdbId
@@ -87,38 +83,16 @@ export class UserMoviesService {
     this.updateMovies(movieArray);
   }
 
-  findCommonMovies(userIdOfFriend: string): Observable<CustoMovie[]> {
-    if (!Boolean(this.myMovies) || this.myMovies.length === 0) {
-      return of([]);
-    }
-    this.isLoading$$.next(true);
-    return this.fetchMoviesByUserId(userIdOfFriend).pipe(
-      map((moviesOfFriend: CustoMovie[]) => {
-        let commonMovies: CustoMovie[];
-        // using the shorter array to minimize calculations
-        if (this.myMovies.length < moviesOfFriend.length) {
-          commonMovies = this.myMovies.filter((movieOfUser) =>
-            moviesOfFriend.find(
-              (movieOfFriend: CustoMovie) =>
-                movieOfFriend.imdbId === movieOfUser.imdbId
-            )
-          );
-        } else {
-          commonMovies = moviesOfFriend.filter((movieOfFriend) =>
-            this.myMovies.find(
-              (movieOfUser: CustoMovie) =>
-                movieOfUser.imdbId === movieOfFriend.imdbId
-            )
-          );
-        }
-        this.isLoading$$.next(false);
-        return commonMovies;
-      })
-    );
+  onLogout() {
+    this.myMovies$$.next([]);
+  }
+
+  private initFetchCurrentUserMovies(): void {
+    this.fetchCurrentUserMovies().subscribe();
   }
 
   private updateMovies(userMovies: CustoMovie[]): void {
-    this.areMyMoviesEmpty$$.next(Boolean(userMovies));
+    this.areMyMoviesEmpty$$.next(!Boolean(userMovies));
     this.myMovies$$.next(userMovies);
     this.currentUser$
       .pipe(

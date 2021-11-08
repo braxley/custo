@@ -3,19 +3,32 @@
     (close)="closeFindFriendsModal()"
   ></app-find-friends-modal>
 </ng-container>
+
 <div class="my-friends__container">
   <h2 class="my-friends__header">My Friends</h2>
   <div class="my-friends__friends">
-    <div class="my-friends__friend">
-      <div class="my-friends__friend-name">Bilbo Baggins</div>
-      <!-- TODO stf ngClass if not added, add "fa-plus"; if added, add "fa minus" -->
-      <i class="my-friends__add-to-comparison-icon fa fa-minus"></i>
-    </div>
-    <div class="my-friends__friend">
-      <div class="my-friends__friend-name">Peter Parker</div>
-      <i class="my-friends__add-to-comparison-icon fa fa-plus"></i>
+    <div
+      *ngFor="let friend of friends$ | async | keyvalue"
+      class="my-friends__friend"
+    >
+      <div class="my-friends__friend-name">{{ friend.key }}</div>
+      <i
+        *ngIf="!isFriendCompared(friend.key)"
+        (click)="addFriendToComparison(friend.key)"
+        class="my-friends__add-to-comparison-icon fa fa-plus"
+      ></i>
+      <i
+        *ngIf="isFriendCompared(friend.key)"
+        (click)="removeFriendFromComparison(friend.key)"
+        class="my-friends__add-to-comparison-icon fa fa-minus"
+      ></i>
     </div>
   </div>
+
+  <ng-container *ngIf="isLoading$ | async">
+    <app-loading-indicator></app-loading-indicator>
+  </ng-container>
+
   <button
     class="custo-button my-friends__add-friend-btn"
     (click)="openFindFriendsModal()"

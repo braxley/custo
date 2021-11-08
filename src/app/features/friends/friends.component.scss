@@ -3,29 +3,32 @@
 .my-friends__container {
   background-color: map-get($colors, primary);
   // TODO stf adapt width
-  width: 14rem;
+  // width: 14rem;
   border-radius: 1rem;
 
   margin: 2rem;
 
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   padding-left: 1rem;
   padding-right: 1rem;
   justify-content: center;
 
   .my-friends__friends {
-    display: grid;
-    grid-gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     .my-friends__friend {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
+
       color: $font-color--light;
 
       .my-friends__add-to-comparison-icon {
         cursor: pointer;
-        color: white;
+        color: $font-color--light;
         background-color: transparent;
         border: none;
         border-radius: 50%;
