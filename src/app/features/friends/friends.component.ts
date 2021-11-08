@@ -11,13 +11,12 @@ export class FriendsComponent {
   friends$ = this.friendsService.friendsOfUser$;
   selectedFriendsForComparison: string[] = [];
 
+  filteredCommonMovies$ = this.friendsService.filteredCommonMovies$;
+
   isFindFriendsModalOpen = false;
   isLoading$ = this.friendsService.isLoading$;
 
-  constructor(
-    private friendsService: FriendsService,
-    private userMoviesService: UserMoviesService
-  ) {}
+  constructor(private friendsService: FriendsService) {}
 
   addFriendToComparison(friendId: string): void {
     this.selectedFriendsForComparison.push(friendId);
@@ -25,10 +24,8 @@ export class FriendsComponent {
   }
   removeFriendFromComparison(friendId: string): void {
     const indexOfFriend = this.selectedFriendsForComparison.indexOf(friendId);
-    if (indexOfFriend > -1) {
-      this.selectedFriendsForComparison.splice(indexOfFriend, 1);
-      this.friendsService.removeFriendFromComparison(friendId);
-    }
+    this.selectedFriendsForComparison.splice(indexOfFriend, 1);
+    this.friendsService.removeFriendFromComparison(friendId);
   }
 
   isFriendCompared(friendId: string): boolean {

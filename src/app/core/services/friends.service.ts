@@ -57,8 +57,6 @@ export class FriendsService {
     private userMoviesService: UserMoviesService
   ) {
     this.loadFriends();
-    // TODO stf this is a hotfix, in a future user story this will be removed
-    this.userMoviesService.fetchCurrentUserMovies().subscribe();
   }
 
   loadFriends(): void {
@@ -103,6 +101,7 @@ export class FriendsService {
           this.allMoviesOfSelectedFriends.push({
             userId: friendId,
             movies: moviesOfFriend,
+            isAlreadyInComparison: false,
           });
           this.findCommonMovies();
         })
@@ -110,16 +109,29 @@ export class FriendsService {
       .subscribe();
   }
 
-  removeFriendFromComparison(friendId: string): void {}
+  removeFriendFromComparison(friendIdToRemove: string): void {
+    this.allMoviesOfSelectedFriends.forEach(
+      (userIdWithMovies: UserIdWithMovies, index: number) => {
+        if (userIdWithMovies.userId === friendIdToRemove) {
+          this.allMoviesOfSelectedFriends.splice(index, 1);
+        } else {
+          userIdWithMovies.isAlreadyInComparison = false;
+        }
+      }
+    );
+    this.filteredCommonMovies$$.next(null);
+    if (this.allMoviesOfSelectedFriends.length !== 0) {
+      this.findCommonMovies();
+    }
+  }
 
-  findCommonMovies() {
-    // TODO stf I compare the friends movies with themselves. change that
+  private findCommonMovies() {
     this.isLoading$$.next(true);
     let moviesToCompareWith = this.filteredCommonMovies;
-    if (!Boolean(moviesToCompareWith)) {
+    if (!Boolean(moviesToCompareWith) || moviesToCompareWith?.length === 0) {
       moviesToCompareWith = this.userMoviesService.myMovies;
     }
-    if (moviesToCompareWith?.length === 0 || !Boolean(moviesToCompareWith)) {
+    if (!Boolean(moviesToCompareWith) || moviesToCompareWith?.length === 0) {
       this.filteredCommonMovies$$.next([]);
       this.isLoading$$.next(false);
       return;
@@ -127,63 +139,27 @@ export class FriendsService {
 
     let commonMovies: CustoMovie[] = [];
     for (let userIdWithMovies of this.allMoviesOfSelectedFriends) {
+      if (userIdWithMovies.isAlreadyInComparison) {
+        continue;
+      }
       const moviesOfFriend: CustoMovie[] = userIdWithMovies.movies;
-
-      // TODO stf try with "includes"
-      for (let movieOfFriend of moviesOfFriend) {
-        for (let movieToCompareWith of moviesToCompareWith!) {
-          if (movieOfFriend.imdbId === movieToCompareWith.imdbId) {
-            // TODO stf add index to iteration of moviesToCompareWith
-            // to remove that movie from the array
-            commonMovies.push(movieOfFriend);
-            break;
+      moviesToCompareWith!.forEach(
+        (movieToCompareWith: CustoMovie, index: number) => {
+          const isMovieInArray = moviesOfFriend.some(
+            (movieOfFriend: CustoMovie) =>
+              movieOfFriend.imdbId === movieToCompareWith.imdbId
+          );
+          if (isMovieInArray) {
+            commonMovies.push(movieToCompareWith);
+            moviesToCompareWith!.splice(index, 1);
           }
         }
-      }
+      );
+      userIdWithMovies.isAlreadyInComparison = true;
     }
 
     this.isLoading$$.next(false);
-
     this.filteredCommonMovies$$.next(commonMovies);
-  }
-
-  oldFindCommonMovies(
-    userIdOfFriend: string,
-    moviesToCompare?: CustoMovie[]
-  ): Observable<CustoMovie[]> {
-    // if (!Boolean(moviesToCompare)) {
-    //   moviesToCompare = this.userMoviesService.myMovies;
-    // }
-    if (!Boolean(moviesToCompare) || moviesToCompare?.length === 0) {
-      return of([]);
-    }
-    this.isLoading$$.next(true);
-    return this.userMoviesService.fetchMoviesByUserId(userIdOfFriend).pipe(
-      map((moviesOfFriend: CustoMovie[]) => {
-        let commonMovies: CustoMovie[];
-        if (!Boolean(moviesOfFriend) || moviesOfFriend?.length === 0) {
-          return [];
-        }
-        // using the shorter array to minimize calculations
-        if (moviesToCompare!.length < moviesOfFriend.length) {
-          commonMovies = moviesToCompare!.filter((movieOfUser) =>
-            moviesOfFriend.find(
-              (movieOfFriend: CustoMovie) =>
-                movieOfFriend.imdbId === movieOfUser.imdbId
-            )
-          );
-        } else {
-          commonMovies = moviesOfFriend.filter((movieOfFriend) =>
-            moviesToCompare!.find(
-              (movieOfUser: CustoMovie) =>
-                movieOfUser.imdbId === movieOfFriend.imdbId
-            )
-          );
-        }
-        this.isLoading$$.next(false);
-        return commonMovies;
-      })
-    );
   }
 
   private getFriendsIdFromEmail(email: string): Observable<string> {

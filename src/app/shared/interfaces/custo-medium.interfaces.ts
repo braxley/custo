@@ -16,4 +16,5 @@ export interface CustoMovie {
 export interface UserIdWithMovies {
   userId: string;
   movies: CustoMovie[];
+  isAlreadyInComparison: boolean;
 }

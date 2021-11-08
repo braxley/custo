@@ -26,7 +26,7 @@ export class UserMoviesService {
     return this.myMovies$$.asObservable();
   }
   get myMovies(): CustoMovie[] {
-    return this.myMovies$$.value;
+    return this.myMovies$$.value.slice();
   }
 
   constructor(
@@ -58,6 +58,7 @@ export class UserMoviesService {
         tap((movieArray: CustoMovie[]) => {
           if (movieArray) {
             this.myMovies$$.next(movieArray);
+            this.areMyMoviesEmpty$$.next(false);
           } else {
             this.areMyMoviesEmpty$$.next(true);
           }

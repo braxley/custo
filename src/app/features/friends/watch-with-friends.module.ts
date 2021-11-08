@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FindFriendsModalComponent as FindFriendsModalComponent } from './find-friends-modal.component';
+import { FindFriendsModalComponent as FindFriendsModalComponent } from './find-friends/find-friends-modal.component';
 import { FormsModule } from '@angular/forms';
-import { FriendsComponent } from '../friends.component';
+import { FriendsComponent } from './friends.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({

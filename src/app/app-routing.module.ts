@@ -23,6 +23,7 @@ const routes: Routes = [
       {
         path: 'friends',
         component: FriendsComponent,
+        resolve: [MyMoviesResolver],
       },
     ],
   },

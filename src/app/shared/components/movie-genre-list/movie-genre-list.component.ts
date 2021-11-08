@@ -17,7 +17,7 @@ export class MovieGenreListComponent {
   genres: string[] = [];
 
   private _movies: CustoMovie[] = [];
-  @Input() set movies(movieArray: CustoMovie[]) {
+  @Input() set movies(movieArray: CustoMovie[] | null) {
     if (movieArray) {
       this._movies = movieArray;
       this.genres = [];
@@ -28,6 +28,8 @@ export class MovieGenreListComponent {
         );
         this.genres.push(...uniqueGenres);
       });
+    } else {
+      this.movies = [];
     }
   }
   get movies() {
@@ -41,7 +43,7 @@ export class MovieGenreListComponent {
   }
 
   filterGenre(genre: string): CustoMovie[] {
-    return this.movies.filter((movie: CustoMovie) =>
+    return this.movies!.filter((movie: CustoMovie) =>
       movie.genreList.find((movieGenre: string) => movieGenre === genre)
     );
   }

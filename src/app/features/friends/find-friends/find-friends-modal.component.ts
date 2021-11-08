@@ -19,27 +19,12 @@ export class FindFriendsModalComponent {
   @Output() close = new EventEmitter<void>();
   error$ = this.friendsService.error$;
 
-  commonMovies$ = new Subject<CustoMovie[]>();
-  hasNoCommonMovies = new Subject<boolean>();
   constructor(private friendsService: FriendsService) {}
 
   onSubmit(form: NgForm) {
     this.friendsService.addFriendInDb(form.value.findUser).subscribe(() => {
       this.close.emit();
     });
-
-    // const userId = form.value.findUserMovies;
-    // this.userMoviesService
-    //   .findCommonMovies(userId)
-    //   .pipe(
-    //     tap((commonMovies: CustoMovie[]) => {
-    //       if (commonMovies.length === 0) {
-    //         this.hasNoCommonMovies.next(true);
-    //       }
-    //       this.commonMovies$.next(commonMovies);
-    //     })
-    //   )
-    //   .subscribe();
   }
 
   onClose() {
