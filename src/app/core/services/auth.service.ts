@@ -29,7 +29,11 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  signUp(email: string, password: string): Observable<AuthResponseData> {
+  signUp(
+    userName: string,
+    email: string,
+    password: string
+  ): Observable<AuthResponseData> {
     return this.httpClient
       .post<AuthResponseData>(
         FIREBASE_AUTH_SIGNUP_URL + environment.API_KEY_FIREBASE,
@@ -42,7 +46,9 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap(this.handleAuthentication.bind(this)),
-        switchMap(this.createUserInDb.bind(this))
+        switchMap((authResponseData: AuthResponseData) => {
+          return this.createUserInDb(authResponseData, userName);
+        })
       );
   }
 
@@ -148,11 +154,13 @@ export class AuthService {
   }
 
   private createUserInDb(
-    response: AuthResponseData
+    response: AuthResponseData,
+    userName: string
   ): Observable<AuthResponseData> {
     return this.httpClient.put<AuthResponseData>(
       `${FIREBASE_DB_URL}/users/${response.localId}/user_data.json`,
       {
+        userName: userName,
         email: response.email,
       }
     );

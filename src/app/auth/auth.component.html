@@ -4,6 +4,20 @@
   (ngSubmit)="onSubmit(loginForm)"
 >
   <h1 class="auth-title">{{ isLoginMode ? "Login" : "SignUp" }}</h1>
+  <div *ngIf="!isLoginMode" class="custo-form__inputs-wrapper">
+    <div class="custo-form__input-wrapper">
+      <label for="userName" class="custo-form__input-label">Your Name</label>
+      <input
+        class="custo-form__input"
+        type="userName"
+        ngModel
+        name="userName"
+        required
+        userName
+        #userName="ngModel"
+      />
+    </div>
+  </div>
   <div class="custo-form__inputs-wrapper">
     <div
       class="custo-form__input-wrapper"
