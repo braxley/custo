@@ -72,6 +72,11 @@ export class UserMoviesService {
   }
 
   addMovieToUser(movieToAdd: CustoMovie): void {
+    if (!Boolean(this.myMovies)) {
+      this.fetchCurrentUserMovies().subscribe(() => {
+        this.addMovieToUser(movieToAdd);
+      });
+    }
     if (this.myMovies.includes(movieToAdd)) {
       return;
     }
