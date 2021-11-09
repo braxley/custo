@@ -5,7 +5,6 @@ import { switchMap, tap } from 'rxjs/operators';
 import {
   FIREBASE_DB_URL,
   FIREBASE_DB_USER_DATA_URL,
-  FIREBASE_DB_USER_MOVIES_URL,
 } from 'src/app/shared/constants';
 import {
   CustoMovie,
@@ -141,7 +140,7 @@ export class FriendsService {
   private findCommonMovies() {
     this.isLoading$$.next(true);
     let moviesToCompareWith = this.filteredCommonMovies;
-    if (!Boolean(moviesToCompareWith) || moviesToCompareWith?.length === 0) {
+    if (!Boolean(moviesToCompareWith)) {
       moviesToCompareWith = this.userMoviesService.myMovies;
     }
     if (!Boolean(moviesToCompareWith) || moviesToCompareWith?.length === 0) {
@@ -156,18 +155,15 @@ export class FriendsService {
         continue;
       }
       const moviesOfFriend = userIdWithMovies.movies;
-      moviesToCompareWith!.forEach(
-        (movieToCompareWith: CustoMovie, index: number) => {
-          const isMovieInArray = moviesOfFriend?.some(
-            (movieOfFriend: CustoMovie) =>
-              movieOfFriend.imdbId === movieToCompareWith.imdbId
-          );
-          if (isMovieInArray) {
-            commonMovies.push(movieToCompareWith);
-            moviesToCompareWith!.splice(index, 1);
-          }
+      moviesToCompareWith!.forEach((movieToCompareWith: CustoMovie) => {
+        const isMovieInArray = moviesOfFriend?.some(
+          (movieOfFriend: CustoMovie) =>
+            movieOfFriend.imdbId === movieToCompareWith.imdbId
+        );
+        if (isMovieInArray) {
+          commonMovies.push(movieToCompareWith);
         }
-      );
+      });
       userIdWithMovies.isAlreadyInComparison = true;
     }
 
