@@ -61,9 +61,13 @@ export class FriendsService {
   }
 
   loadFriends(): void {
+    this.loadFriends$().subscribe();
+  }
+
+  loadFriends$(): Observable<BackendFriendData | null> {
     this.isLoading$$.next(true);
 
-    this.httpClient
+    return this.httpClient
       .get<BackendFriendData | null>(
         `${FIREBASE_DB_USER_DATA_URL}/${this.authService.user?.id}/friends.json`
       )
@@ -72,8 +76,7 @@ export class FriendsService {
           this.isLoading$$.next(false);
           this.friendsOfUser$$.next(friendData);
         })
-      )
-      .subscribe();
+      );
   }
 
   addFriendInDb(email: string): Observable<BackendFriendData> {
@@ -132,7 +135,7 @@ export class FriendsService {
   }
 
   onLogout() {
-    this.friendsOfUser$$.next({});
+    this.friendsOfUser$$.next(null);
   }
 
   private findCommonMovies() {
@@ -152,10 +155,10 @@ export class FriendsService {
       if (userIdWithMovies.isAlreadyInComparison) {
         continue;
       }
-      const moviesOfFriend: CustoMovie[] = userIdWithMovies.movies;
+      const moviesOfFriend = userIdWithMovies.movies;
       moviesToCompareWith!.forEach(
         (movieToCompareWith: CustoMovie, index: number) => {
-          const isMovieInArray = moviesOfFriend.some(
+          const isMovieInArray = moviesOfFriend?.some(
             (movieOfFriend: CustoMovie) =>
               movieOfFriend.imdbId === movieToCompareWith.imdbId
           );

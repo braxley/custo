@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { toArray } from 'rxjs/operators';
 import { FriendsService } from 'src/app/core/services/friends.service';
-import { UserMoviesService } from 'src/app/core/services/user-movies.service';
 
 @Component({
   templateUrl: './friends.component.html',

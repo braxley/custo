@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
+import { FriendsResolver } from './core/resolver/friends.resolver';
 import { MyMoviesResolver } from './core/resolver/my-movies.resolver';
 import { FriendsComponent } from './features/friends/friends.component';
 import { MediumSearchComponent } from './features/medium-search/medium-search.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
       {
         path: 'friends',
         component: FriendsComponent,
+        resolve: [FriendsResolver],
       },
     ],
   },
