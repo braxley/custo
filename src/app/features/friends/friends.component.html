@@ -11,7 +11,7 @@
       *ngFor="let friend of friends$ | async | keyvalue"
       class="my-friends__friend"
     >
-      <div class="my-friends__friend-name">{{ friend.key }}</div>
+      <div class="my-friends__friend-name">{{ friend.value.displayName }}</div>
       <i
         *ngIf="!isFriendCompared(friend.key)"
         (click)="addFriendToComparison(friend.key)"

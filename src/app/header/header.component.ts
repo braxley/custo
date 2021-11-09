@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
+import { FriendsService } from '../core/services/friends.service';
 import { UserMoviesService } from '../core/services/user-movies.service';
 import { User } from '../shared/models/user.model';
 @Component({
@@ -16,10 +17,12 @@ export class HeaderComponent implements OnDestroy {
 
   constructor(
     private authService: AuthService,
+    private friendsService: FriendsService,
     private userMoviesService: UserMoviesService
   ) {
     this.userSub = this.authService.user$.subscribe((user: User | null) => {
       if (!Boolean(user)) {
+        this.friendsService.onLogout();
         this.userMoviesService.onLogout();
       }
     });

@@ -10,7 +10,11 @@ import {
   FIREBASE_DB_URL,
 } from 'src/app/shared/constants';
 import { environment } from 'src/environments/environment';
-import { AuthResponseData } from 'src/app/shared/interfaces/firebase-backend.interface';
+import {
+  AuthResponseData,
+  BackendUserData,
+  UserData,
+} from 'src/app/shared/interfaces/firebase-backend.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +34,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private router: Router) {}
 
   signUp(
-    userName: string,
+    displayName: string,
     email: string,
     password: string
   ): Observable<AuthResponseData> {
@@ -38,6 +42,7 @@ export class AuthService {
       .post<AuthResponseData>(
         FIREBASE_AUTH_SIGNUP_URL + environment.API_KEY_FIREBASE,
         {
+          displayName: displayName,
           email: email,
           password: password,
           returnSecureToken: true,
@@ -47,7 +52,7 @@ export class AuthService {
         catchError(this.handleError),
         tap(this.handleAuthentication.bind(this)),
         switchMap((authResponseData: AuthResponseData) => {
-          return this.createUserInDb(authResponseData, userName);
+          return this.createUserInDb(authResponseData);
         })
       );
   }
@@ -73,8 +78,8 @@ export class AuthService {
     if (!userInStorage) {
       return;
     }
-
     const userData: {
+      displayName: string;
       email: string;
       id: string;
       _idToken: string;
@@ -84,6 +89,7 @@ export class AuthService {
     const tokenExpirationDate = new Date(userData._tokenExpirationDate);
 
     const user = new User(
+      userData.displayName,
       userData.email,
       userData.id,
       userData._idToken,
@@ -120,6 +126,7 @@ export class AuthService {
     );
 
     const user = new User(
+      authResponseData.displayName,
       authResponseData.email,
       authResponseData.localId,
       authResponseData.idToken,
@@ -154,15 +161,17 @@ export class AuthService {
   }
 
   private createUserInDb(
-    response: AuthResponseData,
-    userName: string
+    response: AuthResponseData
   ): Observable<AuthResponseData> {
-    return this.httpClient.put<AuthResponseData>(
-      `${FIREBASE_DB_URL}/users/${response.localId}/user_data.json`,
-      {
-        userName: userName,
-        email: response.email,
-      }
+    const userData: BackendUserData = {};
+    userData[`${response.localId}`] = {
+      email: response.email,
+      displayName: response.displayName,
+      friends: null,
+    };
+    return this.httpClient.patch<AuthResponseData>(
+      `${FIREBASE_DB_URL}/user_data.json`,
+      userData
     );
   }
 }

@@ -5,19 +5,25 @@
 >
   <h1 class="auth-title">{{ isLoginMode ? "Login" : "SignUp" }}</h1>
   <div *ngIf="!isLoginMode" class="custo-form__inputs-wrapper">
-    <div class="custo-form__input-wrapper">
-      <label for="userName" class="custo-form__input-label">Your Name</label>
+    <div
+      class="custo-form__input-wrapper"
+      [ngClass]="{
+        invalid__input: wasSubmitted && displayName.status === 'INVALID'
+      }"
+    >
+      <label for="displayName" class="custo-form__input-label">Your Name</label>
       <input
         class="custo-form__input"
-        type="userName"
+        type="displayName"
         ngModel
-        name="userName"
+        name="displayName"
         required
-        userName
-        #userName="ngModel"
+        displayName
+        #displayName="ngModel"
       />
     </div>
   </div>
+  <!-- TODO add error if no displayName was entered -->
   <div class="custo-form__inputs-wrapper">
     <div
       class="custo-form__input-wrapper"

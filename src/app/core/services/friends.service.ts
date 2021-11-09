@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import {
   FIREBASE_DB_URL,
-  FIREBASE_DB_USERS_URL,
+  FIREBASE_DB_USER_DATA_URL,
+  FIREBASE_DB_USER_MOVIES_URL,
 } from 'src/app/shared/constants';
 import {
   CustoMovie,
@@ -21,7 +22,7 @@ import { UserMoviesService } from './user-movies.service';
   providedIn: 'root',
 })
 export class FriendsService {
-  private friendsOfUser$$ = new BehaviorSubject<BackendFriendData>({});
+  private friendsOfUser$$ = new BehaviorSubject<BackendFriendData | null>(null);
   get friendsOfUser$(): Observable<BackendFriendData | null> {
     return this.friendsOfUser$$.asObservable();
   }
@@ -63,8 +64,8 @@ export class FriendsService {
     this.isLoading$$.next(true);
 
     this.httpClient
-      .get<BackendFriendData>(
-        `${FIREBASE_DB_URL}users/${this.authService.user?.id}/friends.json`
+      .get<BackendFriendData | null>(
+        `${FIREBASE_DB_USER_DATA_URL}/${this.authService.user?.id}/friends.json`
       )
       .pipe(
         tap((friendData) => {
@@ -77,14 +78,19 @@ export class FriendsService {
 
   addFriendInDb(email: string): Observable<BackendFriendData> {
     this.isLoading$$.next(true);
-    return this.getFriendsIdFromEmail(email).pipe(
-      switchMap(this.addUserIdToFriends.bind(this)),
-      tap((friendData: BackendFriendData) => {
+    return this.getFriendDataFromEmail(email).pipe(
+      switchMap(([friendId, friendName]) => {
+        return this.addFriendIdToFriends(friendId, friendName);
+      }),
+      tap((backendFriendData: BackendFriendData) => {
         this.isLoading$$.next(false);
-        const friends = this.friendsOfUser || {};
-        const friendId = Object.keys(friendData)[0];
-        friends[`${friendId}`] = true;
-        this.friendsOfUser$$.next(friends);
+        const friendsOfUser = this.friendsOfUser || {};
+        const friendId = Object.keys(backendFriendData)[0];
+        friendsOfUser[`${friendId}`] = {
+          hasAccepted: true,
+          displayName: backendFriendData[friendId].displayName,
+        };
+        this.friendsOfUser$$.next(friendsOfUser);
       }),
       switchMap((backendFriendData: BackendFriendData) => {
         let friendId = Object.keys(backendFriendData)[0];
@@ -125,6 +131,10 @@ export class FriendsService {
     }
   }
 
+  onLogout() {
+    this.friendsOfUser$$.next({});
+  }
+
   private findCommonMovies() {
     this.isLoading$$.next(true);
     let moviesToCompareWith = this.filteredCommonMovies;
@@ -162,16 +172,18 @@ export class FriendsService {
     this.filteredCommonMovies$$.next(commonMovies);
   }
 
-  private getFriendsIdFromEmail(email: string): Observable<string> {
+  private getFriendDataFromEmail(email: string): Observable<string[]> {
     this.error$$.next(null);
     return this.httpClient
-      .get<BackendUserData>(FIREBASE_DB_URL + 'users.json')
+      .get<BackendUserData>(FIREBASE_DB_URL + '/user_data.json')
       .pipe(
         switchMap((backendUserData: BackendUserData) => {
           let friendId = '';
+          let friendName = '';
           for (const [key, value] of Object.entries(backendUserData)) {
-            if (value.user_data.email === email) {
+            if (value.email === email) {
               friendId = key;
+              friendName = value.displayName;
             }
           }
           switch (friendId) {
@@ -182,25 +194,31 @@ export class FriendsService {
               return this.handleError('You cannot add yourself');
             }
           }
-          return of(friendId);
+          return of([friendId, friendName]);
         })
       );
   }
 
-  private addUserIdToFriends(userId: string): Observable<BackendFriendData> {
+  private addFriendIdToFriends(
+    userIdOfFriend: string,
+    displayNameOfFriend: string
+  ): Observable<BackendFriendData> {
     const friendsEntryInDb: BackendFriendData = {};
-    friendsEntryInDb[`${userId}`] = true;
+    friendsEntryInDb[`${userIdOfFriend}`] = {
+      hasAccepted: true,
+      displayName: displayNameOfFriend,
+    };
 
     if (!Boolean(this.friendsOfUser)) {
       return this.httpClient.patch<BackendFriendData>(
-        `${FIREBASE_DB_USERS_URL}${this.authService.user?.id}/friends.json`,
+        `${FIREBASE_DB_USER_DATA_URL}/${this.authService.user?.id}/friends.json`,
         friendsEntryInDb
       );
     }
 
     let isAlreadyInFriendList = false;
     for (const [key, value] of Object.entries(this.friendsOfUser!)) {
-      if (key === userId) {
+      if (key === userIdOfFriend) {
         isAlreadyInFriendList = true;
         if (value) {
           return this.handleError('The user is already your friend');
@@ -216,7 +234,7 @@ export class FriendsService {
     }
 
     return this.httpClient.patch<BackendFriendData>(
-      `${FIREBASE_DB_USERS_URL}${this.authService.user?.id}/friends.json`,
+      `${FIREBASE_DB_USER_DATA_URL}/${this.authService.user?.id}/friends.json`,
       friendsEntryInDb
     );
   }
@@ -225,22 +243,26 @@ export class FriendsService {
     friendsId: string
   ): Observable<BackendFriendData> {
     const userEntryInDb: BackendFriendData = {};
-    userEntryInDb[`${this.authService.user?.id}`] = true;
+
+    userEntryInDb[`${this.authService.user?.id}`] = {
+      hasAccepted: true,
+      displayName: this.authService.user?.displayName!,
+    };
 
     return this.httpClient
       .get<BackendFriendData | null>(
-        `${FIREBASE_DB_USERS_URL}/users/${friendsId}/friends.json`
+        `${FIREBASE_DB_USER_DATA_URL}/${friendsId}/friends.json`
       )
       .pipe(
         switchMap((friendsObject: BackendFriendData | null) => {
           if (Boolean(friendsObject)) {
             return this.httpClient.put<BackendFriendData>(
-              `${FIREBASE_DB_USERS_URL}${friendsId}/friends.json`,
+              `${FIREBASE_DB_USER_DATA_URL}/${friendsId}/friends.json`,
               userEntryInDb
             );
           } else {
             return this.httpClient.patch<BackendFriendData>(
-              `${FIREBASE_DB_USERS_URL}${friendsId}/friends.json`,
+              `${FIREBASE_DB_USER_DATA_URL}/${friendsId}/friends.json`,
               userEntryInDb
             );
           }

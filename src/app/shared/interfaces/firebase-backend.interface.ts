@@ -1,4 +1,5 @@
 export interface AuthResponseData {
+  displayName: string;
   idToken: string;
   email: string;
   refreshToken: string;
@@ -7,10 +8,21 @@ export interface AuthResponseData {
   registered: boolean;
 }
 
+export interface FriendData {
+  hasAccepted: boolean;
+  displayName: string;
+}
+
 export interface BackendFriendData {
-  [userId: string]: boolean;
+  [userId: string]: FriendData;
+}
+
+export interface UserData {
+  email: string;
+  friends: BackendFriendData[] | null;
+  displayName: string;
 }
 
 export interface BackendUserData {
-  userId: { user_data: { email: string } };
+  [userId: string]: UserData;
 }
