@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthComponent } from './auth/auth.component';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { FriendsResolver } from './core/resolver/friends.resolver';
 import { MyMoviesResolver } from './core/resolver/my-movies.resolver';
-import { FriendsComponent } from './features/friends/friends.component';
 import { MediumSearchComponent } from './features/medium-search/medium-search.component';
-import { MyMoviesComponent } from './features/my-movies/my-movies.component';
 
 const routes: Routes = [
   { path: '', component: MediumSearchComponent },
   { path: 'search', redirectTo: '' },
-  { path: 'login', component: AuthComponent },
+  {
+    path: 'login',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
   {
     path: 'user',
     canActivate: [AuthGuard],
@@ -19,11 +19,17 @@ const routes: Routes = [
     children: [
       {
         path: 'my-movies',
-        component: MyMoviesComponent,
+        loadChildren: () =>
+          import('./features/my-movies/my-movies.module').then(
+            (m) => m.MyMoviesModule
+          ),
       },
       {
         path: 'friends',
-        component: FriendsComponent,
+        loadChildren: () =>
+          import('./features/friends/watch-with-friends.module').then(
+            (m) => m.WatchWithFriendsModule
+          ),
         resolve: [FriendsResolver],
       },
     ],
@@ -31,7 +37,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
