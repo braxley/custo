@@ -3,17 +3,17 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
-import { User } from 'src/app/shared/models/user.model';
 import {
-  FIREBASE_AUTH_SIGNUP_URL,
   FIREBASE_AUTH_LOGIN_URL,
+  FIREBASE_AUTH_SIGNUP_URL,
   FIREBASE_DB_URL,
 } from 'src/app/shared/constants';
-import { environment } from 'src/environments/environment';
 import {
   AuthResponseData,
   BackendUserData,
 } from 'src/app/shared/interfaces/firebase-backend.interface';
+import { User } from 'src/app/shared/models/user.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',

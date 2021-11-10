@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { FriendsResolver } from './friends.resolver';
 
 describe('FriendsResolver', () => {

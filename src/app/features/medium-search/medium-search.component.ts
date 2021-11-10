@@ -1,17 +1,16 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { from, forkJoin, Subject, Observable, EMPTY } from 'rxjs';
+import { Component } from '@angular/core';
+import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MediumSearchService } from 'src/app/core/services/medium-search.service';
-import { UserMoviesService } from 'src/app/core/services/user-movies.service';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
-  ImdbResponse,
-  ImdbMovieResult,
-  ImdbMovieDetails,
-  ImdbRatings,
-  Ratings,
   ImdbGenre,
+  ImdbMovieDetails,
+  ImdbMovieResult,
+  ImdbRatings,
+  ImdbResponse,
+  Ratings,
 } from 'src/app/shared/interfaces/imdb.interfaces';
 
 @Component({

@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
 import { CustoMovie } from '../../interfaces/custo-medium.interfaces';
 

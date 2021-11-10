@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { MyMoviesResolver } from './my-movies.resolver';
 
 describe('MyMoviesResolver', () => {

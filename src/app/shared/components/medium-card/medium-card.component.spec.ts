@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MediumCardComponent } from './medium-card.component';
 
 describe('MediumCardComponent', () => {
@@ -8,9 +7,8 @@ describe('MediumCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MediumCardComponent ]
-    })
-    .compileComponents();
+      declarations: [MediumCardComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { UserMoviesService } from './user-movies.service';
 
 describe('UserMoviesService', () => {

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { MyMoviesComponent } from './my-movies.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MyMoviesComponent } from './my-movies.component';
 
 @NgModule({
   declarations: [MyMoviesComponent],

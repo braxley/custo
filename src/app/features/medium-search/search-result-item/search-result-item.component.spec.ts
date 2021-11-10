@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockPipe } from 'ng-mocks';
 import { TimeConversionPipe } from 'src/app/shared/pipes/time-conversion.pipe';
 import { getMockCustoMovie } from 'src/app/shared/test/test-data';
-
 import { SearchResultItemComponent } from './search-result-item.component';
 
 describe('SearchResultItemComponent', () => {

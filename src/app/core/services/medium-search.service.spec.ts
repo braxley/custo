@@ -1,7 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { TestBed } from '@angular/core/testing';
-
 import { MediumSearchService } from './medium-search.service';
 
 describe('MediumSearchService', () => {

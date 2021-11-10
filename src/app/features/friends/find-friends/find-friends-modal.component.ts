@@ -1,13 +1,11 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  Output,
+  Component,
   EventEmitter,
+  Output,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { FriendsService } from 'src/app/core/services/friends.service';
-import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
 @Component({
   selector: 'app-find-friends-modal',

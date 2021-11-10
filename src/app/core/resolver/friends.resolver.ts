@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  Router,
+  ActivatedRouteSnapshot,
   Resolve,
   RouterStateSnapshot,
-  ActivatedRouteSnapshot,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { BackendFriendData } from 'src/app/shared/interfaces/firebase-backend.interface';

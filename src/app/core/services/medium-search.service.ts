@@ -6,7 +6,6 @@ import {
   ImdbRatings,
   ImdbResponse,
 } from 'src/app/shared/interfaces/imdb.interfaces';
-
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })

@@ -14,7 +14,6 @@ import {
   getMockImdbRatings,
   getMockImdbResults,
 } from 'src/app/shared/test/test-data';
-
 import { MediumSearchComponent } from './medium-search.component';
 
 xdescribe('MediumSearchComponent', () => {
