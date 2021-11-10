@@ -19,9 +19,15 @@ export class UserMoviesService {
   get areMyMoviesEmpty$() {
     return this.areMyMoviesEmpty$$.asObservable();
   }
-  private currentUser$ = this.authService.user$;
-  private myMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
+  private currentUser$ = this.authService.user$.pipe(
+    tap((user) => {
+      if (!Boolean(user)) {
+        this.onLogout();
+      }
+    })
+  );
   private user: User | null = null;
+  private myMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
   get myMovies$() {
     return this.myMovies$$.asObservable();
   }

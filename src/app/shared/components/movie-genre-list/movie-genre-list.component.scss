@@ -1,5 +1,5 @@
-// @use "../../../styles" as *;
 @use "../../../../styles" as *;
+
 $movie-poster-height: 16rem;
 $scale-ratio: 1.2;
 $border-radius: 0.5rem;
@@ -7,6 +7,7 @@ $border-radius: 0.5rem;
 .genre__wrapper {
   padding: 0 1rem;
   margin-bottom: 2rem;
+  width: 100%;
   .genre__heading {
     margin-bottom: 0;
   }

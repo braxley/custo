@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 import {
   AuthResponseData,
   BackendUserData,
-  UserData,
 } from 'src/app/shared/interfaces/firebase-backend.interface';
 
 @Injectable({
