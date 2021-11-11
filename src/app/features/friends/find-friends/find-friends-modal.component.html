@@ -1,11 +1,9 @@
-<div class="custo-modal-backdrop" (click)="onClose()"></div>
-<div class="custo-modal-container">
+<app-custo-modal [modalTitle]="'Find Your Friends'" (close)="onClose()">
   <form
-    class="custo-form container"
+    class="custo-form"
     #findFriendsForm="ngForm"
     (ngSubmit)="onSubmit(findFriendsForm)"
   >
-    <h1>Find Your Friends</h1>
     <div class="custo-form__inputs-wrapper">
       <div class="custo-form__input-wrapper">
         <label for="findUserMovies" class="custo-form__input-label"
@@ -35,4 +33,4 @@
     </div>
   </form>
   <ng-container *ngIf="error$ | async as error">{{ error }}</ng-container>
-</div>
+</app-custo-modal>

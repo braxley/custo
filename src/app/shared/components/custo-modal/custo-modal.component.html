@@ -1,0 +1,19 @@
+<div class="custo-modal__backdrop" (click)="closeModal()"></div>
+<div class="custo-modal__container container">
+  <div *ngIf="modalTitle" class="custo-modal__title-bar">
+    <h1 *ngIf="modalTitle" class="custo-modal__title">{{ modalTitle }}</h1>
+    <div class="custo-modal__title-buttons">
+      <button
+        class="modal-title-button__close modal-title-button__close-icon"
+        (click)="closeModal()"
+      >
+        <i class="fa fa-times-circle"></i>
+      </button>
+    </div>
+  </div>
+
+  <p *ngIf="description">{{ description }}</p>
+  <div class="custo-modal__main-content">
+    <ng-content></ng-content>
+  </div>
+</div>

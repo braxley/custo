@@ -14,8 +14,9 @@ import { FriendsService } from 'src/app/core/services/friends.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FindFriendsModalComponent {
-  @Output() close = new EventEmitter<void>();
   error$ = this.friendsService.error$;
+
+  @Output() close = new EventEmitter<void>();
 
   constructor(private friendsService: FriendsService) {}
 

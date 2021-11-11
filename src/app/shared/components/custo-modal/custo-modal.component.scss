@@ -1,0 +1,43 @@
+@use "../../../../styles.scss" as *;
+
+.custo-modal__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 50;
+}
+
+.custo-modal__container {
+  position: fixed;
+  top: 30vh;
+  left: 20vw;
+  width: 60vw;
+  z-index: 100;
+
+  padding: 1.2em;
+
+  background: $page-background--dark;
+
+  border-radius: 1rem;
+
+  .custo-modal__title-bar {
+    display: flex;
+    justify-content: space-between;
+    .custo-modal__title {
+      margin-block-start: 0;
+    }
+    .modal-title-button__close {
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      .modal-title-button__close-icon {
+        font-size: 1.8em;
+        color: map-get($colors, font-light);
+      }
+    }
+  }
+}

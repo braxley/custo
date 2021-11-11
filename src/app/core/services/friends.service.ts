@@ -187,7 +187,7 @@ export class FriendsService {
           }
           switch (friendId) {
             case '': {
-              return this.handleError('No User with that email was found');
+              return this.handleError('No user with that email was found');
             }
             case this.authService.user?.id: {
               return this.handleError('You cannot add yourself');
@@ -271,6 +271,7 @@ export class FriendsService {
 
   private handleError(errorMsg: string): Observable<never> {
     this.error$$.next(errorMsg);
+    this.isLoading$$.next(false);
     return throwError(errorMsg);
   }
 }
