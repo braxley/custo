@@ -1,7 +1,7 @@
 import { Ratings } from './imdb.interfaces';
 
 export interface CustoMovie {
-  imdbId: string;
+  custoId: string;
   fullTitle: string;
   year: number;
   image: string;

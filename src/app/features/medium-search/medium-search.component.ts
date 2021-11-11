@@ -12,6 +12,7 @@ import {
   ImdbResponse,
   Ratings,
 } from 'src/app/shared/interfaces/imdb.interfaces';
+import { createCustoId } from 'src/utils/movie-utils';
 
 @Component({
   templateUrl: './medium-search.component.html',
@@ -73,7 +74,11 @@ export class MediumSearchComponent {
                 map(
                   ([movieDetails, movieRatings]) =>
                     ({
-                      imdbId: movieDetails.id,
+                      custoId: createCustoId(
+                        movieDetails.fullTitle,
+                        movieDetails.directors,
+                        +movieDetails.year
+                      ),
                       fullTitle: movieDetails.fullTitle,
                       year: +movieDetails.year,
                       image: movieDetails.image,

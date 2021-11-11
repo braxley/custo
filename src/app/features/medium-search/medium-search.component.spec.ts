@@ -92,7 +92,7 @@ xdescribe('MediumSearchComponent', () => {
     const movieDetails = getMockImdbMovieDetails();
     const movieRatings = getMockImdbRatings();
 
-    const movieId = custoMovie.imdbId;
+    const movieId = custoMovie.custoId;
     const fullTitle = custoMovie.fullTitle;
     const year = custoMovie.year;
     const image = custoMovie.image;

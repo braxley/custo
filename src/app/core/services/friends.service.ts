@@ -158,7 +158,7 @@ export class FriendsService {
       moviesToCompareWith!.forEach((movieToCompareWith: CustoMovie) => {
         const isMovieInArray = moviesOfFriend?.some(
           (movieOfFriend: CustoMovie) =>
-            movieOfFriend.imdbId === movieToCompareWith.imdbId
+            movieOfFriend.custoId === movieToCompareWith.custoId
         );
         if (isMovieInArray) {
           commonMovies.push(movieToCompareWith);

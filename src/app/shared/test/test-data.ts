@@ -7,7 +7,7 @@ import {
 
 export function getMockCustoMovie(): CustoMovie {
   return {
-    imdbId: 'tt1375666',
+    custoId: 'tt1375666',
     fullTitle: 'Inception (2010)',
     year: 2010,
     image:

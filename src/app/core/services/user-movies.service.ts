@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_USER_MOVIES_URL } from 'src/app/shared/constants';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoBackendMoviesObject } from 'src/app/shared/interfaces/firebase-backend.interface';
 import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from './auth.service';
 
@@ -42,39 +43,43 @@ export class UserMoviesService {
     this.initFetchCurrentUserMovies();
   }
 
-  fetchMoviesByUserId(userId: string): Observable<CustoMovie[]> {
-    this.isLoading$$.next(true);
-    return this.httpClient
-      .get<CustoMovie[]>(`${FIREBASE_DB_USER_MOVIES_URL}/${userId}.json`)
-      .pipe(
-        tap(() => {
-          this.isLoading$$.next(false);
-        })
-      );
-  }
-
   fetchCurrentUserMovies(): Observable<CustoMovie[]> {
     this.user = this.authService.user;
     if (Boolean(this.user)) {
       this.isLoading$$.next(true);
       return this.httpClient
-        .get<CustoMovie[]>(
+        .get<CustoBackendMoviesObject>(
           `${FIREBASE_DB_USER_MOVIES_URL}/${this.user?.id}.json`
         )
         .pipe(
-          tap((movieArray: CustoMovie[]) => {
-            if (movieArray) {
-              this.myMovies$$.next(movieArray);
-              this.areMyMoviesEmpty$$.next(false);
-            } else {
-              this.areMyMoviesEmpty$$.next(true);
-            }
+          map((moviesOfUser: CustoBackendMoviesObject) => {
+            const movieArray = this.transformMovieObjectToArray(moviesOfUser);
+            this.myMovies$$.next(movieArray);
+            movieArray.length === 0
+              ? this.areMyMoviesEmpty$$.next(false)
+              : this.areMyMoviesEmpty$$.next(true);
             this.isLoading$$.next(false);
+            return movieArray;
           })
         );
     } else {
+      this.isLoading$$.next(false);
       return of([]);
     }
+  }
+
+  fetchMoviesByUserId(userId: string): Observable<CustoMovie[]> {
+    this.isLoading$$.next(true);
+    return this.httpClient
+      .get<CustoBackendMoviesObject>(
+        `${FIREBASE_DB_USER_MOVIES_URL}/${userId}.json`
+      )
+      .pipe(
+        map(this.transformMovieObjectToArray.bind(this)),
+        tap(() => {
+          this.isLoading$$.next(false);
+        })
+      );
   }
 
   addMovieToUser(movieToAdd: CustoMovie): void {
@@ -82,18 +87,38 @@ export class UserMoviesService {
       this.fetchCurrentUserMovies().subscribe(() => {
         this.addMovieToUser(movieToAdd);
       });
+      return;
     }
     if (this.myMovies.includes(movieToAdd)) {
       return;
     }
-    this.updateMovies([...this.myMovies, movieToAdd]);
-    this.areMyMoviesEmpty$$.next(false);
+
+    const movieToAddObject = {} as CustoBackendMoviesObject;
+    movieToAddObject[movieToAdd.custoId] = movieToAdd;
+
+    this.currentUser$
+      .pipe(
+        take(1),
+        filter((user) => Boolean(user)),
+        switchMap((user) =>
+          this.httpClient.patch<CustoBackendMoviesObject>(
+            `${FIREBASE_DB_USER_MOVIES_URL}/${user!.id}.json`,
+            JSON.stringify(movieToAddObject)
+          )
+        ),
+        tap(() => {
+          if (this.areMyMoviesEmpty$$.value) {
+            this.areMyMoviesEmpty$$.next(false);
+          }
+        })
+      )
+      .subscribe();
   }
 
   removeEntryFromMyMovies(movieToRemove: CustoMovie): void {
     const movieArray = this.myMovies;
     const index = movieArray.findIndex(
-      (movie) => movie.imdbId === movieToRemove.imdbId
+      (movie) => movie.custoId === movieToRemove.custoId
     );
     movieArray.splice(index, 1);
     this.updateMovies(movieArray);
@@ -102,6 +127,18 @@ export class UserMoviesService {
   onLogout() {
     this.myMovies$$.next([]);
     this.areMyMoviesEmpty$$.next(true);
+  }
+
+  private transformMovieObjectToArray(
+    movieObject: CustoBackendMoviesObject | null
+  ): CustoMovie[] {
+    const movieArray: CustoMovie[] = [];
+    if (Boolean(movieObject)) {
+      for (const value of Object.entries(movieObject!)) {
+        movieArray.push(value[1]);
+      }
+    }
+    return movieArray;
   }
 
   private initFetchCurrentUserMovies(): void {

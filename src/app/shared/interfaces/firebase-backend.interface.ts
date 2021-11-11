@@ -1,3 +1,5 @@
+import { CustoMovie } from './custo-medium.interfaces';
+
 export interface AuthResponseData {
   displayName: string;
   idToken: string;
@@ -6,6 +8,10 @@ export interface AuthResponseData {
   expiresIn: string;
   localId: string;
   registered: boolean;
+}
+
+export interface CustoBackendMoviesObject {
+  [custoId: string]: CustoMovie;
 }
 
 export interface FriendData {
