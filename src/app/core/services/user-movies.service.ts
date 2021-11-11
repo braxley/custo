@@ -16,10 +16,12 @@ export class UserMoviesService {
   get isLoading$() {
     return this.isLoading$$.asObservable();
   }
+
   private areMyMoviesEmpty$$ = new BehaviorSubject<boolean>(false);
   get areMyMoviesEmpty$() {
     return this.areMyMoviesEmpty$$.asObservable();
   }
+
   private currentUser$ = this.authService.user$.pipe(
     tap((user) => {
       if (!Boolean(user)) {
@@ -30,7 +32,11 @@ export class UserMoviesService {
   private user: User | null = null;
   private myMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
   get myMovies$() {
-    return this.myMovies$$.asObservable();
+    return this.myMovies$$.asObservable().pipe(
+      tap((movieArray: CustoMovie[]) => {
+        this.areMyMoviesEmpty$$.next(movieArray.length === 0);
+      })
+    );
   }
   get myMovies(): CustoMovie[] {
     return this.myMovies$$.value.slice();
@@ -55,9 +61,6 @@ export class UserMoviesService {
           map((moviesOfUser: CustoBackendMoviesObject) => {
             const movieArray = this.transformMovieObjectToArray(moviesOfUser);
             this.myMovies$$.next(movieArray);
-            movieArray.length === 0
-              ? this.areMyMoviesEmpty$$.next(false)
-              : this.areMyMoviesEmpty$$.next(true);
             this.isLoading$$.next(false);
             return movieArray;
           })
@@ -83,34 +86,31 @@ export class UserMoviesService {
   }
 
   addMovieToUser(movieToAdd: CustoMovie): void {
-    if (!Boolean(this.myMovies)) {
+    const myMovies = this.myMovies;
+    if (!Boolean(myMovies)) {
       this.fetchCurrentUserMovies().subscribe(() => {
         this.addMovieToUser(movieToAdd);
       });
       return;
     }
-    if (this.myMovies.includes(movieToAdd)) {
+    if (myMovies.includes(movieToAdd)) {
       return;
     }
-
-    const movieToAddObject = {} as CustoBackendMoviesObject;
-    movieToAddObject[movieToAdd.custoId] = movieToAdd;
+    myMovies.push(movieToAdd);
+    this.myMovies$$.next(myMovies);
 
     this.currentUser$
       .pipe(
         take(1),
         filter((user) => Boolean(user)),
         switchMap((user) =>
-          this.httpClient.patch<CustoBackendMoviesObject>(
-            `${FIREBASE_DB_USER_MOVIES_URL}/${user!.id}.json`,
-            JSON.stringify(movieToAddObject)
+          this.httpClient.patch<CustoMovie>(
+            `${FIREBASE_DB_USER_MOVIES_URL}/${user!.id}/${
+              movieToAdd.custoId
+            }.json`,
+            JSON.stringify(movieToAdd)
           )
-        ),
-        tap(() => {
-          if (this.areMyMoviesEmpty$$.value) {
-            this.areMyMoviesEmpty$$.next(false);
-          }
-        })
+        )
       )
       .subscribe();
   }
@@ -121,12 +121,25 @@ export class UserMoviesService {
       (movie) => movie.custoId === movieToRemove.custoId
     );
     movieArray.splice(index, 1);
-    this.updateMovies(movieArray);
+    this.myMovies$$.next(movieArray);
+
+    this.currentUser$
+      .pipe(
+        take(1),
+        filter((user) => Boolean(user)),
+        switchMap((user) =>
+          this.httpClient.delete<CustoMovie>(
+            `${FIREBASE_DB_USER_MOVIES_URL}/${user!.id}/${
+              movieToRemove.custoId
+            }.json`
+          )
+        )
+      )
+      .subscribe();
   }
 
   onLogout() {
     this.myMovies$$.next([]);
-    this.areMyMoviesEmpty$$.next(true);
   }
 
   private transformMovieObjectToArray(
@@ -143,22 +156,5 @@ export class UserMoviesService {
 
   private initFetchCurrentUserMovies(): void {
     this.fetchCurrentUserMovies().subscribe();
-  }
-
-  private updateMovies(userMovies: CustoMovie[]): void {
-    this.areMyMoviesEmpty$$.next(!Boolean(userMovies));
-    this.myMovies$$.next(userMovies);
-    this.currentUser$
-      .pipe(
-        take(1),
-        filter((user) => Boolean(user)),
-        switchMap((user) =>
-          this.httpClient.put<CustoMovie>(
-            `${FIREBASE_DB_USER_MOVIES_URL}/${user!.id}.json`,
-            JSON.stringify(userMovies)
-          )
-        )
-      )
-      .subscribe();
   }
 }

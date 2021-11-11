@@ -8,6 +8,7 @@ export interface CustoMovie {
   ratings: Ratings;
   runtimeMins: number;
   directors: string;
+  directorList: string[];
   stars: string;
   genres: string;
   genreList: string[];

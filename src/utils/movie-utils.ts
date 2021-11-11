@@ -6,7 +6,8 @@ export function createCustoId(
   const clearedMovieTitle =
     fullTitle.replace(/ /g, '').replace('The', '') + 'xxxx';
 
-  const directorLastName = directors.split(' ')[1] + 'xxxx';
+  const directorsSplit = directors.split(' ');
+  const directorLastName = directorsSplit[directorsSplit.length - 1] + 'xxxx';
 
   const custoId =
     'mov' +
