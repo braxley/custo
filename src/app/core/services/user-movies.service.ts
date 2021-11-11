@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_USER_MOVIES_URL } from 'src/app/shared/constants';
 import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
@@ -17,7 +17,7 @@ export class UserMoviesService {
     return this.isLoading$$.asObservable();
   }
 
-  private areMyMoviesEmpty$$ = new BehaviorSubject<boolean>(false);
+  private areMyMoviesEmpty$$ = new Subject<boolean>();
   get areMyMoviesEmpty$() {
     return this.areMyMoviesEmpty$$.asObservable();
   }
