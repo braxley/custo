@@ -11,6 +11,7 @@ export class FriendsComponent {
 
   filteredCommonMovies$ = this.friendsService.filteredCommonMovies$;
 
+  isFriendDetailModalOpen = false;
   isFindFriendsModalOpen = false;
   isLoading$ = this.friendsService.isLoading$;
 
@@ -31,10 +32,19 @@ export class FriendsComponent {
     return indexOfFriend > -1;
   }
 
+  openFriendDetails() {
+    this.friendsService.findCommonMoviesWithOneFriend(
+      'pBYWYqUsZDY1BAmBC24mJMjfZeS2'
+    );
+    this.isFriendDetailModalOpen = true;
+  }
+  closeFriendDetails() {
+    this.isFriendDetailModalOpen = true;
+  }
+
   openFindFriendsModal(): void {
     this.isFindFriendsModalOpen = true;
   }
-
   closeFindFriendsModal(): void {
     this.isFindFriendsModalOpen = false;
   }

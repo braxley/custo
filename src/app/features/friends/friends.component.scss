@@ -37,6 +37,14 @@
 
         color: $font-color--light;
 
+        .my-friends__friend-name {
+          cursor: pointer;
+
+          &:hover {
+            color: map-get($colors, light-lavender);
+          }
+        }
+
         .my-friends__add-to-comparison-icon {
           cursor: pointer;
           color: $font-color--light;

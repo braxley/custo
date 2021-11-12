@@ -37,6 +37,9 @@
       .modal-title-button__close-icon {
         font-size: 1.8em;
         color: map-get($colors, font-light);
+        &:hover {
+          color: map-get($colors, light-lavender);
+        }
       }
     }
   }

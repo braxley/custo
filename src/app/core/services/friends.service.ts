@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   FIREBASE_DB_URL,
   FIREBASE_DB_USER_DATA_URL,
@@ -137,6 +137,31 @@ export class FriendsService {
     this.friendsOfUser$$.next(null);
   }
 
+  findCommonMoviesWithOneFriend(friendId: string) {
+    this.userMoviesService
+      .fetchMoviesByUserId(friendId)
+      .pipe(
+        map((moviesOfFriend: CustoMovie[]) => {
+          const commonMovies: CustoMovie[] = [];
+          const myMovies = this.userMoviesService.myMovies;
+          myMovies!.forEach((myMovie: CustoMovie) => {
+            const isMovieInBothArrays = moviesOfFriend?.some(
+              (movieOfFriend: CustoMovie) =>
+                movieOfFriend.custoId === myMovie.custoId
+            );
+            if (isMovieInBothArrays) {
+              commonMovies.push(myMovie);
+            }
+          });
+          console.dir(commonMovies);
+          return of([commonMovies, friendId, this.friendsOfUser$$.value]);
+        })
+      )
+      .subscribe();
+  }
+
+  removeFriend() {}
+
   private findCommonMovies() {
     this.isLoading$$.next(true);
     let moviesToCompareWith = this.filteredCommonMovies;
@@ -156,11 +181,11 @@ export class FriendsService {
       }
       const moviesOfFriend = userIdWithMovies.movies;
       moviesToCompareWith!.forEach((movieToCompareWith: CustoMovie) => {
-        const isMovieInArray = moviesOfFriend?.some(
+        const isMovieInBothArrays = moviesOfFriend?.some(
           (movieOfFriend: CustoMovie) =>
             movieOfFriend.custoId === movieToCompareWith.custoId
         );
-        if (isMovieInArray) {
+        if (isMovieInBothArrays) {
           commonMovies.push(movieToCompareWith);
         }
       });

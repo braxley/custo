@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FindFriendsModalComponent } from './find-friends-modal.component';
+import { FindFriendsModalComponent } from './find-friend-modal.component';
 
 describe('FindFriendsComponent', () => {
   let component: FindFriendsModalComponent;

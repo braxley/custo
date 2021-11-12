@@ -1,7 +1,12 @@
 <ng-container *ngIf="isFindFriendsModalOpen">
-  <app-find-friends-modal
+  <app-find-friend-modal
     (close)="closeFindFriendsModal()"
-  ></app-find-friends-modal>
+  ></app-find-friend-modal>
+</ng-container>
+<ng-container *ngIf="isFriendDetailModalOpen">
+  <app-friend-detail-modal
+    (close)="closeFindFriendsModal()"
+  ></app-friend-detail-modal>
 </ng-container>
 
 <div class="common_movies__container">
@@ -12,7 +17,7 @@
         *ngFor="let friend of friends$ | async | keyvalue"
         class="my-friends__friend"
       >
-        <div class="my-friends__friend-name">
+        <div class="my-friends__friend-name" (click)="openFriendDetails()">
           {{ friend.value.displayName }}
         </div>
         <i

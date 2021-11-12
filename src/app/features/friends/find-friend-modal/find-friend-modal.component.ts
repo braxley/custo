@@ -8,9 +8,9 @@ import { NgForm } from '@angular/forms';
 import { FriendsService } from 'src/app/core/services/friends.service';
 
 @Component({
-  selector: 'app-find-friends-modal',
-  templateUrl: './find-friends-modal.component.html',
-  styleUrls: ['./find-friends-modal.component.scss'],
+  selector: 'app-find-friend-modal',
+  templateUrl: './find-friend-modal.component.html',
+  styleUrls: ['./find-friend-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FindFriendsModalComponent {
