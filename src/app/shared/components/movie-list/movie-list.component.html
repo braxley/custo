@@ -5,10 +5,10 @@
     <div class="movie__hover-overlay">
       <button
         *ngIf="isMovieRemovable"
-        class="hover-overlay__remove-movie-btn"
+        class="hover-overlay__remove-movie-button"
         (click)="removeMovie(movie)"
       >
-        x
+        <i class="fa fa-ban"></i>
       </button>
       <h5 class="hover-overlay__title">{{ movie.fullTitle }}</h5>
       <div class="hover-overlay__duration">

@@ -56,15 +56,16 @@ $border-radius: 0.5rem;
       top: 0;
       left: 0;
 
-      .hover-overlay__remove-movie-btn {
+      .hover-overlay__remove-movie-button {
         position: absolute;
         margin: 0.4rem;
         top: 0;
         right: 0;
+        background: none;
+        cursor: pointer;
+        border: none;
+        font-size: 0.85em;
         color: $font-color--light;
-        border-radius: 50%;
-        border: 1px $font-color--light solid;
-        background: rgba(0, 0, 0, 0.6);
       }
 
       .hover-overlay__title {
