@@ -1,4 +1,28 @@
-<!-- <app-custo-modal
-  [modalTitle]="{{friend.name}}"
+<app-custo-modal
+  [modalTitle]="friendData.displayName"
+  [hasModalTitleButtons]="true"
   (close)="onClose()"
-></app-custo-modal> -->
+>
+  <app-custo-confirm-modal
+    *ngIf="isRemoveFriendConfirmationVisible"
+    [modalTitle]="'Remove Friend'"
+    [message]="
+      'Are you sure you want to remove ' +
+      friendData.displayName +
+      ' from your friends?'
+    "
+    [hasModalTitleButtons]="true"
+    (close)="closeRemoveFriendModal()"
+    (confirm)="removeFriend()"
+  >
+  </app-custo-confirm-modal>
+  <div class="friend-actions-buttons-wrapper">
+    <button class="fa-wrapper-button" (click)="openRemoveFriendConfirmModal()">
+      <i class="fa fa-user-times"></i>
+    </button>
+  </div>
+  <div class="common-movies">
+    <h2 class="common-movies__title">Your Common Movies</h2>
+    <app-movie-list [movies]="commonMovies"></app-movie-list>
+  </div>
+</app-custo-modal>

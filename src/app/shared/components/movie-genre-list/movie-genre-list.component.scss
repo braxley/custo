@@ -1,91 +1,11 @@
 @use "../../../../styles" as *;
 
-$movie-poster-height: 16rem;
-$scale-ratio: 1.2;
-$border-radius: 0.5rem;
-
 .genre__wrapper {
   padding: 0 1rem;
   margin-bottom: 2rem;
   width: 100%;
+
   .genre__heading {
     margin-bottom: 0;
-  }
-  .movies__wrapper {
-    display: grid;
-    gap: 1rem;
-    grid-auto-flow: column;
-    grid-auto-columns: 9rem;
-    grid-template-rows: $movie-poster-height * $scale-ratio + 0.3rem;
-    align-items: center;
-
-    @include custo-scrollbar();
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    .movie {
-      position: relative;
-      transition: 400ms all;
-
-      &:hover {
-        z-index: 1;
-        .movie__hover-overlay {
-          display: block;
-        }
-      }
-      &:hover {
-        transform: scale(1.2);
-      }
-      &:first-of-type:hover {
-        transform: scale(1.2) translateX(0.9rem);
-      }
-      &:last-of-type:not(:nth-of-type(1)):not(:nth-of-type(2)):not(:nth-of-type(3)):not(:nth-of-type(4)):hover {
-        // TODO stf make this responsive
-        transform: scale(1.2) translateX(-0.9rem);
-      }
-
-      .movie__poster {
-        position: relative;
-        height: $movie-poster-height;
-        width: $movie-poster-height / 16 * 9;
-        object-fit: cover;
-        border-radius: $border-radius;
-      }
-      .movie__hover-overlay {
-        display: none;
-        border-radius: $border-radius;
-        background: rgba(0, 0, 0, 0.6);
-        height: $movie-poster-height;
-        width: $movie-poster-height / 16 * 9;
-        position: absolute;
-        z-index: 2;
-        color: $font-color--light;
-        top: 0;
-        left: 0;
-
-        .hover-overlay__remove-movie-btn {
-          position: absolute;
-          margin: 0.4rem;
-          top: 0;
-          right: 0;
-          color: $font-color--light;
-          border-radius: 50%;
-          border: 1px $font-color--light solid;
-          background: rgba(0, 0, 0, 0.6);
-        }
-
-        .hover-overlay__title {
-          position: absolute;
-          padding: 0.4rem;
-          bottom: 3rem;
-          text-align: bottom;
-        }
-        .hover-overlay__duration {
-          position: absolute;
-          padding: 0.4rem;
-          bottom: 0;
-        }
-      }
-    }
   }
 }

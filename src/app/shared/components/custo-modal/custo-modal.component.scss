@@ -12,7 +12,6 @@
 
 .custo-modal__container {
   position: fixed;
-  top: 30vh;
   left: 20vw;
   width: 60vw;
   z-index: 100;
@@ -29,18 +28,8 @@
     .custo-modal__title {
       margin-block-start: 0;
     }
-    .modal-title-button__close {
-      background: none;
-      border: none;
-      cursor: pointer;
-
-      .modal-title-button__close-icon {
-        font-size: 1.8em;
-        color: map-get($colors, font-light);
-        &:hover {
-          color: map-get($colors, light-lavender);
-        }
-      }
+    .custo-modal__title-buttons--no-title {
+      margin-left: auto;
     }
   }
 }

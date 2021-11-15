@@ -1,15 +1,25 @@
 <div class="custo-modal__backdrop" (click)="closeModal()"></div>
 <div class="custo-modal__container container">
-  <div *ngIf="modalTitle" class="custo-modal__title-bar">
+  <div
+    *ngIf="modalTitle || hasModalTitleButtons"
+    class="custo-modal__title-bar"
+  >
     <h1 *ngIf="modalTitle" class="custo-modal__title">{{ modalTitle }}</h1>
-    <div class="custo-modal__title-buttons">
-      <button class="modal-title-button__close" (click)="closeModal()">
-        <i class="modal-title-button__close-icon fa fa-times-circle"></i>
+    <div
+      class="custo-modal__title-buttons"
+      [ngClass]="{ 'custo-modal__title-buttons--no-title': !modalTitle }"
+    >
+      <button
+        *ngIf="hasModalTitleButtons"
+        class="fa-wrapper-button"
+        (click)="closeModal()"
+      >
+        <i class="fa fa-times-circle"></i>
       </button>
     </div>
   </div>
 
-  <p *ngIf="description">{{ description }}</p>
+  <p class="custo-modal__description" *ngIf="description">{{ description }}</p>
   <div class="custo-modal__main-content">
     <ng-content></ng-content>
   </div>

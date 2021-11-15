@@ -1,0 +1,18 @@
+<app-custo-modal
+  class="custo-confirm-modal"
+  [modalTitle]="modalTitle"
+  [hasModalTitleButtons]="hasModalTitleButtons"
+  (close)="onClose()"
+>
+  <p>
+    {{ message }}
+  </p>
+  <div class="custo-buttons">
+    <button class="custo-button" (click)="onClose()">
+      {{ cancelButtonText }}
+    </button>
+    <button class="custo-button" (click)="onConfirm()">
+      {{ confirmButtonText }}
+    </button>
+  </div>
+</app-custo-modal>

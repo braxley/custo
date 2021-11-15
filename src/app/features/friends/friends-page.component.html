@@ -5,7 +5,8 @@
 </ng-container>
 <ng-container *ngIf="isFriendDetailModalOpen">
   <app-friend-detail-modal
-    (close)="closeFindFriendsModal()"
+    [friendDataWithCommonMoviesVM]="friendDataWithCommonMoviesVM"
+    (close)="closeFriendDetailsModal()"
   ></app-friend-detail-modal>
 </ng-container>
 
@@ -17,7 +18,10 @@
         *ngFor="let friend of friends$ | async | keyvalue"
         class="my-friends__friend"
       >
-        <div class="my-friends__friend-name" (click)="openFriendDetails()">
+        <div
+          class="my-friends__friend-name"
+          (click)="openFriendDetails(friend.key)"
+        >
           {{ friend.value.displayName }}
         </div>
         <i

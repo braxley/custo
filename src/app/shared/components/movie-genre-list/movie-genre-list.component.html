@@ -6,22 +6,6 @@
 
 <div *ngFor="let genre of genres" class="genre__wrapper">
   <h2 class="genre__heading">{{ genre }}</h2>
-  <div class="movies__wrapper">
-    <div class="movie" *ngFor="let movie of filterGenre(genre)">
-      <img class="movie__poster" src="{{ movie.image }}" />
-
-      <div class="movie__hover-overlay">
-        <button
-          class="hover-overlay__remove-movie-btn"
-          (click)="removeMovie(movie)"
-        >
-          x
-        </button>
-        <h5 class="hover-overlay__title">{{ movie.fullTitle }}</h5>
-        <div class="hover-overlay__duration">
-          {{ movie.runtimeMins | timeConversion }}
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-movie-list [movies]="filterGenre(genre)" [isMovieRemovable]="true">
+  </app-movie-list>
 </div>

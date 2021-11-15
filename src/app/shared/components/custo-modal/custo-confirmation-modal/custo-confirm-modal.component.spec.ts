@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FriendsComponent } from './friends.component';
+import { CustoConfirmModalComponent } from './custo-confirm-modal.component';
 
-describe('FriendsComponent', () => {
-  let component: FriendsComponent;
-  let fixture: ComponentFixture<FriendsComponent>;
+describe('CustoConfirmModalComponent', () => {
+  let component: CustoConfirmModalComponent;
+  let fixture: ComponentFixture<CustoConfirmModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FriendsComponent],
+      declarations: [CustoConfirmModalComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FriendsComponent);
+    fixture = TestBed.createComponent(CustoConfirmModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

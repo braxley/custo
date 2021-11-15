@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FriendsComponent } from './friends.component';
+import { FriendsPageComponent } from './friends-page.component';
 
-const routes: Routes = [{ path: '', component: FriendsComponent }];
+const routes: Routes = [{ path: '', component: FriendsPageComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

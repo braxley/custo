@@ -1,3 +1,4 @@
+import { FriendData } from './firebase-backend.interface';
 import { Ratings } from './imdb.interfaces';
 
 export interface CustoMovie {
@@ -18,4 +19,10 @@ export interface UserIdWithMovies {
   userId: string;
   movies: CustoMovie[] | null;
   isAlreadyInComparison: boolean;
+}
+
+export interface FriendDataWithCommonMoviesVM {
+  friendData: FriendData;
+  friendId: string;
+  commonMovies: CustoMovie[];
 }

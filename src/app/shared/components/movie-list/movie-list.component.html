@@ -1,0 +1,19 @@
+<div class="movies__wrapper">
+  <div class="movie" *ngFor="let movie of movies">
+    <img class="movie__poster" src="{{ movie.image }}" />
+
+    <div class="movie__hover-overlay">
+      <button
+        *ngIf="isMovieRemovable"
+        class="hover-overlay__remove-movie-btn"
+        (click)="removeMovie(movie)"
+      >
+        x
+      </button>
+      <h5 class="hover-overlay__title">{{ movie.fullTitle }}</h5>
+      <div class="hover-overlay__duration">
+        {{ movie.runtimeMins | timeConversion }}
+      </div>
+    </div>
+  </div>
+</div>

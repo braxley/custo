@@ -35,3 +35,17 @@
     margin-bottom: 0.5rem;
   }
 }
+
+.fa-wrapper-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  .fa {
+    font-size: 2em;
+    color: map-get($colors, font-light);
+    &:hover {
+      color: map-get($colors, light-lavender);
+    }
+  }
+}

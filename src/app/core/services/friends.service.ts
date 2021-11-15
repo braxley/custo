@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  forkJoin,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import {
   FIREBASE_DB_URL,
@@ -8,11 +15,13 @@ import {
 } from 'src/app/shared/constants';
 import {
   CustoMovie,
+  FriendDataWithCommonMoviesVM,
   UserIdWithMovies,
 } from 'src/app/shared/interfaces/custo-medium.interfaces';
 import {
   BackendFriendData,
   BackendUserData,
+  FriendData,
 } from 'src/app/shared/interfaces/firebase-backend.interface';
 import { AuthService } from './auth.service';
 import { UserMoviesService } from './user-movies.service';
@@ -111,7 +120,7 @@ export class FriendsService {
             movies: moviesOfFriend,
             isAlreadyInComparison: false,
           });
-          this.findCommonMovies();
+          this.findCommonMoviesWithSelectedFriends();
         })
       )
       .subscribe();
@@ -129,40 +138,55 @@ export class FriendsService {
     );
     this.filteredCommonMovies$$.next(null);
     if (this.allMoviesOfSelectedFriends.length !== 0) {
-      this.findCommonMovies();
+      this.findCommonMoviesWithSelectedFriends();
     }
+  }
+
+  removeFriend(friendId: string) {
+    const userId = this.authService.user?.id;
+    forkJoin([
+      this.httpClient.delete<BackendFriendData>(
+        `${FIREBASE_DB_USER_DATA_URL}/${userId}/friends/${friendId}.json`
+      ),
+      this.httpClient.delete<BackendFriendData>(
+        `${FIREBASE_DB_USER_DATA_URL}/${friendId}/friends/${userId}.json`
+      ),
+    ]).subscribe(() => {
+      delete this.friendsOfUser![friendId];
+    });
   }
 
   onLogout() {
     this.friendsOfUser$$.next(null);
   }
 
-  findCommonMoviesWithOneFriend(friendId: string) {
-    this.userMoviesService
-      .fetchMoviesByUserId(friendId)
-      .pipe(
-        map((moviesOfFriend: CustoMovie[]) => {
-          const commonMovies: CustoMovie[] = [];
-          const myMovies = this.userMoviesService.myMovies;
-          myMovies!.forEach((myMovie: CustoMovie) => {
-            const isMovieInBothArrays = moviesOfFriend?.some(
-              (movieOfFriend: CustoMovie) =>
-                movieOfFriend.custoId === myMovie.custoId
-            );
-            if (isMovieInBothArrays) {
-              commonMovies.push(myMovie);
-            }
-          });
-          console.dir(commonMovies);
-          return of([commonMovies, friendId, this.friendsOfUser$$.value]);
-        })
-      )
-      .subscribe();
+  findCommonMoviesWithFriend(
+    friendId: string
+  ): Observable<FriendDataWithCommonMoviesVM> {
+    return this.userMoviesService.fetchMoviesByUserId(friendId).pipe(
+      map((moviesOfFriend: CustoMovie[]) => {
+        const commonMovies: CustoMovie[] = [];
+        const myMovies = this.userMoviesService.myMovies;
+        myMovies!.forEach((myMovie: CustoMovie) => {
+          const isMovieInBothArrays = moviesOfFriend?.some(
+            (movieOfFriend: CustoMovie) =>
+              movieOfFriend.custoId === myMovie.custoId
+          );
+          if (isMovieInBothArrays) {
+            commonMovies.push(myMovie);
+          }
+        });
+        const friendData: FriendData = this.friendsOfUser$$.value![friendId];
+        return {
+          friendData,
+          friendId,
+          commonMovies,
+        } as FriendDataWithCommonMoviesVM;
+      })
+    );
   }
 
-  removeFriend() {}
-
-  private findCommonMovies() {
+  private findCommonMoviesWithSelectedFriends(): void {
     this.isLoading$$.next(true);
     let moviesToCompareWith = this.filteredCommonMovies;
     if (!Boolean(moviesToCompareWith)) {

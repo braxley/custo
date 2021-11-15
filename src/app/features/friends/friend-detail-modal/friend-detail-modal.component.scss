@@ -1,0 +1,10 @@
+@use "../../../../styles.scss" as *;
+
+.friend-actions-buttons-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.common-movies__title {
+  margin-block-end: 0;
+}

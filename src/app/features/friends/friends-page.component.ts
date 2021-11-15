@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { FriendsService } from 'src/app/core/services/friends.service';
+import { FriendDataWithCommonMoviesVM } from 'src/app/shared/interfaces/custo-medium.interfaces';
 
 @Component({
-  templateUrl: './friends.component.html',
-  styleUrls: ['./friends.component.scss'],
+  templateUrl: './friends-page.component.html',
+  styleUrls: ['./friends-page.component.scss'],
 })
-export class FriendsComponent {
+export class FriendsPageComponent {
   friends$ = this.friendsService.friendsOfUser$;
   selectedFriendsForComparison: string[] = [];
+  friendDataWithCommonMoviesVM: FriendDataWithCommonMoviesVM =
+    {} as FriendDataWithCommonMoviesVM;
 
   filteredCommonMovies$ = this.friendsService.filteredCommonMovies$;
 
@@ -32,14 +35,17 @@ export class FriendsComponent {
     return indexOfFriend > -1;
   }
 
-  openFriendDetails() {
-    this.friendsService.findCommonMoviesWithOneFriend(
-      'pBYWYqUsZDY1BAmBC24mJMjfZeS2'
-    );
+  openFriendDetails(friendId: string) {
+    this.friendsService
+      .findCommonMoviesWithFriend(friendId)
+      .subscribe((friendDataWithCommonMoviesVM) => {
+        this.friendDataWithCommonMoviesVM = friendDataWithCommonMoviesVM;
+      });
     this.isFriendDetailModalOpen = true;
   }
-  closeFriendDetails() {
-    this.isFriendDetailModalOpen = true;
+  closeFriendDetailsModal() {
+    this.isFriendDetailModalOpen = false;
+    this.friendDataWithCommonMoviesVM = {} as FriendDataWithCommonMoviesVM;
   }
 
   openFindFriendsModal(): void {
