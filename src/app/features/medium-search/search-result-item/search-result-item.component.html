@@ -1,23 +1,52 @@
-<app-medium-card
-  [mediumData]="movieResult"
+<div
+  class="result-item"
   [ngClass]="{ 'medium-above-threshold--background': isGoodMovie }"
 >
-  <ng-container *ngIf="isGoodMovie">
-    <i
-      class="fa fa-thumbs-up medium-above-threshold--thumb-icon"
-      title="{{ movieResult.fullTitle }} has at least the rating of {{
-        minRating
-      }} on IMDb."
-    ></i>
-    <div class="custo-buttons">
-      <button
-        class="custo-button"
-        *ngIf="isAuthenticated"
-        (click)="addMovieToUser()"
-        title="Add {{ movieResult.fullTitle }} to your list of movies."
-      >
-        Add Movie
-      </button>
+  <div class="movie-details">
+    <img class="poster" src="{{ movieResult.image }}" />
+    <div class="info">
+      <div class="info__title">{{ movieResult.fullTitle }}</div>
+      <div>Starring:</div>
+      <div>{{ movieResult.stars }}</div>
+      <div>Director:</div>
+      <div>{{ movieResult.directors }}</div>
+      <div>Genres:</div>
+      <div>{{ movieResult.genres }}</div>
+      <div>Runtime:</div>
+      <div>
+        {{ movieResult.runtimeMins | timeConversion }}
+      </div>
     </div>
-  </ng-container>
-</app-medium-card>
+    <ng-container *ngIf="isGoodMovie">
+      <i
+        class="fa fa-thumbs-up medium-above-threshold__thumb-icon"
+        title="{{ movieResult.fullTitle }} has at least the rating of {{
+          minRating
+        }} on IMDb"
+      ></i>
+      <div class="custo-buttons">
+        <button
+          *ngIf="isAuthenticated; else addButtonNotLoggedIn"
+          class="custo-button medium-above-threshold__add-button"
+          [disabled]="true"
+          (click)="addMovieToUser()"
+          title="Add {{ movieResult.fullTitle }} to your list of movies"
+        >
+          Add Movie
+        </button>
+        <ng-template #addButtonNotLoggedIn>
+          <button
+            #addButtonNotLoggedIn
+            class="custo-button medium-above-threshold__add-button"
+            [disabled]="true"
+            title="Log in to add {{
+              movieResult.fullTitle
+            }} to your list of movies"
+          >
+            Add Movie
+          </button>
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+</div>

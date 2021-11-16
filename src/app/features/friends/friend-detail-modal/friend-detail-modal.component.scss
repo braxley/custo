@@ -1,8 +1,9 @@
-@use "../../../../styles.scss" as *;
+@use "../../../../styles" as *;
 
 .friend-actions-buttons-wrapper {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 1em;
 }
 
 .common-movies__title {

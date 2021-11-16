@@ -1,26 +1,78 @@
 @use "../../../../styles" as *;
 
-app-medium-card.medium-above-threshold--background {
-  ::ng-deep {
-    .result-item {
-      background-color: map-get($colors, primary) !important;
+.result-item {
+  position: relative;
+  padding: 1rem;
+  background-color: scale-color(map-get($colors, primary), $lightness: -90%);
+  color: $font-color--light;
+  border-radius: 0.5rem;
+  box-shadow: 0.25em 0.25em 0.75em rgba(0, 0, 0, 0.25),
+    0.125em 0.125em 0.25em rgba(0, 0, 0, 0.15);
+  border: 0.5px solid white;
+  overflow: hidden;
+  max-width: 44rem;
+  margin: 1rem auto;
+
+  &.medium-above-threshold--background {
+    background-color: map-get($colors, primary) !important;
+  }
+
+  .movie-details {
+    display: grid;
+    grid-template-rows: fit-content(10rem);
+    grid-template-columns: 1fr 5fr;
+    grid-template-areas:
+      "poster description"
+      "poster buttons";
+    column-gap: 2rem;
+
+    @include small-screen {
+      grid-template-areas: "poster" "description" "buttons";
+      justify-items: center;
+      grid-template-rows: auto;
+      grid-template-columns: auto;
+      grid-row-gap: 1rem;
     }
-  }
-}
 
-.medium-above-threshold--thumb-icon {
-  position: absolute;
-  top: 1.2rem;
-  right: 1rem;
-  transform: scale(1.8);
-}
+    .poster {
+      grid-area: poster;
+      border: 0.1px solid white;
+      height: 10rem;
+      width: 7rem;
+      object-fit: cover;
+      justify-self: center;
+      align-self: center;
+    }
 
-.custo-buttons {
-  @include small-screen() {
-    padding-top: 0.5rem;
-    justify-content: center;
-  }
-  .custo-button {
-    font-size: 0.7rem;
+    .info {
+      grid-area: description;
+      display: grid;
+      grid-auto-columns: minmax(4rem, 100px) 1fr;
+      grid-gap: 0.5rem;
+      grid-template-areas: "title title";
+
+      .info__title {
+        grid-area: title;
+        font-family: Merriweather, serif;
+        justify-self: center;
+        font-size: 1.2rem;
+      }
+    }
+    .medium-above-threshold__thumb-icon {
+      position: absolute;
+      top: 1.2rem;
+      right: 1rem;
+      transform: scale(1.8);
+    }
+    .custo-buttons {
+      grid-area: buttons;
+      @include small-screen() {
+        padding-top: 0.5rem;
+        justify-content: center;
+      }
+      .medium-above-threshold__add-button {
+        font-size: 0.7rem;
+      }
+    }
   }
 }

@@ -16,6 +16,7 @@ export class AuthComponent {
   wasSubmitted = false;
   hasError = false;
   errorMsg: string | undefined;
+  nameError: string | undefined;
   emailError: string | undefined;
   passwordError: string | undefined;
 
@@ -59,20 +60,26 @@ export class AuthComponent {
 
   private handleInvalidForm(form: NgForm) {
     this.errorMsg = undefined;
+    this.nameError = undefined;
     this.emailError = undefined;
     this.passwordError = undefined;
     this.hasError = true;
+    const displayNameForm = form.controls.displayName;
     const emailForm = form.controls.email;
     const passwordForm = form.controls.password;
     if (emailForm.status === 'INVALID') {
       if (emailForm.value.length === 0) {
-        this.emailError = 'The Email is required';
+        this.emailError = 'Please enter your email address.';
       } else {
-        this.emailError = 'Please enter a valid Email address.';
+        this.emailError = 'Please enter a valid email address.';
       }
     }
     if (passwordForm.status === 'INVALID') {
       this.passwordError = 'The password must be at least 6 characters long.';
+    }
+    if (displayNameForm.status === 'INVALID') {
+      this.nameError =
+        'Please enter a name to register. This name is used for your friends to recognize you.';
     }
   }
 }

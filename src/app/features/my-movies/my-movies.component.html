@@ -1,8 +1,9 @@
 <ng-container *ngIf="areMyMoviesEmpty$ | async">
-  <div>
-    Your saved movies are empty. You can add movies in the search that are above
-    your rating-threshold!
-  </div>
+  <app-info-box>
+    You have no saved movies. You can add
+    <a [routerLink]="'/search'">search results</a>
+    that are above your rating-threshold!
+  </app-info-box>
 </ng-container>
 
 <ng-container *ngIf="myMovies$ | async as movies">

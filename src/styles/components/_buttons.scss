@@ -7,6 +7,11 @@
   &:hover {
     background-color: scale-color($button-color, $lightness: 20%);
   }
+  &[disabled] {
+    background-color: (map-get($colors, btn-disabled));
+    border: 1px solid
+      scale-color(map-get($colors, btn-disabled), $lightness: -50%);
+  }
 }
 
 .custo-buttons {

@@ -1,7 +1,29 @@
+<ng-container *ngIf="isShowingIntroduction && !isAuthenticated">
+  <app-info-box [title]="'Welcome to Custo!'" (hideInfo)="hideIntroduction()">
+    <p>
+      This page is designed for you to decide what you'd like to watch. In this
+      search you can look for movies that are above your rating threshold
+      <strong>without showing you the rating</strong>. This helps you to
+      <strong>watch movies that are worth your time</strong> with less
+      expectations in terms of their quality. This rating is currently the one
+      from <a href="https://www.imdb.com">IMDb</a>.
+    </p>
+    <p>
+      When you are logged in, you can also <strong>add the movies</strong> of
+      the search to your movies, so that you can use Custo to save movies that
+      you'd like to watch later.
+    </p>
+    <p>
+      When your friends are also signed up, you can add them to find common
+      movies that you can <strong>watch together</strong>!
+    </p>
+  </app-info-box>
+</ng-container>
+
 <form
   #searchMediumForm="ngForm"
   (ngSubmit)="searchMovie(searchMediumForm.value.search)"
-  class="custo-form"
+  class="custo-form medium-search-form"
 >
   <div class="custo-form__inputs-wrapper">
     <div class="custo-form__input-wrapper">

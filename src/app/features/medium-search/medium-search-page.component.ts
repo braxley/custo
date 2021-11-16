@@ -23,6 +23,7 @@ export class MediumSearchPageComponent {
   isSearching = false;
   isAuthenticated = Boolean(this.authService.user);
 
+  isShowingIntroduction = true;
   custoMovieResults$: Observable<CustoMovie[]>;
 
   private startSearchAction$$ = new Subject<string>();
@@ -109,6 +110,10 @@ export class MediumSearchPageComponent {
         );
       })
     );
+  }
+
+  hideIntroduction() {
+    this.isShowingIntroduction = false;
   }
 
   searchMovie(searchQuery: string) {

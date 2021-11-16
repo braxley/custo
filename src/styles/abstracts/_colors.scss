@@ -5,6 +5,7 @@ $colors: (
   light-green: #6baa75,
   light-lavender: #eae8ff,
   font-light: white,
+  font-dark: black,
   btn-disabled: #4b4b4b,
   warning: #bb3e03,
 );
@@ -12,3 +13,4 @@ $colors: (
 $header-color: map-get($colors, primary);
 $page-background--dark: map-get($colors, secondary);
 $font-color--light: map-get($colors, font-light);
+$font-color--dark: map-get($colors, font-dark);

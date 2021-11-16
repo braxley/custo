@@ -4,10 +4,10 @@
     *ngIf="modalTitle || hasModalTitleButtons"
     class="custo-modal__title-bar"
   >
-    <h1 *ngIf="modalTitle" class="custo-modal__title">{{ modalTitle }}</h1>
+    <h1 *ngIf="modalTitle" class="title-bar__title">{{ modalTitle }}</h1>
     <div
-      class="custo-modal__title-buttons"
-      [ngClass]="{ 'custo-modal__title-buttons--no-title': !modalTitle }"
+      class="title-bar__buttons"
+      [ngClass]="{ 'title-bar__buttons--no-title': !modalTitle }"
     >
       <button
         *ngIf="hasModalTitleButtons"

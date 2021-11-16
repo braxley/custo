@@ -23,7 +23,11 @@
       />
     </div>
   </div>
-  <!-- TODO add error if no displayName was entered -->
+  <ng-container *ngIf="nameError">
+    <app-info-box [type]="'warning'">
+      <i class="fa fa-exclamation-circle"></i> {{ nameError }}.
+    </app-info-box>
+  </ng-container>
   <div class="custo-form__inputs-wrapper">
     <div
       class="custo-form__input-wrapper"
@@ -42,9 +46,9 @@
     </div>
   </div>
   <ng-container *ngIf="emailError">
-    <div class="invalid__warning-box">
+    <app-info-box [type]="'warning'">
       <i class="fa fa-exclamation-circle"></i> {{ emailError }}
-    </div>
+    </app-info-box>
   </ng-container>
   <div class="custo-form__inputs-wrapper">
     <div
@@ -67,14 +71,14 @@
     </div>
   </div>
   <ng-container *ngIf="passwordError">
-    <div class="invalid__warning-box">
+    <app-info-box [type]="'warning'">
       <i class="fa fa-exclamation-circle"></i> {{ passwordError }}
-    </div>
+    </app-info-box>
   </ng-container>
   <ng-container *ngIf="errorMsg">
-    <div class="invalid__warning-box">
+    <app-info-box [type]="'warning'">
       <i class="fa fa-exclamation-circle"></i> {{ errorMsg }}
-    </div>
+    </app-info-box>
   </ng-container>
   <div class="custo-buttons custo-buttons--full-width">
     <button

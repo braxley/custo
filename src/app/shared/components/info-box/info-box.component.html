@@ -1,0 +1,16 @@
+<div
+  [ngClass]="type === 'info' ? 'info-container' : 'warning-container'"
+  class="info-container"
+>
+  <div *ngIf="title" class="info__title-bar">
+    <h1 class="title-bar__title">{{ title }}</h1>
+    <div class="title-bar__buttons">
+      <button class="fa-wrapper-button" (click)="onHideInfo()">
+        <i class="fa fa-times-circle"></i>
+      </button>
+    </div>
+  </div>
+  <div class="info__text">
+    <ng-content></ng-content>
+  </div>
+</div>
