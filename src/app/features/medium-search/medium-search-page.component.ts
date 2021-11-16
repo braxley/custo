@@ -15,10 +15,10 @@ import {
 import { createCustoId } from 'src/utils/movie-utils';
 
 @Component({
-  templateUrl: './medium-search.component.html',
-  styleUrls: ['./medium-search.component.scss'],
+  templateUrl: './medium-search-page.component.html',
+  styleUrls: ['./medium-search-page.component.scss'],
 })
-export class MediumSearchComponent {
+export class MediumSearchPageComponent {
   minRating: number = 6.5;
   isSearching = false;
   isAuthenticated = Boolean(this.authService.user);

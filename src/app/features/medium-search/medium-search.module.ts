@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { MediumSearchComponent } from './medium-search.component';
 import { FormsModule } from '@angular/forms';
-import { SearchResultItemComponent } from './search-result-item/search-result-item.component';
 import { SharedModule } from '../../shared/shared.module';
+import { MediumSearchPageComponent } from './medium-search-page.component';
+import { SearchResultItemComponent } from './search-result-item/search-result-item.component';
 @NgModule({
-  declarations: [MediumSearchComponent, SearchResultItemComponent],
+  declarations: [MediumSearchPageComponent, SearchResultItemComponent],
   imports: [FormsModule, SharedModule],
 })
 export class MediumSearchModule {}

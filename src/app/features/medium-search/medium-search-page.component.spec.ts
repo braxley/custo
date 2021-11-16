@@ -14,18 +14,18 @@ import {
   getMockImdbRatings,
   getMockImdbResults,
 } from 'src/app/shared/test/test-data';
-import { MediumSearchComponent } from './medium-search.component';
+import { MediumSearchPageComponent } from './medium-search-page.component';
 
-xdescribe('MediumSearchComponent', () => {
+xdescribe('MediumSearchPageComponent', () => {
   const searchQuery = 'some search query';
 
-  let component: MediumSearchComponent;
-  let fixture: ComponentFixture<MediumSearchComponent>;
+  let component: MediumSearchPageComponent;
+  let fixture: ComponentFixture<MediumSearchPageComponent>;
   let mediumSearchServiceSpy: Spy<MediumSearchService>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediumSearchComponent],
+      declarations: [MediumSearchPageComponent],
       imports: [FormsModule],
       providers: [provideAutoSpy(MediumSearchService)],
     }).compileComponents();
@@ -33,7 +33,7 @@ xdescribe('MediumSearchComponent', () => {
     mediumSearchServiceSpy = TestBed.inject<any>(MediumSearchService);
     spyOn((component as any).startSearchAction$$, 'next').and.callThrough();
 
-    fixture = TestBed.createComponent(MediumSearchComponent);
+    fixture = TestBed.createComponent(MediumSearchPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

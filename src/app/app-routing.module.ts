@@ -3,10 +3,10 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
 import { FriendsResolver } from './core/resolver/friends.resolver';
 import { MyMoviesResolver } from './core/resolver/my-movies.resolver';
-import { MediumSearchComponent } from './features/medium-search/medium-search.component';
+import { MediumSearchPageComponent } from './features/medium-search/medium-search-page.component';
 
 const routes: Routes = [
-  { path: '', component: MediumSearchComponent },
+  { path: '', component: MediumSearchPageComponent },
   { path: 'search', redirectTo: '' },
   {
     path: 'login',
