@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { FIREBASE_DB_USER_MOVIES_URL } from 'src/app/shared/constants';
-import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-movie.interfaces';
 import { CustoBackendMoviesObject } from 'src/app/shared/interfaces/firebase-backend.interface';
 import { User } from 'src/app/shared/models/user.model';
 import { AuthService } from './auth.service';
@@ -17,11 +17,6 @@ export class UserMoviesService {
     return this.isLoading$$.asObservable();
   }
 
-  private areMyMoviesEmpty$$ = new Subject<boolean>();
-  get areMyMoviesEmpty$() {
-    return this.areMyMoviesEmpty$$.asObservable();
-  }
-
   private currentUser$ = this.authService.user$.pipe(
     tap((user) => {
       if (!Boolean(user)) {
@@ -32,11 +27,7 @@ export class UserMoviesService {
   private user: User | null = null;
   private myMovies$$ = new BehaviorSubject<CustoMovie[]>([]);
   get myMovies$() {
-    return this.myMovies$$.asObservable().pipe(
-      tap((movieArray: CustoMovie[]) => {
-        this.areMyMoviesEmpty$$.next(movieArray.length === 0);
-      })
-    );
+    return this.myMovies$$.asObservable();
   }
   get myMovies(): CustoMovie[] {
     return this.myMovies$$.value.slice();
@@ -60,8 +51,8 @@ export class UserMoviesService {
         .pipe(
           map((moviesOfUser: CustoBackendMoviesObject) => {
             const movieArray = this.transformMovieObjectToArray(moviesOfUser);
-            this.myMovies$$.next(movieArray);
             this.isLoading$$.next(false);
+            this.myMovies$$.next(movieArray);
             return movieArray;
           })
         );

@@ -1,4 +1,4 @@
-import { CustoMovie } from './custo-medium.interfaces';
+import { CustoMovie } from './custo-movie.interfaces';
 
 export interface AuthResponseData {
   displayName: string;

@@ -6,34 +6,34 @@ import {
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { provideAutoSpy, Spy } from 'jasmine-auto-spies';
-import { MediumSearchService } from 'src/app/core/services/medium-search.service';
-import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { MovieSearchService } from 'src/app/core/services/movie-search.service';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-movie.interfaces';
 import {
   getMockCustoMovie,
   getMockImdbMovieDetails,
   getMockImdbRatings,
   getMockImdbResults,
 } from 'src/app/shared/test/test-data';
-import { MediumSearchPageComponent } from './medium-search-page.component';
+import { MovieSearchPageComponent } from './movie-search-page.component';
 
-xdescribe('MediumSearchPageComponent', () => {
+xdescribe('MovieSearchPageComponent', () => {
   const searchQuery = 'some search query';
 
-  let component: MediumSearchPageComponent;
-  let fixture: ComponentFixture<MediumSearchPageComponent>;
-  let mediumSearchServiceSpy: Spy<MediumSearchService>;
+  let component: MovieSearchPageComponent;
+  let fixture: ComponentFixture<MovieSearchPageComponent>;
+  let mediumSearchServiceSpy: Spy<MovieSearchService>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MediumSearchPageComponent],
+      declarations: [MovieSearchPageComponent],
       imports: [FormsModule],
-      providers: [provideAutoSpy(MediumSearchService)],
+      providers: [provideAutoSpy(MovieSearchService)],
     }).compileComponents();
 
-    mediumSearchServiceSpy = TestBed.inject<any>(MediumSearchService);
+    mediumSearchServiceSpy = TestBed.inject<any>(MovieSearchService);
     spyOn((component as any).startSearchAction$$, 'next').and.callThrough();
 
-    fixture = TestBed.createComponent(MediumSearchPageComponent);
+    fixture = TestBed.createComponent(MovieSearchPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

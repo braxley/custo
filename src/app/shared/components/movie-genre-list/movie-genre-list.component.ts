@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
-import { CustoMovie } from '../../interfaces/custo-medium.interfaces';
+import { CustoMovie } from '../../interfaces/custo-movie.interfaces';
 
 @Component({
   selector: 'app-movie-genre-list',

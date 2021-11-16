@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MyMoviesPageComponent } from './my-movies-page.component';
 import { MyMoviesRoutingModule } from './my-movies-routing.module';
-import { MyMoviesComponent } from './my-movies.component';
 
 @NgModule({
-  declarations: [MyMoviesComponent],
+  declarations: [MyMoviesPageComponent],
   imports: [SharedModule, MyMoviesRoutingModule],
 })
 export class MyMoviesModule {}

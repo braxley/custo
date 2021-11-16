@@ -17,7 +17,7 @@ import {
   CustoMovie,
   FriendDataWithCommonMoviesVM,
   UserIdWithMovies,
-} from 'src/app/shared/interfaces/custo-medium.interfaces';
+} from 'src/app/shared/interfaces/custo-movie.interfaces';
 import {
   BackendFriendData,
   BackendUserData,

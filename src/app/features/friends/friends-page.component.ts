@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FriendsService } from 'src/app/core/services/friends.service';
-import { FriendDataWithCommonMoviesVM } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { FriendDataWithCommonMoviesVM } from 'src/app/shared/interfaces/custo-movie.interfaces';
 
 @Component({
   templateUrl: './friends-page.component.html',

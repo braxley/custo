@@ -9,7 +9,7 @@ import {
 import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class MediumSearchService {
+export class MovieSearchService {
   constructor(private httpClient: HttpClient) {}
 
   getImdbResults(searchQuery: string): Observable<ImdbResponse> {

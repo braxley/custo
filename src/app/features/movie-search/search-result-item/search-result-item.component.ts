@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { UserMoviesService } from 'src/app/core/services/user-movies.service';
-import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-movie.interfaces';
 
 @Component({
   selector: 'app-search-result-item',

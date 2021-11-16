@@ -9,7 +9,7 @@ import { FriendsService } from 'src/app/core/services/friends.service';
 import {
   CustoMovie,
   FriendDataWithCommonMoviesVM,
-} from 'src/app/shared/interfaces/custo-medium.interfaces';
+} from 'src/app/shared/interfaces/custo-movie.interfaces';
 import { FriendData } from 'src/app/shared/interfaces/firebase-backend.interface';
 
 @Component({

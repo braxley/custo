@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap, toArray } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { MediumSearchService } from 'src/app/core/services/medium-search.service';
-import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { MovieSearchService } from 'src/app/core/services/movie-search.service';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-movie.interfaces';
 import {
   ImdbGenre,
   ImdbMovieDetails,
@@ -15,10 +15,10 @@ import {
 import { createCustoId } from 'src/utils/movie-utils';
 
 @Component({
-  templateUrl: './medium-search-page.component.html',
-  styleUrls: ['./medium-search-page.component.scss'],
+  templateUrl: './movie-search-page.component.html',
+  styleUrls: ['./movie-search-page.component.scss'],
 })
-export class MediumSearchPageComponent {
+export class MovieSearchPageComponent {
   minRating: number = 6.5;
   isSearching = false;
   isAuthenticated = Boolean(this.authService.user);
@@ -30,7 +30,7 @@ export class MediumSearchPageComponent {
 
   constructor(
     private authService: AuthService,
-    private mediumSearchService: MediumSearchService
+    private mediumSearchService: MovieSearchService
   ) {
     this.custoMovieResults$ = this.startSearchAction$$.pipe(
       filter((searchQuery) => Boolean(searchQuery)),

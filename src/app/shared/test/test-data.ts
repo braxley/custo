@@ -1,4 +1,4 @@
-import { CustoMovie } from '../interfaces/custo-medium.interfaces';
+import { CustoMovie } from '../interfaces/custo-movie.interfaces';
 import {
   ImdbMovieDetails,
   ImdbRatings,

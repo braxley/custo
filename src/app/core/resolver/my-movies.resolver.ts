@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { CustoMovie } from 'src/app/shared/interfaces/custo-medium.interfaces';
+import { CustoMovie } from 'src/app/shared/interfaces/custo-movie.interfaces';
 import { AuthService } from '../services/auth.service';
 import { UserMoviesService } from '../services/user-movies.service';
 
