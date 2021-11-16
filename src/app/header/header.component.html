@@ -1,43 +1,81 @@
-<header class="main-header">
-  <div routerLink="/search">
-    <!-- <button class="toggle-button">
-      <span class="toggle-button__bar"></span>
-      <span class="toggle-button__bar"></span>
-      <span class="toggle-button__bar"></span>
-    </button> -->
+<ng-container *ngIf="user$ | async as user">
+  <div
+    class="mobile-nav-wrapper"
+    [ngClass]="{ 'mobile-nav-open': isSideMenuOpen }"
+  >
+    <div class="backdrop" (click)="toggleSideMenu()"></div>
+    <nav class="mobile-nav">
+      <h2 class="mobile-nav__username">{{ user.displayName }}</h2>
+      <ul class="mobile-nav__items">
+        <li class="mobile-nav__item">
+          <a [routerLink]="'/search'" (click)="toggleSideMenu()">Search</a>
+        </li>
+        <li class="mobile-nav__item">
+          <a [routerLink]="'user/my-movies'" (click)="toggleSideMenu()"
+            >My Movies</a
+          >
+        </li>
+        <li class="mobile-nav__item">
+          <a [routerLink]="'user/friends'" (click)="toggleSideMenu()"
+            >Friends</a
+          >
+        </li>
+        <br />
+        <li class="mobile-nav__item">
+          <a
+            [routerLink]="'/search'"
+            (click)="onLogout()"
+            (click)="toggleSideMenu()"
+            >Logout</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</ng-container>
 
-    <!-- <img src="" alt="Custo - Decide what for a movie" /> -->
+<header class="main-header">
+  <div [routerLink]="'/'">
     <a class="main-header__brand" routerLink="/"> Custo </a>
   </div>
-  <nav class="main-nav">
-    <ul class="main-nav__items">
-      <li class="main-nav__item">
-        <a routerLink="/search">Search</a>
-      </li>
-      <div
-        class="main-nav__items--logged-in"
-        *ngIf="user$ | async as user; else login"
-      >
+
+  <ng-container *ngIf="isAuthenticated">
+    <button class="hamburger-menu" (click)="toggleSideMenu()">
+      <span class="hamburger-menu__bar"></span>
+      <span class="hamburger-menu__bar"></span>
+      <span class="hamburger-menu__bar"></span>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="isAuthenticated">
+    <nav class="main-nav">
+      <ul class="main-nav__items">
         <li class="main-nav__item">
-          <a routerLink="user/my-movies">My Movies</a>
+          <a [routerLink]="'/search'">Search</a>
         </li>
         <li class="main-nav__item">
-          <a routerLink="user/friends">Friends</a>
+          <a [routerLink]="'user/my-movies'">My Movies</a>
         </li>
         <li class="main-nav__item">
-          <a routerLink="/search" (click)="onLogout()">Logout</a>
+          <a [routerLink]="'user/friends'">Friends</a>
         </li>
-      </div>
-      <ng-template #login>
         <li class="main-nav__item">
-          <a routerLink="/login">Login</a>
+          <a [routerLink]="'/search'" (click)="onLogout()">Logout</a>
         </li>
-      </ng-template>
-      <!-- <li class="main-nav__item">
-        <button class="main-nav__item--login-button" (click)="login()">
-          Login
-        </button>
-      </li> -->
-    </ul>
-  </nav>
+      </ul>
+    </nav>
+  </ng-container>
+
+  <ng-container *ngIf="!isAuthenticated">
+    <nav class="logged-out-nav">
+      <ul class="logged-out-nav__items">
+        <li class="logged-out-nav__item">
+          <a [routerLink]="'/search'">Search</a>
+        </li>
+        <li class="logged-out-nav__item">
+          <a [routerLink]="'/login'">Login</a>
+        </li>
+      </ul>
+    </nav>
+  </ng-container>
 </header>

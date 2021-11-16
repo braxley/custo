@@ -28,7 +28,6 @@
         <button
           *ngIf="isAuthenticated; else addButtonNotLoggedIn"
           class="custo-button medium-above-threshold__add-button"
-          [disabled]="true"
           (click)="addMovieToUser()"
           title="Add {{ movieResult.fullTitle }} to your list of movies"
         >

@@ -14,7 +14,7 @@ $font-weight: (
 );
 
 html {
-  @media (max-width: 9000px) {
+  @media (max-width: 9000px) and (min-width: 24rem) {
     font-size: calc(12px + 0.8vw);
   }
 }

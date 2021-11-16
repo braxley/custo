@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../core/services/auth.service';
 import { FriendsService } from '../core/services/friends.service';
@@ -8,12 +8,13 @@ import { User } from '../shared/models/user.model';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnDestroy {
   isAuthenticated = false;
   user$ = this.authService.user$;
   userSub: Subscription;
+
+  isSideMenuOpen = false;
 
   constructor(
     private authService: AuthService,
@@ -22,10 +23,17 @@ export class HeaderComponent implements OnDestroy {
   ) {
     this.userSub = this.authService.user$.subscribe((user: User | null) => {
       if (!Boolean(user)) {
+        this.isAuthenticated = false;
         this.friendsService.onLogout();
         this.userMoviesService.onLogout();
+      } else {
+        this.isAuthenticated = true;
       }
     });
+  }
+
+  toggleSideMenu() {
+    this.isSideMenuOpen = !this.isSideMenuOpen;
   }
 
   onLogout(): void {
