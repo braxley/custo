@@ -73,6 +73,10 @@ export class FriendsService {
   }
 
   loadFriends$(): Observable<BackendFriendData | null> {
+    if (!this.authService.user) {
+      return of(null);
+    }
+
     this.isLoading$$.next(true);
 
     return this.httpClient
