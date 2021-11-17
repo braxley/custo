@@ -1,6 +1,9 @@
 @use "../../styles" as *;
 
 .custo-form {
+  @include small-screen {
+    max-width: 95%;
+  }
   .auth-title {
     color: map-get($colors, font-light);
   }
